@@ -1,18 +1,18 @@
 
 horizontalnav:
-- title: Home
+- title: 主页
   path: /
   node: home
-- title: Guides
+- title: 指南
   path: /get-started/overview/
   node: guides
-- title: Manuals
+- title: 手册
   path: /desktop/
   node: manuals
-- title: Reference
+- title: 参考
   path: /reference/
   node: reference
-- title: Samples
+- title: 示例
   path: /samples/
   node: samples
   # TODO unify navbbar links: homepage currently has a custom "articles" link
@@ -21,36 +21,36 @@ horizontalnav:
 home: {}
 
 guides:
-- title: Docker overview
+- title: Docker 概述
   path: /get-started/overview/
-- title: Get Docker
+- title: 获取 Docker
   path: /get-docker/
-- sectiontitle: Get started
+- sectiontitle: 开始
   section:
-    - title: "Part 1: Getting started"
+    - title: "Part 1: 入门"
       path: /get-started/
-    - title: "Part 2: Sample application"
+    - title: "Part 2: 示例应用"
       path: /get-started/02_our_app/
-    - title: "Part 3: Update the application"
+    - title: "Part 3: 更新应用"
       path: /get-started/03_updating_app/
-    - title: "Part 4: Share the application"
+    - title: "Part 4: 分享应用"
       path: /get-started/04_sharing_app/
-    - title: "Part 5: Persist the DB"
+    - title: "Part 5: 持久化数据库"
       path: /get-started/05_persisting_data/
     - title: "Part 6: Use bind mounts"
       path: /get-started/06_bind_mounts/
-    - title: "Part 7: Multi-container apps"
+    - title: "Part 7: 多容器应用"
       path: /get-started/07_multi_container/
-    - title: "Part 8: Use Docker Compose"
+    - title: "Part 8: 使用 Docker Compose"
       path: /get-started/08_using_compose/
-    - title: "Part 9: Image-building best practices"
+    - title: "Part 9: 镜像构建最佳实践"
       path: /get-started/09_image_best/
-    - title: "Part 10: What next?"
+    - title: "Part 10: 接下来干嘛?"
       path: /get-started/11_what_next/
-- sectiontitle: Language-specific guides (New)
+- sectiontitle: 各编程语言-指南 (New)
   section:
   - path: /language/
-    title: Overview
+    title: 概述
   - sectiontitle: Node.js
     section:
     - title: "Overview"
@@ -83,19 +83,19 @@ guides:
       path: /language/python/deploy/
   - sectiontitle: Java
     section:
-    - title: "Overview"
+    - title: "概述"
       path: /language/java/
-    - title: "Build images"
+    - title: "构建镜像"
       path: /language/java/build-images/
-    - title: "Run containers"
+    - title: "运行容器"
       path: /language/java/run-containers/
-    - title: "Develop your app"
+    - title: "开发您的应用"
       path: /language/java/develop/
-    - title: "Run your tests"
+    - title: "运行您的测试"
       path: /language/java/run-tests/
-    - title: "Configure CI/CD"
+    - title: "配置 CI/CD"
       path: /language/java/configure-ci-cd/
-    - title: "Deploy your app"
+    - title: "部署应用"
       path: /language/java/deploy/
   - sectiontitle: Go
     section:
@@ -113,33 +113,33 @@ guides:
       path: /language/golang/configure-ci-cd/
     - title: "Deploy your app"
       path: /language/golang/deploy/
-- sectiontitle: Develop with Docker
+- sectiontitle: 使用 Docker 进行开发
   section:
   - path: /develop/
-    title: Overview
+    title: 概述
   - path: /develop/dev-best-practices/
-    title: Best practices
+    title: 最佳实践
   - sectiontitle: Build images
     section:
     - path: /develop/develop-images/dockerfile_best-practices/
-      title: Dockerfile best practices
+      title: Dockerfile 最佳实践
     - path: /develop/develop-images/build_enhancements/
-      title: Build images with BuildKit
+      title: 使用 BuildKit 构建镜像
     - path: /develop/develop-images/multistage-build/
-      title: Use multi-stage builds
+      title: 使用多阶段构建
     - path: /develop/develop-images/image_management/
-      title: Manage images
+      title: 管理镜像
     - path: /develop/develop-images/baseimages/
-      title: Create your own base image (advanced)
+      title: 创建您自己的基础镜像（高级）
   - path: /develop/scan-images/
-    title: Scan images
-- sectiontitle: Set up CI/CD
+    title: 扫描镜像
+- sectiontitle: 配置 CI/CD
   section:
   - path: /ci-cd/best-practices/
-    title: CI/CD Best practices
+    title: CI/CD 最佳实践
   - path: /ci-cd/github-actions/
-    title: Configure GitHub Actions
-- sectiontitle: Deploy your app to the cloud
+    title: 配置 GitHub Actions
+- sectiontitle: 部署您的应用到云上
   section:
   - path: /cloud/aci-integration/
     title: Docker and ACI
@@ -155,33 +155,33 @@ guides:
     title: ECS Compose features
   - path: /cloud/ecs-compose-examples/
     title: ECS Compose examples
-- sectiontitle: Run your app in production
+- sectiontitle: 在生产环境中运行您的应用
   section:
-  - sectiontitle: Orchestration
+  - sectiontitle: 编排
     section:
-    - title: "Overview"
+    - title: "概览"
       path: /get-started/orchestration/
-    - title: "Deploy to Kubernetes"
+    - title: "部署到 Kubernetes"
       path: /get-started/kube-deploy/
-    - title: "Deploy to Swarm"
+    - title: "部署到 Swarm"
       path: /get-started/swarm-deploy/
-  - sectiontitle: Configure all objects
+  - sectiontitle: 配置对象
     section:
     - path: /config/labels-custom-metadata/
-      title: Apply custom metadata to objects
+      title: 添加自定义元数据到对象
     - path: /config/pruning/
-      title: Prune unused objects
+      title: 删除未使用对象
     - path: /config/formatting/
-      title: Format command and log output
-  - sectiontitle: Configure the daemon
+      title: 格式化命令和日志输出
+  - sectiontitle: 配置 daemon
     section:
     - path: /config/daemon/
-      title: Configure and run Docker
+      title: 配置和运行 Docker
     - path: /config/daemon/systemd/
-      title: Control Docker with systemd
+      title: 使用 systemd 控制 Docker
   - path: /config/daemon/prometheus/
-    title: Collect metrics with Prometheus
-  - sectiontitle: Configure containers
+    title: 使用 Prometheus 收集指标
+  - sectiontitle: 配置容器
     section:
     - path: /config/containers/start-containers-automatically/
       title: Start containers automatically

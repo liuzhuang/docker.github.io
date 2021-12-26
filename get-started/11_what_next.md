@@ -1,30 +1,19 @@
 ---
-title: "What next"
+title: "下一步是什么"
 keywords: get started, setup, orientation, quickstart, intro, concepts, containers, docker desktop
 description: Making sure you have more ideas of what you could do next with your application
 ---
 
-Although we're done with our workshop, there's still a LOT more to learn about containers!
-We're not going to go deep-dive here, but here are a few other areas to look at next!
+尽管我们的讲习班已经完成，但关于容器的知识还有很多东西要学! 我们不打算在这里深入研究，但是接下来还有一些其他的领域要看!
 
-## Container orchestration
+## 容器编排
 
-Running containers in production is tough. You don't want to log into a machine and simply run a
-`docker run` or `docker-compose up`. Why not? Well, what happens if the containers die? How do you
-scale across several machines? Container orchestration solves this problem. Tools like Kubernetes,
-Swarm, Nomad, and ECS all help solve this problem, all in slightly different ways.
+在生产中运行容器很困难。您不想登录到一台机器并简单地运行一个 `docker run` 或 `docker-compose up`. 为什么不？那么，如果容器死了会发生什么？您如何跨多台机器进行扩展？容器编排解决了这个问题。Kubernetes、Swarm、Nomad 和 ECS 等工具都有助于解决这个问题，但方式略有不同。
 
-The general idea is that you have "managers" who receive **expected state**. This state might be
-"I want to run two instances of my web app and expose port 80." The managers then look at all of the
-machines in the cluster and delegate work to "worker" nodes. The managers watch for changes (such as
-a container quitting) and then work to make **actual state** reflect the expected state.
+一般的想法是你有“经理”谁接收预期的状态。此状态可能是“我想运行我的 Web 应用程序的两个实例并公开端口 80”。然后管理人员查看集群中的所有机器并将工作委托给“工作”节点。管理人员观察变化（例如容器退出），然后努力使实际状态反映预期状态。
 
-## Cloud Native Computing Foundation projects
+## 云原生计算基础项目
 
-The CNCF is a vendor-neutral home for various open-source projects, including Kubernetes, Prometheus, 
-Envoy, Linkerd, NATS, and more! You can view the [graduated and incubated projects here](https://www.cncf.io/projects/){:target="_blank" rel="noopener" class="_"}
-and the entire [CNCF Landscape here](https://landscape.cncf.io/){:target="_blank" rel="noopener" class="_"}. There are a LOT of projects to help
-solve problems around monitoring, logging, security, image registries, messaging, and more!
+CNCF 是各种开源项目的供应商中立之家，包括 Kubernetes、Prometheus、Envoy、Linkerd、NATS 等！您可以在此处查看已毕业和孵化的项目 以及[在此处]((https://landscape.cncf.io/){:target="_blank" rel="noopener" class="_"})查看整个CNCF 景观。有很多项目可以帮助解决监控、日志记录、安全、镜像注册、消息传递等方面的问题！
 
-So, if you're new to the container landscape and cloud-native application development, welcome! Please
-connect with the community, ask questions, and keep learning! We're excited to have you!
+因此，如果您不熟悉容器领域和云原生应用程序开发，欢迎您！请与社区联系，提出问题，并继续学习！我们很高兴有你！

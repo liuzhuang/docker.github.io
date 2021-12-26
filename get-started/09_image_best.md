@@ -1,27 +1,25 @@
 ---
-title: "Image-building best practices"
+title: "构建镜像的最佳实践"
 keywords: get started, setup, orientation, quickstart, intro, concepts, containers, docker desktop
 description: Tips for building the images for our application
 ---
 
-## Security scanning
+## 安全扫描
 
-When you have built an image, it is a good practice to scan it for security vulnerabilities using the `docker scan` command.
-Docker has partnered with [Snyk](https://snyk.io){:target="_blank" rel="noopener" class="_"} to provide the vulnerability scanning service.
+构建镜像后，最好使用 `docker scan `命令扫描安全漏洞。Docker 与 [Snyk](https://snyk.io){:target="_blank" rel="noopener" class="_"} 合作提供漏洞扫描服务。
+
 
 > **Note**
 > 
-> You must be logged in to Docker Hub to scan your images. Run the command `docker scan --login`, and then scan your images using
-> `docker scan <image-name>`.
+> 您必须登录 Docker Hub 才能扫描镜像。运行命令 `docker scan --login`，然后使用 `docker scan <image-name>`。
 
-For example, to scan the `getting-started` image you created earlier in the tutorial, you can just type
+例如，要扫描您之前在本教程中创建的镜像 `getting-started`，只需键入
 
 ```console
 $ docker scan getting-started
 ```
 
-The scan uses a constantly updated database of vulnerabilities, so the output you see will vary as new
-vulnerabilities are discovered, but it might look something like this:
+扫描使用不断更新的漏洞数据库，因此您看到的输出会随着发现新漏洞而有所不同，但可能如下所示：
 
 ```plaintext
 ✗ Low severity vulnerability found in freetype/freetype
@@ -42,30 +40,26 @@ vulnerabilities are discovered, but it might look something like this:
   Fixed in: 2.9.9-r4
 ```
 
-The output lists the type of vulnerability, a URL to learn more, and importantly which version of the relevant library
-fixes the vulnerability.
+输出列出了漏洞的类型、了解更多信息的 URL，以及重要的是哪个版本的相关库修复了漏洞。
 
-There are several other options, which you can read about in the [docker scan documentation](../engine/scan/index.md).
+还有其他几个选项，您可以在 [docker扫描文档](../engine/scan/index.md)。
 
-As well as scanning your newly built image on the command line, you can also [configure Docker Hub](../docker-hub/vulnerability-scanning.md)
-to scan all newly pushed images automatically, and you can then see the results in both Docker Hub and Docker Desktop.
+除了在命令行扫描你新建的镜像，，您还可以[configure Docker Hub](../docker-hub/vulnerability-scanning.md) 自动扫描所有新推送的镜像，然后您可以在 Docker Hub 和 Docker Desktop 中看到结果。
 
 ![Hub vulnerability scanning](images/hvs.png){: style=width:75% }
 {: .text-center }
 
-## Image layering
+## 镜像分层
 
-Did you know that you can look at what makes up an image? Using the `docker image history`
-command, you can see the command that was used to create each layer within an image.
+你知道你可以看看是什么构成了一个镜像吗？使用 `docker image history` 命令，您可以看到用于在镜像中创建每个层的命令。
 
-1. Use the `docker image history` command to see the layers in the `getting-started` image you
-   created earlier in the tutorial.
+1. 使用 `docker image history` 命令查看 `getting-started` 图层。
 
     ```console
     $ docker image history getting-started
     ```
 
-    You should get output that looks something like this (dates/IDs may be different).
+    您应该得到类似这样的输出（日期/ID 可能不同）。
 
     ```plaintext
     IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
@@ -84,25 +78,21 @@ command, you can see the command that was used to create each layer within an im
     <missing>           13 days ago         /bin/sh -c #(nop) ADD file:e69d441d729412d24…   5.59MB   
     ```
 
-    Each of the lines represents a layer in the image. The display here shows the base at the bottom with
-    the newest layer at the top. Using this, you can also quickly see the size of each layer, helping 
-    diagnose large images.
+    每一行代表镜像中的一个层。此处的显示在底部显示底部，在顶部显示最新层。使用它，您还可以快速查看每一层的大小，有助于诊断大镜像。
 
-2. You'll notice that several of the lines are truncated. If you add the `--no-trunc` flag, you'll get the
-   full output (yes... funny how you use a truncated flag to get untruncated output, huh?)
+2. 您会注意到有几行被截断了。。如果您添加 `--no-trunc` 标志，你会得到完整的输出（是的......有趣的是你如何使用截断的标志来获得未截断的输出，是吧？）
 
     ```console
     $ docker image history --no-trunc getting-started
     ```
 
-## Layer caching
+## 层缓存
 
-Now that you've seen the layering in action, there's an important lesson to learn to help decrease build
-times for your container images.
+既然您已经看到了分层的作用，那么可以学习重要的一课，来帮助减少容器映像的构建时间。
 
-> Once a layer changes, all downstream layers have to be recreated as well
+> 一旦层发生变化，所有下游层也必须重新创建
 
-Let's look at the Dockerfile we were using one more time...
+让我们再看一次我们使用的 Dockerfile...
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -113,16 +103,11 @@ RUN yarn install --production
 CMD ["node", "src/index.js"]
 ```
 
-Going back to the image history output, we see that each command in the Dockerfile becomes a new layer in the image.
-You might remember that when we made a change to the image, the yarn dependencies had to be reinstalled. Is there a
-way to fix this? It doesn't make much sense to ship around the same dependencies every time we build, right?
+回到镜像历史输出，我们看到 Dockerfile 中的每个命令都变成了镜像中的一个新层。您可能还记得，当我们对映像进行更改时，必须重新安装 yarn 依赖。有没有办法解决这个问题？每次构建时都传递相同的依赖关系没有多大意义，对吧？
 
-To fix this, we need to restructure our Dockerfile to help support the caching of the dependencies. For Node-based
-applications, those dependencies are defined in the `package.json` file. So, what if we copied only that file in first,
-install the dependencies, and _then_ copy in everything else? Then, we only recreate the yarn dependencies if there was
-a change to the `package.json`. Make sense?
+为了解决这个问题，我们需要重构我们的 Dockerfile 以帮助支持依赖项的缓存。对于 Node 应用程序，这些依赖在 `package.json` 文件中定义。那么，如果我们首先只复制那个文件，安装依赖项，然后再复制其他所有东西呢？然后，如果package.json. 说得通？
 
-1. Update the Dockerfile to copy in the `package.json` first, install dependencies, and then copy everything else in.
+1. 更新 Dockerfile， 首先复制 `package.json` 安装依赖项，然后复制其他所有内容。
 
     ```dockerfile
     # syntax=docker/dockerfile:1
@@ -134,28 +119,24 @@ a change to the `package.json`. Make sense?
     CMD ["node", "src/index.js"]
     ```
 
-2. Create a file named `.dockerignore` in the same folder as the Dockerfile with the following contents.
+2. 在与 `Dockerfile` 相同的文件夹中，创建一个名为 `.dockerignore` 的文件，内容以下。
 
     ```ignore
     node_modules
     ```
 
-    `.dockerignore` files are an easy way to selectively copy only image relevant files.
-    You can read more about this
-    [here](../engine/reference/builder.md#dockerignore-file).
-    In this case, the `node_modules` folder should be omitted in the second `COPY` step because otherwise,
-    it would possibly overwrite files which were created by the command in the `RUN` step.
-    For further details on why this is recommended for Node.js applications and other best practices,
-    have a look at their guide on
-    [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/){:target="_blank" rel="noopener" class="_"}.
+    `.dockerignore` 文件是一种仅复制镜像相关文件的简单方法。你可以阅读更多关于这个的内容 [这里](../engine/reference/builder.md#dockerignore-file)。
+    在这种情况下，`node_modules`第二个文件夹应省略`COPY`步骤，因为否则，它可能会覆盖由命令中创建的文件`RUN`步骤。
+    有关为什么建议将其用于Node的更多详细信息。
+    js应用程序和其他最佳实践，看看他们的指南 对节点进行[Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/){:target="_blank" rel="noopener" class="_"}网络应用。
 
-3. Build a new image using `docker build`.
+3. 构建新镜像 `docker build`。
 
     ```console
     $ docker build -t getting-started .
     ```
 
-    You should see output like this...
+    你应该看到这样的输出……
 
     ```plaintext
     Sending build context to Docker daemon  219.1kB
@@ -188,11 +169,11 @@ a change to the `package.json`. Make sense?
     Successfully tagged getting-started:latest
     ```
 
-    You'll see that all layers were rebuilt. Perfectly fine since we changed the Dockerfile quite a bit.
+    您会看到所有图层都已重建。非常好，因为我们对 Dockerfile 进行了相当多的更改。
 
-4. Now, make a change to the `src/static/index.html` file (like change the `<title>` to say "The Awesome Todo App").
+4. 现在，对 `src/static/index.html` 文件进行更改 (例如，更改 `<title>` 说 “令人敬畏的待办事项应用”)。
 
-5. Build the Docker image now using `docker build -t getting-started .` again. This time, your output should look a little different.
+5. 再次构建镜像 `docker build -t getting-started .`。又来了。这一次，你的输出应该看起来有点不同。
 
     ```plaintext
     Sending build context to Docker daemon  219.1kB
@@ -217,23 +198,18 @@ a change to the `package.json`. Make sense?
     Successfully tagged getting-started:latest
     ```
 
-    First off, you should notice that the build was MUCH faster! And, you'll see that steps 1-4 all have
-    `Using cache`. So, hooray! We're using the build cache. Pushing and pulling this image and updates to it
-    will be much faster as well. Hooray!
+    首先，您应该注意到构建速度要快得多！而且，您会看到步骤 1-4 都有 `Using cache`. 所以，万岁！我们正在使用构建缓存。推送和拉取此映像并对其进行更新也会更快。万岁！
 
-## Multi-stage builds
+## 多阶段构建
 
-While we're not going to dive into it too much in this tutorial, multi-stage builds are an incredibly powerful
-tool to help use multiple stages to create an image. There are several advantages for them:
+虽然我们不会在本教程中深入探讨它，但多阶段构建是一个非常强大的工具，可以帮助使用多个阶段来创建镜像。它们有几个优点：
 
-- Separate build-time dependencies from runtime dependencies
-- Reduce overall image size by shipping _only_ what your app needs to run
+- 将构建时依赖项与运行时依赖项分开
+- 通过仅传送您的应用程序需要运行的内容来减少整体镜像大小
 
-### Maven/Tomcat example
+### Maven/Tomcat示例
 
-When building Java-based applications, a JDK is needed to compile the source code to Java bytecode. However,
-that JDK isn't needed in production. Also, you might be using tools like Maven or Gradle to help build the app.
-Those also aren't needed in our final image. Multi-stage builds help.
+在构建基于 Java 的应用程序时，需要 JDK 将源代码编译为 Java 字节码。但是，生产中不需要该 JDK。此外，您可能会使用 Maven 或 Gradle 等工具来帮助构建应用程序。在我们的最终镜像中也不需要这些。多阶段构建帮助。
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -246,15 +222,12 @@ FROM tomcat
 COPY --from=build /app/target/file.war /usr/local/tomcat/webapps 
 ```
 
-In this example, we use one stage (called `build`) to perform the actual Java build using Maven. In the second
-stage (starting at `FROM tomcat`), we copy in files from the `build` stage. The final image is only the last stage
-being created (which can be overridden using the `--target` flag).
+在此示例中，我们使用一个阶段（称为`build`）来使用 Maven 执行实际的 Java 构建。在第二阶段（`FROM tomcat`），我们从`build`阶段复制文件。最终镜像只是正在创建的最后一个阶段（可以使用`--target` 标志覆盖）。
 
-### React example
 
-When building React applications, we need a Node environment to compile the JS code (typically JSX), SASS stylesheets,
-and more into static HTML, JS, and CSS. If we aren't doing server-side rendering, we don't even need a Node environment
-for our production build. Why not ship the static resources in a static nginx container?
+### React 示例
+
+在构建 React 应用程序时，我们需要一个 Node 环境来将 JS 代码（通常是 JSX）、SASS 样式表等编译成静态 HTML、JS 和 CSS。如果我们不进行服务器端渲染，我们甚至不需要用于生产构建的 Node 环境。为什么不在静态 nginx 容器中传送静态资源？
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -270,12 +243,8 @@ FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 ```
 
-Here, we are using a `node:12` image to perform the build (maximizing layer caching) and then copying the output
-into an nginx container. Cool, huh?
+在这里，我们使用 `node:12` 镜像来执行构建（最大化层缓存），然后将输出复制到 nginx 容器中。很酷吧？
 
-## Recap
+## 回顾
 
-By understanding a little bit about how images are structured, we can build images faster and ship fewer changes.
-Scanning images gives us confidence that the containers we are running and distributing are secure.
-Multi-stage builds also help us reduce overall image size and increase final container security by separating
-build-time dependencies from runtime dependencies.
+通过稍微了解镜像的结构，我们可以更快地构建镜像并减少更改。扫描镜像让我们相信我们正在运行和分发的容器是安全的。多阶段构建还通过将构建时依赖项与运行时依赖项分开来帮助我们减小整体映像大小并提高最终容器的安全性。
