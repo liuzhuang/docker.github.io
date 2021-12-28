@@ -1,30 +1,31 @@
 ---
-title: "Build your Java image"
+title: "构建你的 Java 镜像"
 keywords: Java, build, images, dockerfile
 description: Learn how to build your first Docker image by writing a Dockerfile
 ---
 
 {% include_relative nav.html selected="1" %}
 
-## Prerequisites
+## 先决条件
 
-Work through the orientation and setup in Get started [Part 1](../../get-started/index.md){:target="_blank" rel="noopener" class="_"} to understand Docker concepts. Refer to the following section for Java prerequisites.
+阅读 [Part 1](../../get-started/index.md){:target="_blank" rel="noopener" class="_"} 中的目标和安装了解 Docker 概念。有关 Java 先决条件，请参阅以下部分。
 
 {% include guides/enable-buildkit.md %}
 
-## Overview
+## 概览
 
-Now that we have a good overview of containers and the Docker platform, let’s take a look at building our first image. An image includes everything needed to run an application - the code or binary, runtime, dependencies, and any other file system objects required.
+现在我们对容器和 Docker 平台有了一个很好的了解，让我们来看看构建我们的第一个镜像。镜像包括运行应用程序所需的一切——代码或二进制文件、运行时、依赖项以及所需的任何其他文件系统对象。
 
-To complete this tutorial, you need the following:
+要完成本教程，您需要具备以下条件：
 
-- Docker running locally. Follow the instructions to [download and install Docker](../../get-docker.md)
-- A Git client
-- An IDE or a text editor to edit files. We recommend using [IntelliJ Community Edition](https://www.jetbrains.com/idea/download/){: target="_blank" rel="noopener" class="_"}.
+- 本地运行的 Docker。按照说明[下载并安装 Docker](../../get-docker.md)
+- 一个 Git 客户端
+- 用于编辑文件的 IDE 或文本编辑器。我们建议使用 [IntelliJ Community Edition](https://www.jetbrains.com/idea/download/){: target="_blank" rel="noopener" class="_"}。
 
-## Sample application
 
-Let’s clone the sample application that we'll be using in this module to our local development machine. Run the following commands in a terminal to clone the repo.
+## 示例应用程序
+
+让我们将我们将在此模块中使用的示例应用程序克隆到我们的本地开发机器。在终端中运行以下命令来克隆 repo。
 
 ```console
 $ cd /path/to/working/directory
@@ -32,51 +33,45 @@ $ git clone https://github.com/spring-projects/spring-petclinic.git
 $ cd spring-petclinic
 ```
 
-## Test the application without Docker (optional)
+## 在没有 Docker 的情况下测试应用程序（可选）
 
-In this step, we will test the application locally without Docker, before we
-continue with building and running the application with Docker. This section
-requires you to have Java OpenJDK version 15 or later installed on your machine.
-[Download and install Java](https://jdk.java.net/){: target="_blank" rel="noopener" class="_"}
+在这一步中，我们将在没有 Docker 的情况下在本地测试应用程序，然后继续使用 Docker 构建和运行应用程序。本节要求您在您的机器上安装 Java OpenJDK 15 或更高版本。 [Download and install Java](https://jdk.java.net/){: target="_blank" rel="noopener" class="_"}
 
-If you prefer to not install Java on your machine, you can skip this step, and
-continue straight to the next section, in which we explain how to build and run
-the application in Docker, which does not require you to have Java installed on
-your machine.
+如果你不想在你的机器上安装 Java，你可以跳过这一步，直接继续下一节，我们将解释如何在 Docker 中构建和运行应用程序，这不需要你在你的机器上安装 Java。
 
-Let’s start our application and make sure it is running properly. Maven will manage all the project processes (compiling, tests, packaging, etc). The **Spring Pets Clinic** project we cloned earlier contains an embedded version of Maven. Therefore, we don't need to install Maven separately on your local machine.
 
-Open your terminal and navigate to the working directory we created and run the following command:
+让我们启动我们的应用程序并确保它正常运行。
+Maven 将管理所有项目流程（编译、测试、打包等）。
+我们之前克隆的 **Spring Pets Clinic** 项目包含一个嵌入式版本的 Maven。因此，我们不需要在您的本地机器上单独安装 Maven。
+
+打开终端并进入到我们创建的工作目录并运行以下命令：
 
 ```console
 $ ./mvnw spring-boot:run
 ```
 
-This downloads the dependencies, builds the project, and starts it.
+这将下载依赖项、构建项目并启动它。
 
-To test that the application is working properly, open a new browser and navigate to `http://localhost:8080`.
+要测试应用程序是否正常工作，请打开一个新浏览器并访问 `http://localhost:8080`。
 
-Switch back to the terminal where our server is running and you should see the following requests in the server logs. The data will be different on your machine.
+切换回服务器运行的终端，您应该在服务器日志中看到以下请求。您机器上的数据会有所不同。
 
 ```console
 o.s.s.petclinic.PetClinicApplication     : Started
 PetClinicApplication in 11.743 seconds (JVM running for 12.364)
 ```
 
-Great! We verified that the application works. At this stage, you've completed
-testing the server script locally.
+太好了! 我们验证了该应用程序是否有效。在这个阶段，你已经完成了在本地测试服务器脚本。
 
-Press `CTRL-c` from within the terminal session where the server is running to stop it.
+在命令行中按下 `CTRL-c`，停止应用程序
 
+我们现在将继续在 Docker 中构建和运行应用程序。
 
-We will now continue to build and run the application in Docker.
-
-## Create a Dockerfile for Java
+## 为 Java 创建一个 Dockerfile
 
 {% include guides/create-dockerfile.md %}
 
-Next, we need to add a line in our Dockerfile that tells Docker what base image
-we would like to use for our application.
+接下来，我们需要在我们的 Dockerfile 中添加一行，告诉 Docker 我们希望为我们的应用程序使用什么基础镜像。
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -84,56 +79,48 @@ we would like to use for our application.
 FROM openjdk:16-alpine3.13
 ```
 
-Docker images can be inherited from other images. For this guide, we use the
-official `openjdk` image from Docker Hub with Java JDK that already has all the
-tools and packages that we need to run a Java application.
+Docker 镜像可以从其他镜像继承。在本指南中，我们使用来自 Docker Hub 的官方镜像和 Java JDK `openjdk`，它已经拥有运行 Java 应用程序所需的所有工具和包。
 
-To make things easier when running the rest of our commands, let’s set the image's
-working directory. This instructs Docker to use this path as the default location
-for all subsequent commands. By doing this, we do not have to type out full file
-paths but can use relative paths based on the working directory.
+为了在运行其余命令时更轻松，让我们设置镜像的工作目录。这会指示 Docker 使用此路径作为所有后续命令的默认位置。通过这样做，我们不必输入完整的文件路径，而是可以使用基于工作目录的相对路径。
 
 ```dockerfile
 WORKDIR /app
 ```
 
-Usually, the very first thing you do once you’ve downloaded a project written in
-Java which is using Maven for project management is to install dependencies.
+通常，一旦您下载了使用 Maven 进行项目管理的 Java 编写的项目，您要做的第一件事就是安装依赖项。
 
-Before we can run `mvnw dependency`, we need to get the Maven wrapper and our
-`pom.xml` file into our image. We’ll use the `COPY` command to do this. The
-`COPY` command takes two parameters. The first parameter tells Docker what
-file(s) you would like to copy into the image. The second parameter tells Docker
-where you want that file(s) to be copied to. We’ll copy all those files and
-directories into our working directory - `/app`.
+
+在我们可以运行 `mvnw dependency` 之前，我们需要将 Maven 包装器和我们的 `pom.xml` 文件放入我们的镜像中。
+我们将使用 `COPY` 命令来执行此操作。该 `COPY` 命令有两个参数。
+第一个参数告诉 Docker 您想要复制到镜像中的文件。
+第二个参数告诉 Docker 您希望将该文件复制到何处。我们将所有这些文件和目录复制到我们的工作目录 - `/app`。
 
 ```dockerfile
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 ```
 
-Once we have our `pom.xml` file inside the image, we can use the `RUN` command
-to execute the command `mvnw dependency:go-offline`. This works exactly the same
-way as if we were running `mvnw` (or `mvn`) dependency locally on our machine,
-but this time the dependencies will be installed into the image.
+一旦我们在镜像有了 `pom.xml` 文件，我们就可以使用 `RUN` 命令来执行命令 `mvnw dependency:go-offline`。这与我们在本地机器上运行 `mvnw` (（或 `mvn`）依赖项的方式完全相同，但这次依赖项将安装到镜像中。
 
 ```dockerfile
 RUN ./mvnw dependency:go-offline
 ```
 
-At this point, we have an Alpine version 3.13 image that is based on OpenJDK version 16, and we have also installed our dependencies. The next thing we need to do is to add our source code into the image. We’ll use the `COPY` command just like we did with our `pom.xml` file above.
+此时，我们有一个基于 OpenJDK 16 版的 Alpine 3.13 版镜像，并且我们还安装了我们的依赖项。我们需要做的下一件事是将我们的源代码添加到镜像中。我们将使用 `COPY` 命令就像我们对上面的 `pom.xml` 文件。
 
 ```dockerfile
 COPY src ./src
 ```
 
-This `COPY` command takes all the files located in the current directory and copies them into the image. Now, all we have to do is to tell Docker what command we want to run when our image is executed inside a container. We do this using the `CMD` command.
+此 `COPY` 命令获取位于当前目录中的所有文件并将它们复制到映像中。
+现在，我们要做的就是告诉 Docker 当我们的镜像在容器内执行时我们想要运行什么命令。
+我们使用 `CMD` 命令来执行此操作。
 
 ```dockerfile
 CMD ["./mvnw", "spring-boot:run"]
 ```
 
-Here's the complete Dockerfile.
+这是完整的 Dockerfile。
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -151,24 +138,29 @@ COPY src ./src
 CMD ["./mvnw", "spring-boot:run"]
 ```
 
-### Create a `.dockerignore` file
+### 创建 `.dockerignore` 文件
 
-To increase the performance of the build, and as a general best practice, we recommend that you create a `.dockerignore` file in the same directory as the Dockerfile. For this tutorial, your `.dockerignore` file should contain just one line:
+为了提高构建的性能，作为一般的最佳实践，我们建议您 `.dockerignore` 在与 Dockerfile 相同的目录中创建一个文件。对于本教程，您的 `.dockerignore` 文件应仅包含一行：
 
 ```
 target
 ```
 
-This line excludes the `target` directory, which contains output from Maven, from the Docker build context.
-There are many good reasons to carefully structure a `.dockerignore` file, but this one-line file is good enough for now.
+这一行 `target` 从 Docker 构建上下文中排除了包含 Maven 输出的目录。仔细构建 `.dockerignore`  文件有很多很好的理由，但这个单行文件现在已经足够了。
 
-## Build an image
 
-Now that we’ve created our Dockerfile, let’s build our image. To do this, we use the `docker build` command. The `docker build` command builds Docker images from a Dockerfile and a “context”. A build’s context is the set of files located in the specified PATH or URL. The Docker build process can access any of the files located in this context.
+## 构建镜像
 
-The build command optionally takes a `--tag` flag. The tag is used to set the name of the image and an optional tag in the format `name:tag`. We’ll leave off the optional `tag` for now to help simplify things. If we do not pass a tag, Docker uses “latest” as its default tag. You can see this in the last line of the build output.
+现在我们已经创建了我们的 Dockerfile，让我们构建我们的镜像。为此，我们使用 `docker build` 命令。该 `docker build` 命令从 Dockerfile 和 “context” 构建 Docker 镜像。
+构建的上下文是位于指定 PATH 或 URL 中的一组文件。Docker 构建过程可以访问位于此上下文中的任何文件。
 
-Let’s build our first Docker image.
+build 命令可选地接收一个` --tag` 标志。
+标签用于设置镜像的名称和格式中的可选标签name:tag。
+我们暂时不使用可选选项 `tag` 以帮助简化事情。
+如果我们不传递 tag，Docker 将使用 “latest” 作为其默认 tag。
+您可以在构建输出的最后一行看到这一点。
+
+让我们构建我们的第一个 Docker 镜像。
 
 ```console
 $ docker build --tag java-docker .
@@ -183,11 +175,11 @@ Successfully built a0bb458aabd0
 Successfully tagged java-docker:latest
 ```
 
-## View local images
+## 查看本地镜像
 
-To see a list of images we have on our local machine, we have two options. One is to use the CLI and the other is to use [Docker Desktop](../../desktop/dashboard.md#explore-your-images). As we are currently working in the terminal let’s take a look at listing images using the CLI.
+要查看本地机器上的镜像列表，我们有两个选项。一种是使用 CLI，另一种是使用 Docker Desktop。由于我们目前在 terminal 中，让我们来看看使用 CLI 列出镜像。
 
-To list images, simply run the `docker images` command.
+要列出镜像，只需运行 `docker images` 命令。
 
 ```console
 $ docker images
@@ -195,23 +187,23 @@ REPOSITORY          TAG                 IMAGE ID            CREATED          SIZ
 java-docker         latest              b1b5f29f74f0        47 minutes ago   567MB
 ```
 
-You should see at least the we just built `java-docker:latest`.
+您应该看到我们刚刚构建的 `java-docker:latest`.
 
-## Tag images
+## 给镜像打标签
 
-An image name is made up of slash-separated name components. Name components may contain lowercase letters, digits, and separators. A separator is defined as a period, one or two underscores, or one or more dashes. A name component may not start or end with a separator.
+镜像名称由斜杠分隔的名称组件组成。名称组件可能包含小写字母、数字和分隔符。分隔符定义为句点、一个或两个下划线或一个或多个破折号。名称组件不能以分隔符开头或结尾。
 
-An image is made up of a manifest and a list of layers. Do not worry too much about manifests and layers at this point other than a “tag” points to a combination of these artifacts. You can have multiple tags for an image. Let’s create a second tag for the image we built and take a look at its layers.
+镜像由清单和层列表组成。除了“标签”指向这些工件的组合外，此时不要过多担心清单和层。一个镜像可以有多个标签。让我们为我们构建的镜像创建第二个标签并查看它的层。
 
-To create a new tag for the image we’ve built above, run the following command:
+要为我们在上面构建的镜像创建新标签，请运行以下命令：
 
 ```console
 $ docker tag java-docker:latest java-docker:v1.0.0
 ```
 
-The `docker tag` command creates a new tag for an image. It does not create a new image. The tag points to the same image and is just another way to reference the image.
+`docker tag`  命令为镜像创建一个新标签。它不会创建新镜像。标签指向同一张图片，只是引用图片的另一种方式。
 
-Now, run the `docker images` command to see a list of our local images.
+现在，运行该 `docker images` 命令以查看我们本地镜像的列表。
 
 ```console
 $ docker images
@@ -220,16 +212,17 @@ java-docker   latest   b1b5f29f74f0	  59 minutes ago	567MB
 java-docker   v1.0.0   b1b5f29f74f0	  59 minutes ago	567MB
 ```
 
-You can see that we have two images that start with `java-docker`. We know they are the same image because if you take a look at the `IMAGE ID` column, you can see that the values are the same for the two images.
+您可以看到我们有两个以 `java-docker` 开头的镜像。我们知道它们是相同的镜像，因为如果您查看该`IMAGE ID`列，您会发现这两个镜像的值相同。
 
-Let’s remove the tag that we just created. To do this, we’ll use the `rmi` command. The `rmi` command stands for “remove image”.
+让我们删除刚刚创建的标签。为此，我们将使用该 `rmi` 命令。该 `rmi` 命令代表“删除镜像”。
 
 ```console
 $ docker rmi java-docker:v1.0.0
 Untagged: java-docker:v1.0.0
 ```
 
-Note that the response from Docker tells us that the image has not been removed but only “untagged”. You can check this by running the `docker images` command.
+请注意，来自 Docker 的响应告诉我们该映像尚未删除，而只是 “untagged”。您可以通过运行 `docker images` 命令来检查这一点。
+
 
 ```console
 $ docker images
@@ -237,11 +230,12 @@ REPOSITORY      TAG     IMAGE ID        CREATED              SIZE
 java-docker    	latest	b1b5f29f74f0	59 minutes ago	     567MB
 ```
 
-Our image that was tagged with `:v1.0.0` has been removed, but we still have the `java-docker:latest` tag available on our machine.
+我们标记为 `:v1.0.0`  镜像已被删除，但我们 `java-docker:latest `的机器上仍有可用的标签。
 
-## Next steps
 
-In this module, we took a look at setting up our example Java application that we'll use for the rest of the tutorial. We also created a Dockerfile that we used to build our Docker image. Then, we took a look at tagging our images and removing images. In the next module, we’ll take a look at how to:
+## 下一步
+
+在本模块中，我们了解了如何设置我们将在本教程的其余部分中使用的示例 Java 应用程序。我们还创建了一个用于构建 Docker 镜像的 Dockerfile。然后，我们研究了标记镜像和删除镜像。在下一个模块中，我们将看看如何：
 
 [Run your image as a container](run-containers.md){: .button .primary-btn}
 

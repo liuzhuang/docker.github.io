@@ -1,39 +1,26 @@
-A Dockerfile is a text document that contains the instructions to assemble a
-Docker image. When we tell Docker to build our image by executing the `docker build`
-command, Docker reads these instructions, executes them, and creates a Docker
-image as a result.
 
-Let’s walk through the process of creating a Dockerfile for our application. In
-the root of your project, create a file named `Dockerfile` and open this file in
-your text editor.
+Dockerfile 是一个文本文档，其中包含组装 Docker 镜像的说明。当我们通过执行 `docker build` 命令告诉 Docker 构建我们的镜像时，Docker 会读取这些指令，执行它们，并因此创建一个 Docker 镜像。
 
-> **What to name your Dockerfile?**
->
-> The default filename to use for a Dockerfile is `Dockerfile` (without a file-
-> extension). Using the default name allows you to run the `docker build` command
-> without having to specify additional command flags.
->
-> Some projects may need distinct Dockerfiles for specific purposes. A common
-> convention is to name these `Dockerfile.<something>` or `<something>.Dockerfile`.
-> Such Dockerfiles can then be used through the `--file` (or `-f` shorthand)
-> option on the `docker build` command. Refer to the
-> ["Specify a Dockerfile" section](/engine/reference/commandline/build/#specify-a-dockerfile--f)
-> in the `docker build` reference to learn about the `--file` option.
->
-> We recommend using the default (`Dockerfile`) for your project's primary
-> Dockerfile, which is what we'll use for most examples in this guide.
 
-The first line to add to a Dockerfile is a [`# syntax` parser directive](/engine/reference/builder/#syntax).
-While _optional_, this directive instructs the Docker builder what syntax to use
-when parsing the Dockerfile, and allows older Docker versions with BuildKit enabled
-to upgrade the parser before starting the build. [Parser directives](/engine/reference/builder/#parser-directives)
-must appear before any other comment, whitespace, or Dockerfile instruction in
-your Dockerfile, and should be the first line in Dockerfiles.
+让我们来看看为我们的应用程序创建 Dockerfile 的过程。在项目的根目录中，创建一个名为`Dockerfile`的文件并在文本编辑器中打开该文件。
+
+
+> **Dockerfile 的名称是什么？**
+>
+> 默认文件名是 `Dockerfile`（没有扩展名）。使用默认名称允许您运行 `docker build` 命令而无需指定其他命令标志。
+>
+> 某些项目可能需要不同的 Dockerfiles 用于特定目的。
+> 一个常见的约定是将这些命名为 `Dockerfile.<something>` 或 `<something>.Dockerfile`。
+> 通过命令上 `--file`（或 `-f`）选项使用。请参阅 ["Specify a Dockerfile" section](/engine/reference/commandline/build/#specify-a-dockerfile--f)
+>
+> 我们建议使用 `Dockerfile`，我们将在本指南中的大多数示例中使用默认值。
+
+添加到 Dockerfile 的第一行是 [`# syntax` parser directive](/engine/reference/builder/#syntax)。
+虽然是可选的，但该指令指示 Docker 构建器在解析 Dockerfile 时使用什么语法，并允许启用 BuildKit 的旧 Docker 版本在开始构建之前升级解析器。
+[Parser directives](/engine/reference/builder/#parser-directives) 必须出现在 Dockerfile 中的任何其他注释、空格或 Dockerfile 指令之前，并且应该是 Dockerfiles 的第一行。
 
 ```dockerfile
 # syntax=docker/dockerfile:1
 ```
 
-We recommend using `docker/dockerfile:1`, which always points to the latest release
-of the version 1 syntax. BuildKit automatically checks for updates of the syntax
-before building, making sure you are using the most current version.
+我们建议使用 `docker/dockerfile:1`，它始终指向 version 1  语法的最新版本。BuildKit 在构建之前会自动检查语法的更新，确保您使用的是最新版本。

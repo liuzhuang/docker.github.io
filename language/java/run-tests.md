@@ -6,17 +6,18 @@ description: How to build and run your Tests
 
 {% include_relative nav.html selected="4" %}
 
-## Prerequisites
+## 先决条件
 
-Work through the steps to build an image and run it as a containerized application in [Use your container for development](develop.md).
+[Use your container for development](develop.md).
 
-## Introduction
+## 简介
 
-Testing is an essential part of modern software development. Testing can mean a lot of things to different development teams. There are unit tests, integration tests and end-to-end testing. In this guide we take a look at running your unit tests in Docker.
+测试是现代软件开发的重要组成部分。测试对于不同的开发团队来说意义重大。有单元测试、集成测试和端到端测试。在本指南中，我们将了解在 Docker 中运行单元测试。
 
-## Refactor Dockerfile to run tests
+## 重构 Dockerfile 为了运行测试
 
-The **Spring Pet Clinic** source code has already tests defined in the test directory `src/test/java/org/springframework/samples/petclinic`. You just need to update the JaCoCo version in your `pom.xml` to ensure your tests work with JDK v15 or higher with `<jacoco.version>0.8.6</jacoco.version>`, so we can use the following Docker command to start the container and run tests:
+在 **Spring Pet Clinic** 的源代码已经在 `src/test/java/org/springframework/samples/petclinic` 测试目录中定义了单元测试。您只需要更新您的 JaCoCo 的 `pom.xml` 确保您的测试使用 JDK v15 或更高版本 <jacoco.version>0.8.6</jacoco.version>，因此我们可以使用以下 Docker 命令来启动容器并运行测试：
+
 
 ```console
 $ docker run -it --rm --name springboot-test java-docker ./mvnw test
@@ -31,9 +32,13 @@ $ docker run -it --rm --name springboot-test java-docker ./mvnw test
 [INFO] Total time:  01:49 min
 ```
 
-### Multi-stage Dockerfile for testing
+### Multi-stage Dockerfile 为了测试
 
-Let’s take a look at pulling the testing commands into our Dockerfile. Below is a multi-stage Dockerfile that we will use to build our production image and our test image. Add the highlighted lines to your Dockerfile
+让我们来看看将测试命令拉入我们的 Dockerfile。下面是一个多阶段 Dockerfile，我们将使用它来构建我们的生产镜像和我们的测试镜像。将突出显示的行添加到 Dockerfile
+
+Let’s take a look at pulling the testing commands into our Dockerfile. 
+Below is a multi-stage Dockerfile that we will use to build our production image and our test image. 
+Add the highlighted lines to your Dockerfile
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -64,8 +69,11 @@ COPY --from=build /app/target/spring-petclinic-*.jar /spring-petclinic.jar
 CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/spring-petclinic.jar"]
 ```
 
+我们首先为 `FROM openjdk:16-alpine3.13` 语句添加一个标签。这允许我们在其他构建阶段中引用这个构建阶段。
+接下来，我们添加了一个标记为 `test` 的新构建阶段。我们将使用这个阶段来运行我们的测试。
 We first add a label to the `FROM openjdk:16-alpine3.13` statement. This allows us to refer to this build stage in other build stages. Next, we added a new build stage labeled `test`. We'll use this stage for running our tests.
 
+现在让我们重建我们的镜像并运行我们的测试。我们将`docker build` 像上面一样运行命令，但这次我们将添加 `--target test` 标志，以便我们专门运行测试构建阶段。
 Now let’s rebuild our image and run our tests. We will run the `docker build` command as above, but this time we will add the `--target test` flag so that we specifically run the test build stage.
 
 ```console
@@ -76,6 +84,7 @@ $ docker build -t java-docker --target test .
  => => naming to docker.io/library/java-docker
 ```
 
+现在我们的测试镜像已经构建好了，我们可以将它作为一个容器运行，看看我们的测试是否通过。
 Now that our test image is built, we can run it as a container and see if our tests pass.
 
 ```console
@@ -169,7 +178,7 @@ $ docker build -t java-docker --target test .
 executor failed running [./mvnw test]: exit code: 1
 ```
 
-### Multi-stage Dockerfile for development
+### Multi-stage Dockerfile 为了开发
 
 The new version of the Dockerfile produces a final image which is ready for production, but as you can notice, you also have a dedicated step to produce a development container.
 
@@ -202,7 +211,7 @@ Now, let's run the Compose application. You should now see that application beha
 $ docker-compose -f docker-compose.dev.yml up --build
 ```
 
-## Next steps
+## 下一步
 
 In this module, we took a look at running tests as part of our Docker image build process.
 

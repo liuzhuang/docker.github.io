@@ -1,24 +1,24 @@
 ---
-title: Getting started with Java
+title: Java 入门
 keywords: Docker, getting started, java, language
 description: Containerize Java apps using Docker
 toc_min: 1
 toc_max: 2
 ---
 
-The Java getting started guide teaches you how to create a containerized Spring Boot application using Docker. In this module, you’ll learn how to:
+Java 入门指南教您如何使用 Docker 创建容器化的 Spring Boot 应用程序。在本模块中，您将学习如何：
 
-* Clone and run a Spring Boot application with Maven
-* Create a new Dockerfile which contains instructions required to build a Java image
-* Run the newly built image as a container
-* Set up a local development environment to connect a database to the container
-* Use Docker Compose to run the Spring Boot application
-* Configure a CI/CD pipeline for your application using GitHub Actions
-* Deploy your application to the cloud
+* 使用 Maven 克隆并运行 Spring Boot 应用程序
+* 创建一个新的 Dockerfile，其中包含构建 Java 镜像所需的指令
+* 将新建的镜像作为容器运行
+* 搭建本地开发环境，将数据库连接到容器
+* 使用 Docker Compose 运行 Spring Boot 应用程序
+* 使用 GitHub 操作为您的应用程序配置 CI/CD 管道
+* 将您的应用程序部署到云
 
-After completing the Java getting started modules, you should be able to containerize your own Java application based on the examples and instructions provided in this guide.
+完成 Java 入门模块后，您应该能够根据本指南中提供的示例和说明来容器化您自己的 Java 应用程序。
 
-Let’s get started!
+让我们开始吧！
 
 [Build your first Java image](build-images.md){: .button .primary-btn}
 

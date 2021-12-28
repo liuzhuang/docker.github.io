@@ -1,30 +1,32 @@
 ---
-title: "Run your image as a container"
+title: "将你的镜像作为容器运行"
 keywords: Java, run, image, container,
 description: Learn how to run the image as a container.
 ---
 
 {% include_relative nav.html selected="2" %}
 
-## Prerequisites
+## 先决条件
 
-Work through the steps to build a Java image in [Build your Java image](build-images.md).
+浏览构建 Java 镜像 [Build your Java image](build-images.md).
 
-## Overview
+## 概览
 
-In the previous module, we created our sample application and then we created a Dockerfile that we used to build an image. We created our image using the command `docker build`. Now that we have an image, we can run that image and see if our application is running correctly.
+在上一个模块中，我们创建了示例应用程序，然后创建了用于构建镜像的 Dockerfile。
+我们使用命令 `docker build` 创建了我们的镜像。现在我们有了一个镜像，我们可以运行该镜像，然后看看我们的应用程序是否正常运行。
 
-A container is a normal operating system process except that this process is isolated and has its own file system, its own networking, and its own isolated process tree separated from the host.
 
-To run an image inside a container, we use the `docker run` command. The `docker run` command requires one parameter which is the name of the image. Let’s start our image and make sure it is running correctly. Run the following command in your terminal:
+容器是一个正常的操作系统进程，除了这个进程是隔离的，并且有自己的文件系统、自己的网络以及与主机分离的隔离进程树。
+
+要在容器中运行镜像，我们使用 `docker run` 命令。`docker run` 命令需要一个参数，该参数是镜像的名称。让我们开始我们的镜像，并确保它正确运行。在终端中运行以下命令:
 
 ```console
 $ docker run java-docker
 ```
 
-After running this command, you’ll notice that we did not return to the command prompt. This is because our application is a REST server and runs in a loop waiting for incoming requests without returning control back to the OS until we stop the container.
+运行此命令后，您会注意到我们没有返回到命令提示符。这是因为我们的应用程序是一个 REST 服务器，并且在循环中运行，等待传入的请求，而不会将控制权返回给操作系统，直到我们停止容器。
 
-Let’s open a new terminal then make a `GET` request to the server using the `curl` command.
+让我们打开一个新终端，然后使用 `curl` 命令向服务器发出 `GET` 请求。
 
 ```console
 $ curl --request GET \
@@ -33,19 +35,20 @@ $ curl --request GET \
 curl: (7) Failed to connect to localhost port 8080: Connection refused
 ```
 
-As you can see, our `curl` command failed because the connection to our server was refused. It means that we were not able to connect to the localhost on port 8080. This is expected because our container is running in isolation which includes networking. Let’s stop the container and restart with port 8080 published on our local network.
+如您所见，我们的 `curl` 命令失败了，因为与我们的服务器的连接被拒绝。这意味着我们无法在本地主机上连接到 8080 端口。这是意料之中的，因为我们的容器是独立运行的，包括网络。让我们停止容器并使用我们本地网络上发布的端口 8080 重新启动。
 
-To stop the container, press `ctrl-c`. This will return you to the terminal prompt.
+要停止容器，请按 `ctrl-c`。这将使您返回到终端提示。
 
-To publish a port for our container, we’ll use the `--publish flag` (`-p` for short) on the `docker run` command. The format of the `--publish` command is `[host port]:[container port]`. So, if we wanted to expose port 8000 inside the container to port 8080 outside the container, we would pass `8080:8000` to the `--publish` flag.
+要为我们的容器发布一个端口，我们将在 `docker run` 命令中使用 `--publish flag` (简写 `-p`) 。`--publish` 命令的格式为 `[host port]:[container port]`. 
+因此，如果我们想将容器内的 8000 端口暴露给容器外的 8080端口，我们将传递 `8080:8000` 给 `--publish` 标志。
 
-Start the container and expose port 8080 to port 8080 on the host.
+启动容器并将端口 8080 暴露给主机上的 8080 端口。
 
 ```console
 $ docker run --publish 8080:8080 java-docker
 ```
 
-Now, let’s rerun the curl command from above.
+现在，让我们从上面重新运行 curl 命令。
 
 ```console
 $ curl --request GET \
@@ -54,22 +57,23 @@ $ curl --request GET \
 {"status":"UP"}
 ```
 
-Success! We were able to connect to the application running inside of our container on port 8080.
+成功！我们能够通过 8080 端口连接到在容器内运行的应用程序。
 
-Now, press ctrl-c to stop the container.
+现在，按 ctrl-c 停止容器。
 
-## Run in detached mode
+## 在分离模式下运行
 
-This is great so far, but our sample application is a web server and we don't have to be connected to the container. Docker can run your container in detached mode or in the background. To do this, we can use the `--detach` or `-d` for short. Docker starts your container as earlier, but this time, it will “detach” from the container and return you to the terminal prompt.
+到目前为止，这很棒，但我们的示例应用程序是一个 Web 服务器，我们不必连接到容器。
+Docker 可以在分离模式或后台运行您的容器。为此，我们可以使用 `--detach` 或者简称 `-d`。Docker 会像之前一样启动您的容器，但这一次，它将与容器 “分离” 并返回到终端提示符。
 
 ```console
 $ docker run -d -p 8080:8080 java-docker
 5ff83001608c7b787dbe3885277af018aaac738864d42c4fdf5547369f6ac752
 ```
 
-Docker started our container in the background and printed the Container ID on the terminal.
+Docker 在后台启动我们的容器并在终端上打印容器 ID。
 
-Again, let’s make sure that our container is running properly. Run the same curl command from above.
+同样，让我们确保容器正常运行。运行上面相同的 curl 命令。
 
 ```console
 $ curl --request GET \
@@ -78,9 +82,10 @@ $ curl --request GET \
 {"status":"UP"}
 ```
 
-## List containers
+## 容器列表
 
-As we ran our container in the background, how do we know if our container is running, or what other containers are running on our machine? Well, we can run the `docker ps` command. Just like how we run the `ps` command in Linux to see a list of processes on our machine, we can run the `docker ps` command to view a list of containers running on our machine.
+当我们在后台运行我们的容器时，我们如何知道我们的容器是否正在运行，或者我们的机器上正在运行哪些其他容器？
+我们可以运行 `docker ps` 命令。就像我们如何在 Linux 中运行 `ps` 命令查看我们机器上的进程列表，我们可以运行 `docker ps` 命令查看在我们计算机上运行的容器列表。
 
 ```console
 $ docker ps
@@ -88,25 +93,31 @@ CONTAINER ID   IMAGE            COMMAND                  CREATED              ST
 5ff83001608c   java-docker      "./mvnw spring-boot:…"   About a minute ago   Up About a minute   0.0.0.0:8080->8080/tcp   trusting_beaver
 ```
 
-The `docker ps` command provides a bunch of information about our running containers. We can see the container ID, the image running inside the container, the command that was used to start the container, when it was created, the status, ports that exposed and the name of the container.
+`docker ps` 命令提供了有关我们正在运行的容器的一堆信息。
+我们可以看到容器 ID、容器内运行的镜像、用于启动容器的命令、容器创建时间、状态、暴露的端口和容器名称。
 
-You are probably wondering where the name of our container is coming from. Since we didn’t provide a name for the container when we started it, Docker generated a random name. We’ll fix this in a minute, but first we need to stop the container. To stop the container, run the `docker stop` command which does just that, stops the container. We need to pass the name of the container or we can use the container ID.
+您可能想知道我们容器的名称从何而来。由于我们在启动时没有为容器提供名称，因此 Docker 生成了一个随机名称。
+我们将在一分钟内解决这个问题，但首先我们需要停止容器。
+要停止容器，请运行执行此操作的 `docker stop` 命令，停止容器。我们需要传递容器的名称，或者我们可以使用容器 ID。
 
 ```console
 $ docker stop trusting_beaver
 trusting_beaver
 ```
 
-Now, rerun the `docker ps` command to see a list of running containers.
+现在，重新运行 `docker ps`命令查看正在运行的容器列表。
 
 ```console
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 ```
 
-## Stop, start, and name containers
+## 停止、启动和给容器起名
 
-You can start, stop, and restart Docker containers. When we stop a container, it is not removed, but the status is changed to stopped and the process inside the container is stopped. When we ran the `docker ps` command in the previous module, the default output only shows running containers. When we pass the `--all` or `-a` for short, we see all containers on our machine, irrespective of their start or stop status.
+您可以启动、停止和重新启动 Docker 容器。
+当我们停止一个容器时，它并没有被移除，而是状态变成了stopped，容器内的进程也停止了。
+当我们在上一个模块中运行 `docker ps` 命令时，默认输出仅显示正在运行的容器。
+当我们通过 `--all` 或简写 `-a` 时，我们会看到机器上的所有容器，而不管它们的启动或停止状态。
 
 ```console
 $ docker ps -a
@@ -116,15 +127,15 @@ CONTAINER ID   IMAGE               COMMAND                  CREATED          STA
 a28f9d587d95   java-docker         "./mvnw spring-boot:…"   17 minutes ago   Exited (1) 11 minutes ago                              lucid_greider
 ```
 
-You should now see several containers listed. These are containers that we started and stopped, but have not been removed.
+您现在应该看到列出了几个容器。这些是我们启动和停止但尚未删除的容器。
 
-Let’s restart the container that we just stopped. Locate the name of the container we just stopped and replace the name of the container below using the `restart` command.
+让我们重新启动刚刚停止的容器。找到我们刚刚停止的容器名称，并使用 `restart` 命令替换下面的容器名称。
 
 ```console
 $ docker restart trusting_beaver
 ```
 
-Now, list all the containers again using the `docker ps` command.
+现在，使用`docker ps`命令再次列出所有容器。
 
 ```console
 $ docker ps -a
@@ -134,18 +145,22 @@ CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS   
 a28f9d587d95   java-docker   "./mvnw spring-boot:…"   22 minutes ago   Exited (1) 16 minutes ago                            lucid_greider
 ```
 
-Notice that the container we just restarted has been started in detached mode and has port 8080 exposed. Also, observe the status of the container is “Up X seconds”. When you restart a container, it starts with the same flags or commands that it was originally started with.
+请注意，我们刚刚重新启动的容器已在分离模式下启动并暴露了端口 8080。另外，观察容器的状态是 “Up X seconds”。
+当您重新启动容器时，它会以与最初启动时相同的标志或命令启动。
 
-Now, let’s stop and remove all of our containers and take a look at fixing the random naming issue. Find the name of your running container and replace the name in the command below with the name of the container on your system.
+现在，让我们停止并移除我们所有的容器，看看如何修复随机命名问题。
+找到您正在运行的容器的名称，并将以下命令中的名称替换为您系统上的容器名称。
 
 ```console
 $ docker stop trusting_beaver
 trusting_beaver
 ```
 
-Now that our container is stopped, let’s remove it. When you remove a container, the process inside the container will be stopped and the metadata for the container will been removed.
+现在我们的容器已停止，让我们将其删除。当您移除容器时，容器内的进程将停止并且容器的元数据将被移除。
 
-To remove a container, simple run the `docker rm` command passing the container name. You can pass multiple container names to the command using a single command. Again, replace the container names in the following command with the container names from your system.
+要删除容器，只需运行 `docker rm` 命令，传递容器名称的即可。
+您可以使用单个命令将多个容器名称传递给命令。
+同样，将以下命令中的容器名称替换为您系统中的容器名称。
 
 ```console
 $ docker rm trusting_beaver modest_khayyam lucid_greider
@@ -154,11 +169,12 @@ modest_khayyam
 lucid_greider
 ```
 
-Run the `docker ps --all` command again to see that all containers are removed.
+再次运行 `docker ps --all` 命令，可以查看到所有容器都已删除。
 
-Now, let’s address the random naming issue. The standard practice is to name your containers for the simple reason that it is easier to identify what is running in the container and what application or service it is associated with.
+现在，让我们解决随机命名问题。
+标准做法是为您的容器命名，原因很简单，这样更容易识别容器中运行的内容以及它关联的应用程序或服务。
 
-To name a container, we just need to pass the `--name` flag to the `docker run` command.
+要命名容器，我们只需要给 `docker run` 命令传递 `--name` 标志。
 
 ```console
 $ docker run --rm -d -p 8080:8080 --name springboot-server java-docker
@@ -168,13 +184,15 @@ CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS    
 2e907c68d1c9   java-docker   "./mvnw spring-boot:…"   8 seconds ago   Up 8 seconds   0.0.0.0:8080->8080/tcp   springboot-server
 ```
 
-That’s better! We can now easily identify our container based on the name.
+这样更好！我们现在可以根据名称轻松识别我们的容器。
 
-## Next steps
+## 下一步
 
-In this module, we took a look at running containers, publishing ports, and running containers in detached mode. We also took a look at managing containers by starting, stopping, and, restarting them. We also looked at naming our containers so they are more easily identifiable.
+在本模块中，我们了解了在分离模式下运行容器、发布端口和运行容器。
+我们还研究了通过启动、停止和重新启动容器来管理容器。
+我们还考虑了命名我们的容器，以便它们更容易识别。
 
-In the next module, we’ll learn how to run a database in a container and connect it to our application. See:
+在下一个模块中，我们将学习如何在容器中运行数据库并将其连接到我们的应用程序
 
 [Use containers for development](develop.md){: .button .primary-btn}
 
