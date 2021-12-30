@@ -105,10 +105,13 @@ $ docker run -it --rm --name springboot-test java-docker
 [INFO] Total time:  01:22 min
 ```
 
+构建输出被截断，但您可以看到 Maven 测试运行器成功并且我们所有的测试都通过了。
 The build output is truncated, but you can see that the Maven test runner was successful and all our tests passed.
 
+这很棒。但是，我们必须运行两个 Docker 命令来构建和运行我们的测试。我们可以通过在测试阶段使用RUN语句而不是语句来稍微改进这一点CMD。该CMD语句不会在构建镜像期间执行，而是在您在容器中运行镜像时执行。使用该RUN语句时，我们的测试在构建镜像时运行，并在构建失败时停止构建。
 This is great. However, we'll have to run two Docker commands to build and run our tests. We can improve this slightly by using a `RUN` statement instead of the `CMD` statement in the test stage. The `CMD` statement is not executed during the building of the image, but is executed when you run the image in a container. When using the `RUN` statement, our tests run when the building the image, and stop the build when they fail.
 
+使用下面突出显示的行更新您的 Dockerfile。
 Update your Dockerfile with the highlighted line below.
 
 ```dockerfile
@@ -140,6 +143,7 @@ COPY --from=build /app/target/spring-petclinic-*.jar /spring-petclinic.jar
 CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/spring-petclinic.jar"]
 ```
 
+现在，要运行我们的测试，我们只需要运行docker build上面的命令。
 Now, to run our tests, we just need to run the `docker build` command as above.
 
 ```console
@@ -156,8 +160,10 @@ $ docker build -t java-docker --target test .
 => => naming to docker.io/library/java-docker
 ```
 
+为简单起见，构建输出被截断，但您可以看到我们的测试成功运行并通过。当我们的测试失败时，让我们中断其中一个测试并观察输出。
 The build output is truncated for simplicity, but you can see that our tests ran succesfully and passed. Let’s break one of the tests and observe the output when our tests fail.
 
+打开src/test/java/org/springframework/samples/petclinic/model/ValidatorTests.java文件并将第 57 行更改为以下内容。
 Open the `src/test/java/org/springframework/samples/petclinic/model/ValidatorTests.java` file and change **line 57** to the following.
 
 ```shell
@@ -167,6 +173,7 @@ Open the `src/test/java/org/springframework/samples/petclinic/model/ValidatorTes
 58 }
 ```
 
+现在，docker build从上面运行命令并观察构建失败并且失败的测试信息打印到控制台。
 Now, run the `docker build` command from above and observe that the build fails and the failing testing information is printed to the console.
 
 ```console
@@ -178,8 +185,9 @@ $ docker build -t java-docker --target test .
 executor failed running [./mvnw test]: exit code: 1
 ```
 
-### Multi-stage Dockerfile 为了开发
+### 用于开发的多阶段 Dockerfile
 
+新版本的 Dockerfile 会生成可用于生产的最终映像，但正如您所注意到的，您还有一个专门的步骤来生成开发容器。
 The new version of the Dockerfile produces a final image which is ready for production, but as you can notice, you also have a dedicated step to produce a development container.
 
 ```dockerfile
@@ -187,6 +195,7 @@ FROM base as development
 CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=mysql", "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"]
 ```
 
+我们现在可以更新我们的docker-compose.dev.yml以使用此特定目标来构建petclinic服务并删除command定义，如下所示：
 We can now update of our `docker-compose.dev.yml` to use this specific target to build the `petclinic` service and remove the `command` definition as follows:
 
 ```dockerfile
@@ -205,6 +214,7 @@ services:
      - ./:/app
 ```
 
+现在，让我们运行 Compose 应用程序。您现在应该看到该应用程序的行为与以前一样，您仍然可以对其进行调试。
 Now, let's run the Compose application. You should now see that application behaves as previously and you can still debug it.
 
 ```console
@@ -213,8 +223,10 @@ $ docker-compose -f docker-compose.dev.yml up --build
 
 ## 下一步
 
+在本模块中，我们研究了运行测试作为 Docker 镜像构建过程的一部分。
 In this module, we took a look at running tests as part of our Docker image build process.
 
+在下一个模块中，我们将了解如何使用 GitHub Actions 设置 CI/CD 管道。看：
 In the next module, we’ll take a look at how to set up a CI/CD pipeline using GitHub Actions. See:
 
 [Configure CI/CD](configure-ci-cd.md){: .button .primary-btn}
