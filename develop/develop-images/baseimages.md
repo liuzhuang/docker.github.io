@@ -5,35 +5,23 @@ redirect_from:
 - /articles/baseimages/
 - /engine/articles/baseimages/
 - /engine/userguide/eng-image/baseimages/
-title: Create a base image
+title: 创建一个基础镜像
 ---
 
-Most Dockerfiles start from a parent image. If you need to completely control
-the contents of your image, you might need to create a base image instead.
-Here's the difference:
+大多数 Dockerfile 从父映像开始。如果您需要完全控制图像的内容，则可能需要创建一个基本图像。这是区别：
 
-- A [parent image](../../glossary.md#parent-image) is the image that your
-  image is based on. It refers to the contents of the `FROM` directive in the
-  Dockerfile. Each subsequent declaration in the Dockerfile modifies this parent
-  image. Most Dockerfiles start from a parent image, rather than a base image.
-  However, the terms are sometimes used interchangeably.
+- 一个[父镜像](../../glossary.md#parent-image)是你的形象是基于图像。它指的是`FROM` Dockerfile 中指令的内容。Dockerfile 中的每个后续声明都会修改此父映像。大多数 Dockerfile 从父映像开始，而不是从基础映像开始。但是，这些术语有时可以互换使用。
 
-- A [base image](../../glossary.md#base-image) has `FROM scratch` in its Dockerfile.
+- 一个基础镜像在 Dockerfile 中有 `FROM scratch`。
 
-This topic shows you several ways to create a base image. The specific process
-will depend heavily on the Linux distribution you want to package. We have some
-examples below, and you are encouraged to submit pull requests to contribute new
-ones.
+本主题向您展示了创建基础映像的几种方法。具体过程将在很大程度上取决于您要打包的 Linux 发行版。我们在下面有一些示例，我们鼓励您提交拉取请求以贡献新的请求。
 
-## Create a full image using tar
+## 使用 tar 创建完整图像
 
-In general, start with a working machine that is running
-the distribution you'd like to package as a parent image, though that is
-not required for some tools like Debian's
-[Debootstrap](https://wiki.debian.org/Debootstrap), which you can also
-use to build Ubuntu images.
+通常，从运行您想要打包为父映像的发行版的工作机器开始，尽管这对于某些工具（例如 Debian 的 [Debootstrap](https://wiki.debian.org/Debootstrap)）不是必需的 ，您也可以使用它来构建 Ubuntu 映像。
 
-It can be as simple as this to create an Ubuntu parent image:
+
+创建 Ubuntu 父映像可以像这样简单：
 
     $ sudo debootstrap focal focal > /dev/null
     $ sudo tar -C focal -c . | docker import - focal
@@ -47,20 +35,14 @@ It can be as simple as this to create an Ubuntu parent image:
     DISTRIB_CODENAME=focal
     DISTRIB_DESCRIPTION="Ubuntu 20.04 LTS"
 
-There are more example scripts for creating parent images in [the Docker
-GitHub repository](https://github.com/docker/docker/blob/master/contrib).
+在 [the Docker GitHub repository](https://github.com/docker/docker/blob/master/contrib) 中有更多用于创建父映像的示例脚本。
 
-## Create a simple parent image using scratch
+## 使用 scratch 创建一个简单的父图像
 
-You can use Docker's reserved, minimal image, `scratch`, as a starting point for
-building containers. Using the `scratch` "image" signals to the build process
-that you want the next command in the `Dockerfile` to be the first filesystem
-layer in your image.
+您可以使用 Docker 保留的最小映像`scratch`,作为构建容器的起点。使用`scratch`“图像”信号向构建过程表明您希望 中的下一个命令`Dockerfile`成为图像中的第一个文件系统层。
 
-While `scratch` appears in Docker's repository on the hub, you can't pull it,
-run it, or tag any image with the name `scratch`. Instead, you can refer to it
-in your `Dockerfile`. For example, to create a minimal container using
-`scratch`:
+虽然scratch出现在集线器上的 Docker 存储库中，但您无法拉取、运行它或使用名称标记任何图像scratch。相反，您可以在您的Dockerfile. 例如，要使用scratch以下命令创建最小容器 ：
+
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -69,21 +51,18 @@ ADD hello /
 CMD ["/hello"]
 ```
 
-Assuming you built the "hello" executable example by using the source code at
-[https://github.com/docker-library/hello-world](https://github.com/docker-library/hello-world),
-and you compiled it with the `-static` flag, you can build this Docker
-image using this `docker build` command:
+假设您使用https://github.com/docker-library/hello-world 上的源代码构建了“hello”可执行示例 ，并使用-static标志编译它，您可以使用以下docker build命令构建此 Docker 映像：
 
 ```console
 $ docker build --tag hello .
 ```
 
-Don't forget the `.` character at the end, which sets the build context to the
-current directory.
+不要忘记`.`末尾的字符，它将构建上下文设置为当前目录。
 
-> **Note**: Because Docker Desktop for Mac and Docker Desktop for Windows use a Linux VM,
-> you need a Linux binary, rather than a Mac or Windows binary.
-> You can use a Docker container to build it:
+> **Note**: 
+>
+> 由于 Docker Desktop for Mac 和 Docker Desktop for Windows 使用 Linux VM，
+> 因此您需要 Linux 二进制文件，而不是 Mac 或 Windows 二进制文件。您可以使用 Docker 容器来构建它：
 >
 > ```console
 > $ docker run --rm -it -v $PWD:/build ubuntu:20.04
@@ -93,19 +72,21 @@ current directory.
 > container# gcc -o hello -static hello.c
 > ```
 
-To run your new image, use the `docker run` command:
+要运行您的新映像，请使用以下`docker run`命令：
 
 ```console
 $ docker run --rm hello
 ```
 
-This example creates the hello-world image used in the tutorials.
-If you want to test it out, you can clone
-[the image repo](https://github.com/docker-library/hello-world).
+此示例创建教程中使用的 hello-world 图像。如果你想测试它，你可以克隆 [the image repo](https://github.com/docker-library/hello-world)。
 
-## More resources
+## 更多资源
 
-There are lots of resources available to help you write your `Dockerfile`.
+有很多资源可以帮助您编写 `Dockerfile`。
+
+* 参考部分中的 a中提供了所有可用说明的完整指南Dockerfile。
+* 为了帮助您编写清晰、可读、可维护的Dockerfile，我们还编写了Dockerfile最佳实践指南。
+* 如果您的目标是创建一个新的 Docker 官方镜像，请阅读Docker 官方镜像。
 
 * There's a [complete guide to all the instructions](../../engine/reference/builder.md) available for use in a `Dockerfile` in the reference section.
 * To help you write a clear, readable, maintainable `Dockerfile`, we've also

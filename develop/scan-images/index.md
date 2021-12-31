@@ -1,30 +1,30 @@
 ---
-title: Best practices for scanning images
+title: 扫描图像的最佳实践
 description: Scan images best practices guide
 keywords: docker scan, scan, images, snyk, vulnerability
 ---
 
 {% include sign-up-cta.html
-  body="Did you know that you can now get 10 free scans per month? Sign in to Docker to start scanning your images for vulnerabilities."
+  body="您知道吗，您现在每月可以获得 10 次免费扫描？登录 Docker 开始扫描您的镜像查找漏洞。"
   header-text="Scan your images for free"
   target-url="https://www.docker.com/pricing?utm_source=docker&utm_medium=webreferral&utm_campaign=docs_driven_upgrade_scan"
 %}
 
-This page contains recommendations and best practices for scanning and building
-secure images.
+此页面包含有关扫描和构建安全映像的建议和最佳做法。
 
-Docker and Snyk have partnered together to bring security natively into the development workflow by providing a simple and streamlined approach for developers to build and deploy secure containers. Container security spans multiple teams - developers, security, and operations. Additionally, there are multiple layers of security that apply to containers:
+Docker 和 Snyk 携手合作，通过为开发人员构建和部署安全容器提供一种简单而精简的方法，将安全性融入到开发工作流程中。容器安全跨越多个团队——开发人员、安全和运营。此外，还有适用于容器的多层安全性：
 
-- The container image and the software running inside
-- The interaction between a container, the host operating system, and other containers on the same host
-- The host operating system
-- Container networking and storage
+- 容器镜像和运行在里面的软件
+- 容器、主机操作系统和同一主机上的其他容器之间的交互
+- 主机操作系统
+- 容器网络和存储
 
-Including the vulnerability scanning options into the Docker platform extends the existing, familiar process of vulnerability detection, and allows for remediation of vulnerabilities earlier in the development process. The process of simple and continuous checks, for example, by checking images in the background using [Snyk Advisor](https://snyk.io/advisor/docker){:target="_blank" rel="noopener" class="_"}, can lead to fewer vulnerabilities checked into Docker Hub. This can result in a shorter CI cycle and a more reliable deployment into production.
+
+在 Docker 平台中包含漏洞扫描选项扩展了现有的、熟悉的漏洞检测过程，并允许在开发过程的早期修复漏洞。简单而持续的检查过程，例如，通过使用 [Snyk Advisor](https://snyk.io/advisor/docker){:target="_blank" rel="noopener" class="_"} 在后台检查图像，可以减少检查到 Docker Hub 的漏洞。这可以导致更短的 CI 周期和更可靠的生产部署。
 
 ![Developer's security journey](/images/dev-security-journey.png){:width="700px"}
 
-## Scanning images
+## 扫描镜像
 
 > **Log4j 2 CVE-2021-44228**
 >
@@ -35,124 +35,125 @@ Including the vulnerability scanning options into the Docker platform extends th
 > see [Scan images for Log4j 2 CVE](../../engine/scan#scan-images-for-log4j-2-cve). 
 {: .important}
 
-You can trigger scans automatically by pushing an image to Docker Hub. You can achieve this either through the `docker scan` command in the CLI, or through Docker Hub.
+您可以通过将映像推送到 Docker Hub 来自动触发扫描。您可以通过`docker scan` CLI 中的命令或通过 Docker Hub实现此目的。
 
-### Scan using the CLI
+### 使用 CLI 扫描
 
-After you’ve built an image and before you push your image to Docker Hub, run the `docker scan` command. For detailed instructions on how to scan images using the CLI, see [docker scan](../../engine/scan/index.md).
+在构建映像之后，在将映像推送到 Docker Hub 之前，运行该`docker scan`命令。有关如何使用 CLI 扫描图像的详细说明，请参阅[docker scan](../../engine/scan/index.md)。
 
 ![Docker Scan CL](/images/docker-scan-cli.png){:width="700px"}
 
-### Scan using Docker Hub
+### 使用 Docker Hub 扫描
 
-You can trigger scans, view, and inspect vulnerabilities through Docker Hub. For detailed information, see [Hub Vulnerability Scanning](../../docker-hub/vulnerability-scanning.md).
+您可以通过 Docker Hub 触发扫描、查看和检查漏洞。有关详细信息，请参阅 [Hub Vulnerability Scanning](../../docker-hub/vulnerability-scanning.md)。
 
 > **Note**
 >
-> Docker Hub Vulnerability Scanning is available for developers subscribed to a Docker Pro, Team, or a Business tier. For more information about the pricing plans, see [Docker Pricing](https://www.docker.com/pricing?utm_source=docker&utm_medium=webreferral&utm_campaign=docs_driven_upgrade){:target="_blank" rel="noopener" class="_"}.
+> Docker Hub 漏洞扫描适用于订阅 Docker Pro、Team 或 Business 层的开发人员。有关定价计划的更多信息，请参阅 [Docker Pricing](https://www.docker.com/pricing?utm_source=docker&utm_medium=webreferral&utm_campaign=docs_driven_upgrade){:target="_blank" rel="noopener" class="_"}。
 
 ![Hub Vulnerability scanning](/images/hub-hvs.png){:width="700px"}
 
-### View the scan summary in Docker Desktop
+### 在 Docker Desktop 中查看扫描摘要
 
-Docker Desktop provides you a snapshot of your vulnerabilities status on the Docker Dashboard. Hover over the image and click **View in Hub** to view a detailed vulnerability report in Docker Hub.
+Docker 桌面在 Docker 仪表板上为您提供漏洞状态的快照。将鼠标悬停在图像上并单击**View in Hub**以查看 Docker Hub 中的详细漏洞报告。
 
 ![Hub Vulnerability scan summary](/images/hvs-scan-summary.png){:width="700px"}
 
-## Best practices
+## 最佳实践
 
-As a developer, you can take a few simple steps to improve the security of your container. This includes:
+作为开发人员，您可以通过几个简单的步骤来提高容器的安全性。这包括：
 
-1. Choosing the right base image from a trusted source and keeping it small
-2. Using multi-stage builds
-3. Rebuilding images
-4. Scanning images during development
-5. Scanning images during production
+- 从可信赖的来源中选择正确的基础映像并保持较小
+- 使用多阶段构建
+- 重建图像
+- 在开发过程中扫描图像
+- 在生产过程中扫描图像
 
-Now, let’s take a detailed look at each of these best practices:
+现在，让我们详细看看这些最佳实践中的每一个：
 
-### Choose the right base image
+### 选择正确的基础镜像
 
-The first step towards achieving a secure image is to choose the right base image. When choosing an image, ensure it is built from a trusted source and keep it small.
+实现安全映像的第一步是选择正确的基础映像。选择映像时，请确保它是从可信来源构建的，并保持较小。
 
-Docker Hub has more than 8.3 million repositories. Some of these images are [Official Images](../../docker-hub/official_images.md), which are published by Docker as a curated set of Docker open source and drop-in solution repositories. Docker also offers images that are published by [Verified Publishers](../../docker-hub/publish/index.md). These high-quality images are published and maintained by the organizations partnering with Docker, with Docker verifying the authenticity of the content in their repositories. When you pick your base image, look out for the **Official Image** and **Verified Publisher** badges.
+Docker Hub 拥有超过 830 万个存储库。其中一些镜像是[Official Images](../../docker-hub/official_images.md)，由 Docker 发布为一组精选的 Docker 开源和嵌入式解决方案存储库。Docker 还提供由[Verified Publishers](../../docker-hub/publish/index.md) 发布的镜像。这些高质量图像由与 Docker 合作的组织发布和维护，Docker 会验证其存储库中内容的真实性。选择基本图片时，请注意**Official Image**和**Verified Publisher**徽章。
 
 ![Docker Hub Official and Verified Publisher images](/images/hub-official-images.png){:width="700px"}
 
-When building your own image from a Dockerfile, ensure you choose a minimal base image that matches your requirements. A smaller base image not just offers portability and fast downloads, but also shrinks the size of your image and minimizes the number of vulnerabilities introduced through the dependencies.
+从 Dockerfile 构建自己的映像时，请确保选择符合您要求的最小基础映像。较小的基础映像不仅提供可移植性和快速下载，而且还缩小了映像的大小并最大限度地减少了通过依赖项引入的漏洞数量。
 
-We also recommend that you use two types of base images: the first image for development and unit testing and the second one for testing during the latest stages of development and production. In the later stages of development, your image may not even require some build tools such as compilers, build systems, or any debugging tools. A small image with minimal dependencies can considerably lower the attack surface.
+我们还建议您使用两种类型的基础映像：第一个映像用于开发和单元测试，第二个映像用于在开发和生产的最新阶段进行测试。在开发的后期阶段，您的映像甚至可能不需要一些构建工具，例如编译器、构建系统或任何调试工具。具有最小依赖性的小图像可以显着降低攻击面。
 
-### Use multi-stage builds
+### 使用多阶段构建
 
-Multi-stage builds are designed to create an optimized Dockerfile that is easy to read and maintain. With a multi-stage build, you can use multiple images and selectively copy only the artifacts needed from a particular image.
+多阶段构建旨在创建易于阅读和维护的优化 Dockerfile。通过多阶段构建，您可以使用多个图像并有选择地仅复制特定图像所需的工件。
 
-You can use multiple `FROM` statements in your Dockerfile, and you can use a different base image for each `FROM`. You can also selectively copy artifacts from one stage to another, leaving behind things you don’t need in the final image. This can result in a concise final image.
+您可以`FROM`在 Dockerfile 中使用多个语句，并且可以为每个FROM. 您还可以有选择地将工件从一个阶段复制到另一个阶段，从而在最终图像中留下您不需要的东西。这可以产生简洁的最终图像。
 
-This method of creating a tiny image does not only significantly reduce complexity, but also the change of implementing vulnerable artifacts in your image. Therefore, instead of images that are built on images, that again are built on other images, multi-stage builds allow you to 'cherry pick' your artifacts without inheriting the vulnerabilities from the base images on which they rely on.
+这种创建微小图像的方法不仅显着降低了复杂性，而且还改变了在图像中实施易受攻击的工件。因此，多阶段构建允许您“挑选”您的工件，而不是从它们所依赖的基础镜像中继承漏洞，而不是构建在镜像上的镜像，而后者再次构建在其他镜像上。
 
-For detailed information on how to configure multi-stage builds, see [multi-stage builds](../develop-images/multistage-build.md).
+有关如何配置多阶段构建的详细信息，请参阅[multi-stage builds](../develop-images/multistage-build.md)。
 
-### Rebuild images
+### 重建镜像
 
-A Docker image is built  from a Dockerfile. A Dockerfile contains a set of instructions which allows you to automate the steps you would normally (manually) take to create an image. Additionally, it can include some imported libraries and install custom software. These appear as instructions in the Dockerfile.
+Docker 镜像是从 Dockerfile 构建的。Dockerfile 包含一组指令，可让您自动执行通常（手动）创建映像所采取的步骤。此外，它还可以包含一些导入的库并安装自定义软件。这些在 Dockerfile 中显示为指令。
 
-Building your image is a snapshot of that image, at that moment in time. When you depend on a base image without a tag, you’ll get a different base image every time you rebuild. Also, when you install packages using a package installer, rebuilding can change the image drastically. For example, a Dockerfile containing the following entries can potentially have a different binary with every rebuild.
+构建您的图像是该图像的快照，在那个时刻。当你依赖一个没有标签的基础镜像时，你每次重建都会得到一个不同的基础镜像。此外，当您使用软件包安装程序安装软件包时，重建会彻底改变映像。例如，包含以下条目的 Dockerfile 可能会在每次重建时具有不同的二进制文件。
 
 ```dockerfile
 FROM ubuntu:latest
 RUN apt-get -y update && apt-get install -y python
 ```
 
-We recommend that you rebuild your Docker image regularly to prevent known vulnerabilities that have been addressed. When rebuilding, use the option `--no-cache` to avoid cache hits and to ensure a fresh download.
+我们建议您定期重建 Docker 映像，以防止已解决的已知漏洞。重建时，使用该选项--no-cache避免缓存命中并确保全新下载。
 
-For example:
+例如：
 
 ```console
 $ docker build --no-cache -t myImage:myTag myPath/
 ```
 
-Consider the following best practices when rebuilding an image:
+重建映像时请考虑以下最佳实践：
 
-- Each container should have only one responsibility.
-- Containers should be immutable, lightweight, and fast.
-- Don’t store data in your container. Use a shared data store instead.
-- Containers should be easy to destroy and rebuild.
-- Use a small base image (such as Linux Alpine).  Smaller images are easier to distribute.
-- Avoid installing unnecessary packages. This keeps the image clean and safe.
-- Avoid cache hits when building.
-- Auto-scan your image before deploying to avoid pushing vulnerable containers to production.
-- Scan your images daily both during development and production for vulnerabilities Based on that, automate the rebuild of images if necessary.
+- 每个容器应该只有一个职责。
+- 容器应该是不可变的、轻量级的和快速的。
+- 不要将数据存储在您的容器中。请改用共享数据存储。
+- 容器应该易于销毁和重建。
+- 使用小型基础映像（例如 Linux Alpine）。较小的图像更容易分发。
+- 避免安装不必要的软件包。这使图像保持干净和安全。
+- 构建时避免缓存命中。
+- 在部署之前自动扫描您的映像，以避免将易受攻击的容器推向生产环境。
+- 在开发和生产期间每天扫描您的图像是否存在漏洞基于此，如有必要，自动重建图像。
 
-For detailed best practices and methods for building efficient images, see [Dockerfile best practices](../develop-images/dockerfile_best-practices.md).
+有关构建高效镜像的详细最佳实践和方法，请参阅 [Dockerfile best practices](../develop-images/dockerfile_best-practices.md)。
 
-### Scan images during development
+### 在开发过程中扫描镜像
 
-Creating an image from a Dockerfile and even rebuilding an image can introduce new vulnerabilities in your system. Scanning your Docker images during development should be part of your workflow to catch vulnerabilities earlier in your development. You should scan images at all stages of the development cycle, and ideally consider automating scans. For example, consider configuring automated scans during the build process, before pushing the image to Docker Hub (or any other registry), and finally before pushing it to a production environment.
+从 Dockerfile 创建映像甚至重建映像都可能在您的系统中引入新的漏洞。在开发过程中扫描 Docker 映像应该是您工作流程的一部分，以便在开发早期发现漏洞。您应该在开发周期的所有阶段扫描图像，最好考虑自动扫描。例如，考虑在构建过程中、将映像推送到 Docker Hub（或任何其他注册表）之前以及最后将其推送到生产环境之前配置自动扫描。
 
-### Scan images during production
+### 在制作镜像的过程中扫描镜像
 
-Actively checking your container can save you a lot of hassle when a new vulnerability is discovered, which otherwise can put your production system at risk.
+主动检查容器可以在发现新漏洞时为您省去很多麻烦，否则会使您的生产系统面临风险。
 
-Periodically scanning your Docker image is possible by using the Snyk monitor capabilities for containers. Snyk creates a snapshot of the image’s dependencies for continuous monitoring. Additionally, you should also activate runtime monitoring. Scanning for unused modules and packages inside your runtime gives insight into how to shrink images. Removing unused components prevents unnecessary vulnerabilities from entering both system and application libraries. This also makes an image more easily maintainable.
+通过使用容器的 Snyk 监视器功能，可以定期扫描 Docker 映像。Snyk 创建映像依赖项的快照以进行持续监控。此外，您还应该激活运行时监控。扫描运行时内未使用的模块和包可以深入了解如何缩小图像。删除未使用的组件可防止不必要的漏洞进入系统和应用程序库。这也使图像更易于维护。
 
-## Conclusion
 
-Building secure images is a continuous process. Consider the recommendations and best practices highlighted in this guide to plan and build efficient, scalable, and secure images.
+## 结论
 
-Let’s recap what we’ve learnt in this guide:
+构建安全映像是一个持续的过程。考虑本指南中强调的建议和最佳实践，以规划和构建高效、可扩展且安全的映像。
 
-- Start with a base image that you trust. Remember the Official image and Verified Publisher badges when you choose your base images.
-- Secure your code and its dependencies.
-- Select a minimal base image which contains only the required packages.
-- Use multi-stage builds to optimize your image.
-- Ensure you carefully monitor and manage the tools and dependencies you add to your image.
-- Ensure you scan images at multiple stages during your development lifecycle.
-- Check your images frequently for vulnerabilities.
+让我们回顾一下我们在本指南中学到的东西：
 
-## Further reading
+- 从您信任的基本映像开始。选择基本图片时，请记住官方图片和经过验证的发布商徽章。
+- 保护您的代码及其依赖项。
+- 选择仅包含所需软件包的最小基础映像。
+- 使用多阶段构建来优化您的图像。
+- 确保仔细监视和管理添加到映像中的工具和依赖项。
+- 确保在开发生命周期的多个阶段扫描图像。
+- 经常检查您的图像是否存在漏洞。
 
-You can also take a look at the following articles from Snyk:
+## 延伸阅读
 
-- [Container Security Guide](https://snyk.io/learn/container-security/){:target="_blank" rel="noopener" class="_"}
-- [Docker Vulnerability Scanning Cheat Sheet](https://goto.docker.com/rs/929-FJL-178/images/cheat-sheet-docker-desktop-vulnerability-scanning-CLI.pdf){:target="_blank" rel="noopener" class="_"}
+您还可以查看 Snyk 的以下文章：
+
+- [容器安全指南](https://snyk.io/learn/container-security/){:target="_blank" rel="noopener" class="_"}
+- [Docker 漏洞扫描备忘单](https://goto.docker.com/rs/929-FJL-178/images/cheat-sheet-docker-desktop-vulnerability-scanning-CLI.pdf){:target="_blank" rel="noopener" class="_"}

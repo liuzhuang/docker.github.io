@@ -1,7 +1,7 @@
 ---
 description: Keeping your images small with multi-stage images
 keywords: images, containers, best practices, multi-stage, multistage
-title: Use multi-stage builds
+title: 使用多阶段构建
 redirect_from:
 - /engine/userguide/eng-image/multistage-build/
 ---
@@ -9,30 +9,17 @@ redirect_from:
 Multistage builds are useful to anyone who has struggled to optimize Dockerfiles
 while keeping them easy to read and maintain.
 
-> **Acknowledgment**:
-> Special thanks to [Alex Ellis](https://twitter.com/alexellisuk) for granting
-> permission to use his blog post
-> [Builder pattern vs. Multi-stage builds in Docker](https://blog.alexellis.io/mutli-stage-docker-builds/)
-> as the basis of the examples below.
+> **致谢**:
+> 特别感谢 [Alex Ellis](https://twitter.com/alexellisuk) 允许使用他的博客文章 
+> [构建器模式与 Docker 中的多阶段构建](https://blog.alexellis.io/mutli-stage-docker-builds/)作为以下示例的基础。
 
-## Before multi-stage builds
+## 在多阶段构建之前
 
-One of the most challenging things about building images is keeping the image
-size down. Each instruction in the Dockerfile adds a layer to the image, and you
-need to remember to clean up any artifacts you don't need before moving on to
-the next layer. To write a really efficient Dockerfile, you have traditionally
-needed to employ shell tricks and other logic to keep the layers as small as
-possible and to ensure that each layer has the artifacts it needs from the
-previous layer and nothing else.
+构建图像最具挑战性的事情之一是缩小图像大小。Dockerfile 中的每条指令都为镜像添加了一层，您需要记住在继续下一层之前清除所有不需要的工件。为了编写一个真正高效的 Dockerfile，传统上您需要使用 shell 技巧和其他逻辑来保持层尽可能小，并确保每一层都有它需要的来自前一层的工件，而不是其他任何东西。
 
-It was actually very common to have one Dockerfile to use for development (which
-contained everything needed to build your application), and a slimmed-down one
-to use for production, which only contained your application and exactly what
-was needed to run it. This has been referred to as the "builder
-pattern". Maintaining two Dockerfiles is not ideal.
+实际上，将一个 Dockerfile 用于开发（其中包含构建应用程序所需的一切）和一个用于生产的精简版 Dockerfile 是很常见的，其中仅包含您的应用程序以及运行它所需的内容。这被称为“构建器模式”。维护两个 Dockerfile 并不理想。
 
-Here's an example of a `Dockerfile.build` and `Dockerfile` which adhere to the
-builder pattern above:
+下面是一个遵循上述构建器模式的 `Dockerfile.build` 和 `Dockerfile` ：
 
 **`Dockerfile.build`**:
 
@@ -45,10 +32,7 @@ RUN go get -d -v golang.org/x/net/html \
   && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 ```
 
-Notice that this example also artificially compresses two `RUN` commands together
-using the Bash `&&` operator, to avoid creating an additional layer in the image.
-This is failure-prone and hard to maintain. It's easy to insert another command
-and forget to continue the line using the `\` character, for example.
+请注意，此示例还`RUN`使用 Bash `&&` 运算符人为地将两个命令压缩在一起，以避免在图像中创建附加层。这很容易失败并且难以维护。例如，很容易插入另一个命令而忘记使用`\`字符继续该行。
 
 **`Dockerfile`**:
 
@@ -80,21 +64,15 @@ docker build --no-cache -t alexellis2/href-counter:latest .
 rm ./app
 ```
 
-When you run the `build.sh` script, it needs to build the first image, create
-a container from it to copy the artifact out, then build the second
-image. Both images take up room on your system and you still have the `app`
-artifact on your local disk as well.
+当您运行`build.sh`脚本时，它需要构建第一个映像，从中创建一个容器以复制工件，然后构建第二个映像。两个图像都占用了您系统上的空间，并且您`app` 的本地磁盘上仍然有工件。
 
-Multi-stage builds vastly simplify this situation!
+多阶段构建大大简化了这种情况！
 
-## Use multi-stage builds
 
-With multi-stage builds, you use multiple `FROM` statements in your Dockerfile.
-Each `FROM` instruction can use a different base, and each of them begins a new
-stage of the build. You can selectively copy artifacts from one stage to
-another, leaving behind everything you don't want in the final image. To show
-how this works, let's adapt the Dockerfile from the previous section to use
-multi-stage builds.
+## 使用多阶段构建
+
+通过多阶段构建，您可以`FROM`在 Dockerfile 中使用多个语句。每条FROM指令都可以使用不同的基础，并且每条指令都开始构建的新阶段。您可以有选择地将工件从一个阶段复制到另一个阶段，在最终图像中留下您不想要的所有内容。为了展示它是如何工作的，让我们调整上一节中的 Dockerfile 以使用多阶段构建。
+
 
 **`Dockerfile`**:
 
@@ -113,30 +91,19 @@ COPY --from=0 /go/src/github.com/alexellis/href-counter/app ./
 CMD ["./app"]  
 ```
 
-You only need the single Dockerfile. You don't need a separate build script,
-either. Just run `docker build`.
+您只需要单个 Dockerfile。您也不需要单独的构建脚本。就跑docker build。
 
 ```console
 $ docker build -t alexellis2/href-counter:latest .
 ```
 
-The end result is the same tiny production image as before, with a
-significant reduction in complexity. You don't need to create any intermediate
-images and you don't need to extract any artifacts to your local system at all.
+最终结果是与以前相同的微小生产图像，但复杂性显着降低。您不需要创建任何中间映像，也不需要将任何工件提取到本地系统。
 
-How does it work? The second `FROM` instruction starts a new build stage with
-the `alpine:latest` image as its base. The `COPY --from=0` line copies just the
-built artifact from the previous stage into this new stage. The Go SDK and any
-intermediate artifacts are left behind, and not saved in the final image.
+它是如何工作的？第二FROM条指令以alpine:latest图像为基础开始一个新的构建阶段。该COPY --from=0行仅将上一阶段的构建工件复制到这个新阶段。Go SDK 和任何中间工件都会被留下，并且不会保存在最终图像中。
 
-## Name your build stages
+## 命名您的构建阶段
 
-By default, the stages are not named, and you refer to them by their integer
-number, starting with 0 for the first `FROM` instruction. However, you can
-name your stages, by adding an `AS <NAME>` to the `FROM` instruction. This
-example improves the previous one by naming the stages and using the name in
-the `COPY` instruction. This means that even if the instructions in your
-Dockerfile are re-ordered later, the `COPY` doesn't break.
+默认情况下，阶段没有命名，您可以通过它们的整数来引用它们，第一FROM条指令从 0 开始。但是，您可以通过AS <NAME>在FROM指令中添加 来命名您的阶段。此示例通过命名阶段并在COPY指令中使用名称来改进前一个示例。这意味着即使 Dockerfile 中的指令稍后重新排序，COPY也不会中断。
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -153,40 +120,31 @@ COPY --from=builder /go/src/github.com/alexellis/href-counter/app ./
 CMD ["./app"]  
 ```
 
-## Stop at a specific build stage
+## 在特定的构建阶段停止
 
-When you build your image, you don't necessarily need to build the entire
-Dockerfile including every stage. You can specify a target build stage. The
-following command assumes you are using the previous `Dockerfile` but stops at
-the stage named `builder`:
+构建镜像时，您不一定需要构建整个 Dockerfile，包括每个阶段。您可以指定目标构建阶段。以下命令假设您正在使用前一个Dockerfile但在名为 的阶段停止builder：
 
 ```console
 $ docker build --target builder -t alexellis2/href-counter:latest .
 ```
 
-A few scenarios where this might be very powerful are:
+这可能非常强大的一些场景是：
 
-- Debugging a specific build stage
-- Using a `debug` stage with all debugging symbols or tools enabled, and a
-  lean `production` stage
-- Using a `testing` stage in which your app gets populated with test data, but
-  building for production using a different stage which uses real data
+- 调试特定的构建阶段
+- 使用debug启用所有调试符号或工具的production阶段和精益阶段
+- 使用一个testing阶段，您的应用程序在其中填充测试数据，但使用使用真实数据的不同阶段为生产构建
 
-## Use an external image as a "stage"
+## 使用外部图像作为“阶段” 
 
-When using multi-stage builds, you are not limited to copying from stages you
-created earlier in your Dockerfile. You can use the `COPY --from` instruction to
-copy from a separate image, either using the local image name, a tag available
-locally or on a Docker registry, or a tag ID. The Docker client pulls the image
-if necessary and copies the artifact from there. The syntax is:
+使用多阶段构建时，您不仅限于从之前在 Dockerfile 中创建的阶段进行复制。您可以使用该COPY --from指令从单独的镜像复制，使用本地镜像名称、本地或 Docker 注册表上可用的标签或标签 ID。Docker 客户端在必要时拉取映像并从那里复制工件。语法是：
 
 ```dockerfile
 COPY --from=nginx:latest /etc/nginx/nginx.conf /nginx.conf
 ```
 
-## Use a previous stage as a new stage
+## 使用上一阶段作为新阶段
 
-You can pick up where a previous stage left off by referring to it when using the `FROM` directive. For example:
+在使用FROM指令时，您可以通过引用它来从上一阶段停止的地方开始。例如：
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -202,6 +160,6 @@ COPY source2.cpp source.cpp
 RUN g++ -o /binary source.cpp
 ```
 
-## Version compatibility
+## 版本兼容性
 
-Multistage build syntax was introduced in Docker Engine 17.05.
+Docker Engine 17.05 中引入了多阶段构建语法。

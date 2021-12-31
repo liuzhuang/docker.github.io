@@ -1,56 +1,45 @@
 ---
-title: Build images with BuildKit
+title: 使用 BuildKit 构建图像
 description: Learn the new features of Docker Build with BuildKit
 keywords: build, security, engine, secret, BuildKit
 ---
 
-Docker Build is one of the most used features of the Docker Engine - users
-ranging from developers, build teams, and release teams all use Docker Build. 
+Docker Build 是 Docker Engine 最常用的功能之一——从开发人员、构建团队和发布团队的用户都使用 Docker Build。
 
-Docker Build enhancements for 18.09 release introduces a much-needed overhaul of
-the build architecture. By integrating BuildKit, users should see an improvement
-on performance, storage management, feature functionality, and security.
+18.09 版本的 Docker Build 增强功能引入了对构建架构的急需改革。通过集成 BuildKit，用户应该会看到性能、存储管理、特性功能和安全性方面的改进。
 
-* Docker images created with BuildKit can be pushed to Docker Hub just like
-  Docker images created with legacy build
-* the Dockerfile format that works on legacy build will also work with BuildKit
-  builds
-* The new `--secret` command line option allows the user to pass secret
-  information for building new images with a specified Dockerfile 
+* 使用 BuildKit 创建的 Docker 镜像可以像使用遗留构建创建的 Docker 镜像一样推送到 Docker Hub
+* 适用于旧版构建的 Dockerfile 格式也适用于 BuildKit 构建
+* 新的 `--secret`命令行选项允许用户传递秘密信息以使用指定的 Dockerfile 构建新图像
 
-For more information on build options, see the reference guide on the
-[command line build options](../../engine/reference/commandline/build.md) and
-the [Dockerfile reference](/engine/reference/builder/) page.
+有关构建选项的更多信息，请参阅[command line build options](../../engine/reference/commandline/build.md) 和 [Dockerfile reference](/engine/reference/builder/)。
 
+## 要求
 
-## Requirements
+* 当前版本的 Docker（18.09 或更高版本）
+* 下载自定义前端的图像所需的网络连接
 
-* A current version of Docker (18.09 or higher)
-* Network connection required for downloading images of custom frontends 
+## 限制
 
-## Limitations
+* 仅支持构建 Linux 容器
 
-* Only supported for building Linux containers
+## 启用 BuildKit 构建
 
-## To enable BuildKit builds
-
-Easiest way from a fresh install of docker is to set the `DOCKER_BUILDKIT=1`
-environment variable when invoking the `docker build` command, such as:
+全新安装 docker 的最简单方法是DOCKER_BUILDKIT=1 在调用docker build命令时设置环境变量，例如：
 
 ```console
 $ DOCKER_BUILDKIT=1 docker build .
 ```
 
-To enable docker BuildKit by default, set daemon configuration in
-`/etc/docker/daemon.json` feature to true and restart the daemon:
+要默认启用 docker BuildKit，请将/etc/docker/daemon.jsonfeature 中的守护程序配置设置 为 true 并重新启动守护程序：
 
 ```json
 { "features": { "buildkit": true } }
 ```
 
-## New Docker Build command line build output
+## 新的 Docker Build 命令行构建输出
 
-New docker build BuildKit TTY output (default):
+新的 docker build BuildKit TTY 输出（默认）：
 
 ```console
 $ docker build . 
@@ -80,7 +69,7 @@ $ docker build .
  => [dev 5/23] RUN ln -s /usr/local/completion/bash/docker /etc/bash_comp  2.1s
 ```
 
-New docker build BuildKit plain output:
+新的 docker build BuildKit 纯输出：
 
 ```console
 $ docker build --progress=plain . 
@@ -109,24 +98,18 @@ $ docker build --progress=plain .
 #2 transferring dockerfile: 9.26kB done
 ```
 
-## Overriding default frontends
+## 覆盖默认前端
 
-The new syntax features in `Dockerfile` are available if you override the default
-frontend. To override the default frontend, set the first line of the
-`Dockerfile` as a comment with a specific frontend image:
+Dockerfile如果您覆盖默认前端，则可以使用 中的新语法功能。要覆盖默认前端，请将 的第一行设置 Dockerfile为带有特定前端图像的注释：
 
 ```dockerfile
 # syntax=<frontend image>, e.g. # syntax=docker/dockerfile:1.2
 ```
 
-The examples on this page use features that are available in `docker/dockerfile`
-version 1.2.0 and up. We recommend using `docker/dockerfile:1`, which always
-points to the latest release of the version 1 syntax. BuildKit automatically
-checks for updates of the syntax before building, making sure you are using the
-most current version. Learn more about the `syntax` directive in the
-[Dockerfile reference](/engine/reference/builder/#syntax).
+此页面上的示例使用docker/dockerfile 1.2.0 及更高版本中可用的功能。我们建议使用docker/dockerfile:1，它始终指向版本 1 语法的最新版本。BuildKit 在构建之前会自动检查语法的更新，确保您使用的是最新版本。syntax在Dockerfile 参考 中了解有关该指令的 更多信息。
 
-## New Docker Build secret information
+
+## 新的 Docker Build secret 信息
 
 The new `--secret` flag for docker build allows the user to pass secret
 information to be used in the Dockerfile for building docker images in a safe
@@ -188,13 +171,19 @@ $ docker build --no-cache --progress=plain --secret id=mysecret,src=mysecret.txt
 ...
 ```
 
-## Using SSH to access private data in builds
+## 使用 SSH 访问构建中的私有数据
 
 > **Acknowledgment**
 >
-> Please see [Build secrets and SSH forwarding in Docker 18.09](https://medium.com/@tonistiigi/build-secrets-and-ssh-forwarding-in-docker-18-09-ae8161d066)
-> for more information and examples.
+> 有关更多信息和示例，请参阅[在 Docker 18.09 中构建机密和 SSH 转发](https://medium.com/@tonistiigi/build-secrets-and-ssh-forwarding-in-docker-18-09-ae8161d066)
 
+该docker build有一个--ssh选项，允许多克尔引擎进行转发SSH代理连接。有关 SSH 代理的更多信息，请参阅 OpenSSH 手册页。
+
+只有Dockerfile通过定义type=sshmount明确请求 SSH 访问的命令才能访问 SSH 代理连接。其他命令不知道任何可用的 SSH 代理。
+
+要为 中的RUN命令请求 SSH 访问Dockerfile，请定义一个类型为 的挂载ssh。这将设置SSH_AUTH_SOCK环境变量以使依赖 SSH 的程序自动使用该套接字。
+
+<!-- 
 The `docker build` has a `--ssh` option to allow the Docker Engine to forward
 SSH agent connections. For more information on SSH agent, see the
 [OpenSSH man page](https://man.openbsd.org/ssh-agent).
@@ -205,9 +194,9 @@ other commands have no knowledge of any SSH agent being available.
 
 To request SSH access for a `RUN` command in the `Dockerfile`, define a mount
 with type `ssh`. This will set up the `SSH_AUTH_SOCK` environment variable to
-make programs relying on SSH automatically use that socket.
+make programs relying on SSH automatically use that socket. -->
 
-Here is an example Dockerfile using SSH in the container:
+这是在容器中使用 SSH 的 Dockerfile 示例：
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -223,22 +212,19 @@ RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN --mount=type=ssh git clone git@github.com:myorg/myproject.git myproject
 ```
 
-Once the `Dockerfile` is created, use the `--ssh` option for connectivity with
-the SSH agent.
+一旦 `Dockerfile` 被创建，使用`--ssh` 与SSH代理连接选项。
 
 ```console
 $ docker build --ssh default .
 ```
 
-You may need to run `ssh-add` to add private key identities to the authentication agent first for this to work.
+您可能需要先运行`ssh-add`以将私钥身份添加到身份验证代理才能使其工作。
 
-## Troubleshooting : issues with private registries
+## 故障排除：私有注册问题
 
-#### x509: certificate signed by unknown authority
+#### x509：由未知机构签署的证书
 
-If you are fetching images from insecure registry (with self-signed certificates)
-and/or using such a registry as a mirror, you are facing a known issue in
-Docker 18.09 :
+如果您从不安全的注册表（使用自签名证书）获取图像和/或使用这样的注册表作为镜像，您将面临 Docker 18.09 中的一个已知问题：
 
 ```console
 [+] Building 0.4s (3/3) FINISHED
@@ -253,14 +239,12 @@ Docker 18.09 :
 failed to do request: Head https://repo.mycompany.com/v2/docker/dockerfile/manifests/experimental: x509: certificate signed by unknown authority
 ```
 
-Solution: secure your registry properly. You can get SSL certificates from
-Let's Encrypt for free. See [Deploy a registry server](../../registry/deploying.md).
+解决方案：正确保护您的注册表。您可以从 Let's Encrypt 免费获取 SSL 证书。请 [Deploy a registry server](../../registry/deploying.md)。
 
 
-#### image not found when the private registry is running on Sonatype Nexus version < 3.15
+#### 当私有注册表在 Sonatype Nexus 版本 < 3.15 上运行时找不到图像
 
-If you are running a private registry using Sonatype Nexus version < 3.15, and
-receive an error similar to the following :
+如果您使用 Sonatype Nexus 版本 < 3.15 运行私有注册表，并收到类似于以下内容的错误：
 
 ```console
 ------
@@ -272,6 +256,6 @@ receive an error similar to the following :
 rpc error: code = Unknown desc = docker.io/library/maven:3.5.3-alpine not found
 ```
 
-you may be facing the bug below : [NEXUS-12684](https://issues.sonatype.org/browse/NEXUS-12684)
+您可能正面临以下错误：[NEXUS-12684](https://issues.sonatype.org/browse/NEXUS-12684)
 
-Solution is to upgrade your Nexus to version 3.15 or above.
+解决方案是将您的 Nexus 升级到 3.15 或更高版本。
