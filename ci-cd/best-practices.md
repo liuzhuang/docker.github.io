@@ -1,45 +1,46 @@
 ---
 description: Best practices for using Docker Hub for CI/CD
 keywords: CI/CD, GitHub Actions,
-title: Best practices for using Docker Hub for CI/CD
+title: 将 Docker Hub 用于 CI/CD 的最佳实践
 ---
 
-According to the [2020 Jetbrains developer survey](https://www.jetbrains.com/lp/devecosystem-2020/){:target="_blank" rel="noopener" class="_"} , 44% of developers are now using some form of continuous integration and deployment with Docker containers. We understand that a large number of developers have got this set up using Docker Hub as their container registry for part of their workflow. This guide contains some best practices for doing this and provides guidance on how to get started.
+根据 [2020 Jetbrains developer survey](https://www.jetbrains.com/lp/devecosystem-2020/){:target="_blank" rel="noopener" class="_"}，44% 的开发人员现在正在使用某种形式的 Docker 容器持续集成和部署。我们了解到，大量开发人员已经使用 Docker Hub 作为其部分工作流程的容器注册表进行了设置。本指南包含执行此操作的一些最佳实践，并提供有关如何开始的指南。
 
-We have also heard feedback that given the changes [Docker introduced](https://www.docker.com/blog/scaling-docker-to-serve-millions-more-developers-network-egress/){:target="_blank" rel="noopener" class="_"} relating to network egress and the number of pulls for free users, that there are questions around the best way to use Docker Hub as part of CI/CD workflows without hitting these limits. This guide covers best practices that improve your experience and uses a sensible consumption of Docker Hub which mitigates the risk of hitting these limits, and contains tips on how to increase the limits depending on your use case.
+我们还听到反馈，考虑到 [Docker introduced](https://www.docker.com/blog/scaling-docker-to-serve-millions-more-developers-network-egress/){:target="_blank" rel="noopener" class="_"}  的与网络出口和免费用户拉取数量相关的更改，关于在不达到这些限制的情况下使用 Docker Hub 作为 CI/CD 工作流的一部分的最佳方式存在问题。本指南涵盖了改善您的体验的最佳实践，并使用 Docker Hub 的合理消耗来降低达到这些限制的风险，并包含有关如何根据您的用例增加限制的提示。
 
-## Inner and outer loops
+## 内循环和外循环
 
-To get started, one of the most important things when working with Docker and any CI/CD is to understand when you need to test with the CI, and when you can do this locally. At Docker, we think about how developers work in terms of their inner loop (code, build, run, test) and their outer loop (push changes, CI build, CI test, deployment).
+首先，使用 Docker 和任何 CI/CD 时最重要的事情之一是了解何时需要使用 CI 进行测试，以及何时可以在本地执行此操作。在 Docker，我们从内循环（代码、构建、运行、测试）和外循环（推送更改、CI 构建、CI 测试、部署）的角度考虑开发人员如何工作。
 
 ![CI/CD inner and outer loop](images/inner-outer-loop.png)
 
-Before you think about optimizing your CI/CD, it is important to think about your inner loop and how it relates to the outer loop (the CI). We know that most users don't prefer 'debugging through the CI’. Therefore, it is better if your inner loop and outer loop are as similar as possible. We recommend that you run unit tests as part of your `docker build` command by adding a target for them in your Dockerfile. This way, as you are making changes and rebuilding locally, you can run the same unit tests you would run in the CI on your local machine using a simple command.
+在考虑优化 CI/CD 之前，重要的是要考虑您的内循环以及它与外循环（CI）的关系。我们知道大多数用户不喜欢“通过 CI 调试”。因此，您的内循环和外循环越相似越好。我们建议您docker build通过在 Dockerfile 中为它们添加目标来将单元测试作为命令的一部分运行。这样，当您在本地进行更改和重建时，您可以使用简单的命令运行与在本地计算机上的 CI 中运行相同的单元测试。
 
-The blog post [Go development with Docker](https://www.docker.com/blog/tag/go-env-series/){:target="_blank" rel="noopener" class="_"} is a great example of how you can use tests in your Docker project and re-use them in the CI. This also creates a shorter feedback loop on issues and reduces the amount of pulls and builds your CI needs to do.
+博客文章 [Go development with Docker](https://www.docker.com/blog/tag/go-env-series/){:target="_blank" rel="noopener" class="_"} 是一个很好的例子，说明如何在 Docker 项目中使用测试并在 CI 中重用它们。这也为问题创建了一个更短的反馈循环，并减少了拉动和构建您的 CI 需要做的工作量。
 
-## Optimizing CI/CD deployments
+## 优化 CI/CD 部署
 
-Once you get into your actual outer loop and Docker Hub, there are a few things you can do to get the most of your CI and deliver the fastest Docker experience.
+进入实际的外循环和 Docker Hub 后，您可以做一些事情来充分利用 CI 并提供最快的 Docker 体验。
 
-First and foremost, stay secure. When you are setting up your CI, ensure you are using a Docker Hub access token, rather than your password.
+首先，保持安全。设置 CI 时，请确保使用 Docker Hub 访问令牌，而不是密码。
 
-  > **Note**
-  >
-  > You can create new access tokens from your [Security](https://hub.docker.com/settings/security){:target="_blank" rel="noopener" class="_"}  page on Docker Hub.
-
-Once you have created access tokens and have added it to a secrets store on your platform, you need to consider when to push and pull in your CI/CD, along with where from, depending on the change you are making.
-
-The first thing you can do to reduce the build time and reduce your number of calls is make use of the **build cache** to reuse layers you have already pulled. You can do this on many platforms by using buildX (buildkits) caching functionality and whatever cache your platform provides. For example, see [Optimizing the GitHub Actions workflow using build cache](../github-actions#optimizing-the-workflow).
-
-The other change you may want to make is only have your release images go to Docker Hub. This would mean setting up functions to push your PR images to a more local image store to be quickly pulled and tested, rather than promoting them all the way up to production.
-
-## Next steps
-
-We know there are a lot more tips and tricks for using Docker in CI, however, we think these are some of the important things, considering the recent Docker Hub rate limit updates.
 
   > **Note**
   >
-  > If you are still experiencing issues with pull limits after you are authenticated, you can consider upgrading to a [Docker subscription](https://www.docker.com/pricing){:target="_blank" rel="noopener" class="_"}.
+  > 您可以从 Docker Hub 上的 [Security](https://hub.docker.com/settings/security){:target="_blank" rel="noopener" class="_"} 页面创建新的访问令牌。
 
-For information on how to configure GitHub Actions CI/CD pipeline, see [Configure GitHub Actions](github-actions.md).
+创建访问令牌并将其添加到平台上的机密存储后，您需要考虑何时推送和拉入 CI/CD，以及从哪里开始，具体取决于您所做的更改。
+
+为了减少构建时间和减少调用次数，您可以做的第一件事是利用构建缓存来重用您已经拉取的层。您可以通过使用 buildX (buildkits) 缓存功能和您的平台提供的任何缓存在许多平台上执行此操作。例如，请参阅[使用构建缓存优化 GitHub 操作工作流](../github-actions#optimizing-the-workflow)。
+
+您可能想要进行的另一个更改是仅将您的发布映像转到 Docker Hub。这意味着设置功能将您的 PR 图像推送到更本地的图像存储，以便快速提取和测试，而不是将它们一直推广到生产。
+
+## 下一步
+
+我们知道在 CI 中使用 Docker 有很多技巧和窍门，但是，考虑到最近的 Docker Hub 速率限制更新，我们认为这些是一些重要的事情。
+
+  > **Note**
+  >
+  > 如果您在通过身份验证后仍然遇到拉取限制问题，您可以考虑升级到Docker 订阅。
+
+有关如何配置 GitHub 操作 CI/CD 管道的信息，请参阅 [Configure GitHub Actions](github-actions.md)。
