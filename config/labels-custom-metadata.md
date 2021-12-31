@@ -6,7 +6,7 @@ redirect_from:
 - /engine/userguide/labels-custom-metadata/
 ---
 
-Labels are a mechanism for applying metadata to Docker objects, including:
+标签是一种将元数据应用于 Docker 对象的机制，包括：
 
 - Images
 - Containers
@@ -16,66 +16,39 @@ Labels are a mechanism for applying metadata to Docker objects, including:
 - Swarm nodes
 - Swarm services
 
-You can use labels to organize your images, record licensing information, annotate
-relationships between containers, volumes, and networks, or in any way that makes
-sense for your business or application.
+您可以使用标签来组织图像、记录许可信息、注释容器、卷和网络之间的关系，或者以对您的业务或应用程序有意义的任何方式。
 
-## Label keys and values
+## 标签键和值
 
-A label is a key-value pair, stored as a string. You can specify multiple labels
-for an object, but each key-value pair must be unique within an object. If the
-same key is given multiple values, the most-recently-written value overwrites
-all previous values.
+标签是一个键值对，存储为字符串。您可以为一个对象指定多个标签，但每个键值对在一个对象中必须是唯一的。如果同一个键被赋予多个值，则最近写入的值会覆盖所有先前的值。
 
-### Key format recommendations
+### Key 格式推荐
 
-A label _key_ is the left-hand side of the key-value pair. Keys are alphanumeric
-strings which may contain periods (`.`) and hyphens (`-`). Most Docker users use
-images created by other organizations, and the following guidelines help to
-prevent inadvertent duplication of labels across objects, especially if you plan
-to use labels as a mechanism for automation.
+标签键是键值对的左侧。键是字母数字字符串，可能包含句点 ( .) 和连字符 ( -)。大多数 Docker 用户使用其他组织创建的映像，以下准则有助于防止无意中跨对象复制标签，特别是如果您计划使用标签作为自动化机制。
 
-- Authors of third-party tools should prefix each label key with the
-  reverse DNS notation of a domain they own, such as `com.example.some-label`.
+- 第三方工具的作者应该使用他们拥有的域的反向 DNS 符号作为每个标签键的前缀，例如com.example.some-label.
 
-- Do not use a domain in your label key without the domain owner's permission.
+- 未经域所有者许可，请勿在标签密钥中使用域。
 
-- The `com.docker.*`, `io.docker.*`, and `org.dockerproject.*` namespaces are
-  reserved by Docker for internal use.
+- 的com.docker.*，io.docker.*和org.dockerproject.*命名空间是由泊坞窗供内部使用保留的。
 
-- Label keys should begin and end with a lower-case letter and should only
-  contain lower-case alphanumeric characters, the period character (`.`), and
-  the hyphen character (`-`). Consecutive periods or hyphens are not allowed.
+- 标签键应以小写字母开头和结尾，并且应仅包含小写字母数字字符、句点字符 ( .) 和连字符 ( -)。不允许使用连续句号或连字符。
 
-- The period character (`.`) separates namespace "fields". Label keys without
-  namespaces are reserved for CLI use, allowing users of the CLI to interactively
-  label Docker objects using shorter typing-friendly strings.
+- 句点字符 ( .) 分隔命名空间“字段”。没有命名空间的标签键保留供 CLI 使用，允许 CLI 用户使用较短的键入友好字符串交互式标记 Docker 对象。
 
-These guidelines are not currently enforced and additional guidelines may apply
-to specific use cases.
+这些指南目前尚未强制执行，其他指南可能适用于特定用例。
 
-### Value guidelines
+### 价值准则
 
-Label values can contain any data type that can be represented as a string,
-including (but not limited to) JSON, XML, CSV, or YAML. The only requirement is
-that the value be serialized to a string first, using a mechanism specific to
-the type of structure. For instance, to serialize JSON into a string, you might
-use the `JSON.stringify()` JavaScript method.
+标签值可以包含任何可以表示为字符串的数据类型，包括（但不限于）JSON、XML、CSV 或 YAML。唯一的要求是首先使用特定于结构类型的机制将值序列化为字符串。例如，要将 JSON 序列化为字符串，您可以使用JSON.stringify()JavaScript 方法。
 
-Since Docker does not deserialize the value, you cannot treat a JSON or XML
-document as a nested structure when querying or filtering by label value unless
-you build this functionality into third-party tooling.
+由于 Docker 不会对值进行反序列化，因此在按标签值查询或过滤时，您不能将 JSON 或 XML 文档视为嵌套结构，除非您将此功能构建到第三方工具中。
 
-## Manage labels on objects
+## 管理对象上的标签
 
-Each type of object with support for labels has mechanisms for adding and
-managing them and using them as they relate to that type of object. These links
-provide a good place to start learning about how you can use labels in your
-Docker deployments.
+支持标签的每种类型的对象都有添加和管理它们的机制，并在它们与该类型的对象相关时使用它们。这些链接是开始学习如何在 Docker 部署中使用标签的好地方。
 
-Labels on images, containers, local daemons, volumes, and networks are static for
-the lifetime of the object. To change these labels you must recreate the object.
-Labels on swarm nodes and services can be updated dynamically.
+图像、容器、本地守护进程、卷和网络上的标签在对象的生命周期内是静态的。要更改这些标签，您必须重新创建对象。群节点和服务上的标签可以动态更新。
 
 - Images and containers
   - [Adding labels to images](../engine/reference/builder.md#label)

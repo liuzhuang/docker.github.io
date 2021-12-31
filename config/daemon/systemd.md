@@ -6,45 +6,37 @@ redirect_from:
 - /articles/systemd/
 - /engine/admin/systemd/
 - /engine/articles/systemd/
-title: Control Docker with systemd
+title: 使用 systemd 控制 Docker
 ---
 
-Many Linux distributions use systemd to start the Docker daemon. This document
-shows a few examples of how to customize Docker's settings.
+许多 Linux 发行版使用 systemd 来启动 Docker 守护进程。本文档展示了一些如何自定义 Docker 设置的示例。
 
-## Start the Docker daemon
+## 启动 Docker 守护进程
 
-### Start manually
+### 手动启动
 
-Once Docker is installed, you need to start the Docker daemon.
-Most Linux distributions use `systemctl` to start services.
+安装 Docker 后，您需要启动 Docker 守护程序。大多数 Linux 发行版用于systemctl启动服务。
 
 ```console
 $ sudo systemctl start docker
 ```
 
-### Start automatically at system boot
+### 在系统启动时自动启动
 
-If you want Docker to start at boot, see
-[Configure Docker to start on boot](../../engine/install/linux-postinstall.md#configure-docker-to-start-on-boot).
+如果您希望 Docker 在启动时启动，请参阅 [配置 Docker 以在启动时启动](../../engine/install/linux-postinstall.md#configure-docker-to-start-on-boot).。
 
-## Custom Docker daemon options
+## 自定义 Docker 守护进程选项
 
-There are a number of ways to configure the daemon flags and environment variables
-for your Docker daemon. The recommended way is to use the platform-independent
-`daemon.json` file, which is located in `/etc/docker/` on Linux by default. See
-[Daemon configuration file](../../engine/reference/commandline/dockerd.md#daemon-configuration-file).
+有多种方法可以为 Docker 守护程序配置守护程序标志和环境变量。推荐的方式是使用与平台无关的 daemon.json文件，该文件/etc/docker/默认位于Linux 中。请参阅 守护程序配置文件。
 
-You can configure nearly all daemon configuration options using `daemon.json`. The following
-example configures two options. One thing you cannot configure using `daemon.json` mechanism is
-a [HTTP proxy](#httphttps-proxy).
+您可以使用daemon.json. 以下示例配置了两个选项。您无法使用daemon.json机制配置的一件事是HTTP 代理。
 
-### Runtime directory and storage driver
 
-You may want to control the disk space used for Docker images, containers,
-and volumes by moving it to a separate partition.
+### 运行时目录和存储驱动程序
 
-To accomplish this, set the following flags in the `daemon.json` file:
+您可能希望通过将其移动到单独的分区来控制用于 Docker 镜像、容器和卷的磁盘空间。
+
+为此，请在daemon.json文件中设置以下标志：
 
 ```json
 {
@@ -53,26 +45,18 @@ To accomplish this, set the following flags in the `daemon.json` file:
 }
 ```
 
-### HTTP/HTTPS proxy
+### HTTP/HTTPS 代理
 
-The Docker daemon uses the `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` environmental variables in
-its start-up environment to configure HTTP or HTTPS proxy behavior. You cannot configure
-these environment variables using the `daemon.json` file.
+泊坞窗守护程序使用HTTP_PROXY，HTTPS_PROXY以及NO_PROXY在其启动环境环境变量来配置HTTP或HTTPS代理的行为。您不能使用该daemon.json文件配置这些环境变量。
 
-This example overrides the default `docker.service` file.
+此示例覆盖默认docker.service文件。
 
-If you are behind an HTTP or HTTPS proxy server, for example in corporate settings,
-you need to add this configuration in the Docker systemd service file.
+如果您使用 HTTP 或 HTTPS 代理服务器，例如在公司设置中，则需要在 Docker systemd 服务文件中添加此配置。
+
 
 > **Note for rootless mode**
 >
-> The location of systemd configuration files are different when running Docker
-> in [rootless mode](../../engine/security/rootless.md). When running in rootless
-> mode, Docker is started as a user-mode systemd service, and uses files stored
-> in each users' home directory in `~/.config/systemd/user/docker.service.d/`.
-> In addition, `systemctl` must be executed without `sudo` and with the `--user`
-> flag. Select the _"rootless mode"_ tab below if you are running Docker in rootless mode.
-
+> 在rootless 模式下运行 Docker 时，systemd 配置文件的位置是不同的。在无根模式下运行时，Docker 作为用户模式的 systemd 服务启动，并使用存储在~/.config/systemd/user/docker.service.d/. 此外，systemctl必须在没有sudo和有--user 标志的情况下执行。如果您在无根模式下运行 Docker，请选择下面的“无根模式”选项卡。
 
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" data-target="#rootful">regular install</a></li>
@@ -81,30 +65,27 @@ you need to add this configuration in the Docker systemd service file.
 <div class="tab-content">
 <div id="rootful" class="tab-pane fade in active" markdown="1">
 
-1.  Create a systemd drop-in directory for the docker service:
+1.  为 docker 服务创建一个 systemd 插入目录：
 
     ```console
     $ sudo mkdir -p /etc/systemd/system/docker.service.d
     ```
 
-2.  Create a file named `/etc/systemd/system/docker.service.d/http-proxy.conf`
-    that adds the `HTTP_PROXY` environment variable:
+2.  创建一个名为/etc/systemd/system/docker.service.d/http-proxy.conf 添加HTTP_PROXY环境变量的文件：
 
     ```systemd
     [Service]
     Environment="HTTP_PROXY=http://proxy.example.com:80"
     ```
 
-    If you are behind an HTTPS proxy server, set the `HTTPS_PROXY` environment
-    variable:
+    如果您使用 HTTPS 代理服务器，请设置HTTPS_PROXY环境变量：
 
     ```systemd
     [Service]
     Environment="HTTPS_PROXY=https://proxy.example.com:443"
     ```
     
-    Multiple environment variables can be set; to set both a non-HTTPS and
-    a HTTPs proxy;
+    可以设置多个环境变量；设置非 HTTPS 和 HTTPS 代理；
 
     ```systemd
     [Service]
@@ -112,24 +93,17 @@ you need to add this configuration in the Docker systemd service file.
     Environment="HTTPS_PROXY=https://proxy.example.com:443"
     ```
      
-3.  If you have internal Docker registries that you need to contact without
-    proxying you can specify them via the `NO_PROXY` environment variable.
+3.  如果您有内部 Docker 注册表需要联系而无需代理，您可以通过NO_PROXY环境变量指定它们。
 
-    The `NO_PROXY` variable specifies a string that contains comma-separated
-    values for hosts that should be excluded from proxying. These are the
-    options you can specify to exclude hosts: 
-    * IP address prefix (`1.2.3.4`)   
-    * Domain name, or a special DNS label (`*`)
-    * A domain name matches that name and all subdomains. A domain name with
-      a leading "." matches subdomains only. For example, given the domains
-      `foo.example.com` and `example.com`:
-      * `example.com` matches `example.com` and `foo.example.com`, and
-      * `.example.com` matches only `foo.example.com`
-    * A single asterisk (`*`) indicates that no proxying should be done
-    * Literal port numbers are accepted by IP address prefixes (`1.2.3.4:80`)
-      and domain names (`foo.example.com:80`)
+    该NO_PROXY变量指定一个字符串，其中包含应从代理中排除的主机的逗号分隔值。这些是您可以指定以排除主机的选项：
+    * IP 地址前缀 ( 1.2.3.4)
+    * 域名，或特殊的 DNS 标签 ( *) 域名与该名称和所有子域相匹配。以“.”开头的域名 仅匹配子域。例如，给定域 foo.example.com和example.com：
+        * example.com匹配example.com和foo.example.com，和
+        * .example.com 只匹配 foo.example.com
+    * 单个星号 ( *) 表示不应进行代理
+    * IP 地址前缀 ( 1.2.3.4:80) 和域名 ( foo.example.com:80)接受文字端口号
     
-    Config example:
+    配置示例：
 
     ```systemd
     [Service]
@@ -138,15 +112,14 @@ you need to add this configuration in the Docker systemd service file.
     Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.example.com,.corp"
     ```
 
-4.  Flush changes and restart Docker
+4.  刷新更改并重新启动 Docker
 
     ```console
     $ sudo systemctl daemon-reload
     $ sudo systemctl restart docker
     ```
 
-5.  Verify that the configuration has been loaded and matches the changes you
-    made, for example:
+5.  验证配置是否已加载并与您所做的更改匹配，例如：
 
     ```console
     $ sudo systemctl show --property=Environment docker
@@ -157,30 +130,27 @@ you need to add this configuration in the Docker systemd service file.
 </div>
 <div id="rootless" class="tab-pane fade in" markdown="1">
 
-1.  Create a systemd drop-in directory for the docker service:
+1.  为 docker 服务创建一个 systemd 插入目录：
 
     ```console
     $ mkdir -p ~/.config/systemd/user/docker.service.d
     ```
 
-2.  Create a file named `~/.config/systemd/user/docker.service.d/http-proxy.conf`
-    that adds the `HTTP_PROXY` environment variable:
+2.  创建一个名为~/.config/systemd/user/docker.service.d/http-proxy.conf 添加HTTP_PROXY环境变量的文件：
 
     ```systemd
     [Service]
     Environment="HTTP_PROXY=http://proxy.example.com:80"
     ```
 
-    If you are behind an HTTPS proxy server, set the `HTTPS_PROXY` environment
-    variable:
+    如果您使用 HTTPS 代理服务器，请设置HTTPS_PROXY环境变量：
 
     ```systemd
     [Service]
     Environment="HTTPS_PROXY=https://proxy.example.com:443"
     ```
     
-    Multiple environment variables can be set; to set both a non-HTTPS and
-    a HTTPs proxy;
+    可以设置多个环境变量；设置非 HTTPS 和 HTTPS 代理；
 
     ```systemd
     [Service]
@@ -188,24 +158,17 @@ you need to add this configuration in the Docker systemd service file.
     Environment="HTTPS_PROXY=https://proxy.example.com:443"
     ```
      
-3.  If you have internal Docker registries that you need to contact without
-    proxying, you can specify them via the `NO_PROXY` environment variable.
+3.  如果您有需要在没有代理的情况下联系的内部 Docker 注册表，您可以通过NO_PROXY环境变量指定它们。
 
-    The `NO_PROXY` variable specifies a string that contains comma-separated
-    values for hosts that should be excluded from proxying. These are the
-    options you can specify to exclude hosts: 
-    * IP address prefix (`1.2.3.4`)   
-    * Domain name, or a special DNS label (`*`)
-    * A domain name matches that name and all subdomains. A domain name with
-      a leading "." matches subdomains only. For example, given the domains
-      `foo.example.com` and `example.com`:
-      * `example.com` matches `example.com` and `foo.example.com`, and
-      * `.example.com` matches only `foo.example.com`
-    * A single asterisk (`*`) indicates that no proxying should be done
-    * Literal port numbers are accepted by IP address prefixes (`1.2.3.4:80`)
-      and domain names (`foo.example.com:80`)
-    
-    Config example:
+    该NO_PROXY变量指定一个字符串，其中包含应从代理中排除的主机的逗号分隔值。这些是您可以指定以排除主机的选项：
+    * IP 地址前缀 ( 1.2.3.4)
+    * 域名，或特殊的 DNS 标签 ( *) 域名与该名称和所有子域相匹配。以“.”开头的域名 仅匹配子域。例如，给定域 foo.example.com和example.com：
+        * example.com匹配example.com和foo.example.com，和
+        * .example.com 只匹配 foo.example.com
+    * 单个星号 ( *) 表示不应进行代理
+    * IP 地址前缀 ( 1.2.3.4:80) 和域名 ( foo.example.com:80)接受文字端口号
+
+    配置示例：
 
     ```systemd
     [Service]
@@ -214,15 +177,14 @@ you need to add this configuration in the Docker systemd service file.
     Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.example.com,.corp"
     ```
 
-4.  Flush changes and restart Docker
+4.  刷新更改并重新启动 Docker
 
     ```console
     $ systemctl --user daemon-reload
     $ systemctl --user restart docker
     ```
 
-5.  Verify that the configuration has been loaded and matches the changes you
-    made, for example:
+5.  验证配置是否已加载并与您所做的更改匹配，例如：
 
     ```console
     $ systemctl --user show --property=Environment docker
@@ -234,14 +196,10 @@ you need to add this configuration in the Docker systemd service file.
 </div> <!-- tab-content -->
 
 
-## Configure where the Docker daemon listens for connections
+## 配置 Docker 守护进程在哪里监听连接
 
-See
-[Configure where the Docker daemon listens for connections](../../engine/install/linux-postinstall.md#configure-where-the-docker-daemon-listens-for-connections).
+请参阅 [配置 Docker 守护程序侦听连接的位置](../../engine/install/linux-postinstall.md#configure-where-the-docker-daemon-listens-for-connections).。
 
-## Manually create the systemd unit files
+## 手动创建 systemd 单元文件
 
-When installing the binary without a package, you may want
-to integrate Docker with systemd. For this, install the two unit files
-(`service` and `socket`) from [the github repository](https://github.com/moby/moby/tree/master/contrib/init/systemd)
-to `/etc/systemd/system`.
+在没有包的情况下安装二进制文件时，您可能希望将 Docker 与 systemd 集成。为此，将两个单元文件（service和socket）从github 存储库安装 到/etc/systemd/system.

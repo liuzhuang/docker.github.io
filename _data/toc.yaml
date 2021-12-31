@@ -184,214 +184,214 @@ guides:
   - sectiontitle: 配置容器
     section:
     - path: /config/containers/start-containers-automatically/
-      title: Start containers automatically
+      title: 自动启动容器
     - path: /config/containers/live-restore/
-      title: Keep containers alive during daemon downtime
+      title: 在守护进程停机期间保持容器处于活动状态
     - path: /config/containers/multi-service_container/
-      title: Run multiple services in a container
+      title: 在一个容器中运行多个服务
     - path: /config/containers/runmetrics/
-      title: Container runtime metrics
+      title: 容器运行时指标
     - path: /config/containers/resource_constraints/
-      title: Runtime options with Memory, CPUs, and GPUs
-    - sectiontitle: Logging
+      title: 内存、CPU 和 GPU 的运行时选项
+    - sectiontitle: 日志
       section:
       - path: /config/containers/logging/
-        title: View a container's logs
+        title: 查看容器的日志
       - path: /config/containers/logging/configure/
-        title: Configure logging drivers
+        title: 配置日志驱动
       - path: /config/containers/logging/dual-logging/
-        title: Use docker logs with a logging driver
+        title: 将 docker 日志与日志驱动程序一起使用
       - path: /config/containers/logging/plugins/
-        title: Use a logging driver plugin
+        title: 使用日志驱动插件
       - path: /config/containers/logging/log_tags/
-        title: Customize log driver output
-      - sectiontitle: Logging driver details
+        title: 自定义日志驱动程序输出
+      - sectiontitle: 日志驱动明细
         section:
         - path: /config/containers/logging/local/
-          title: Local file logging driver
+          title: 本地文件日志
         - path: /config/containers/logging/logentries/
-          title: Logentries logging driver
+          title: Logentries 日志驱动
         - path: /config/containers/logging/json-file/
-          title: JSON File logging driver
+          title: JSON 文件驱动
         - path: /config/containers/logging/gelf/
-          title: Graylog Extended Format (GELF) logging driver
+          title: Graylog 扩展格式 (GELF) 日志记录驱动
         - path: /config/containers/logging/syslog/
-          title: Syslog logging driver
+          title: Syslog 日志驱动
         - path: /config/containers/logging/awslogs/
-          title: Amazon CloudWatch logs logging driver
+          title: Amazon CloudWatch logs 日志驱动
         - path: /config/containers/logging/etwlogs/
-          title: ETW logging driver
+          title: ETW 日志驱动
         - path: /config/containers/logging/fluentd/
-          title: Fluentd logging driver
+          title: Fluentd 日志驱动
         - path: /config/containers/logging/gcplogs/
-          title: Google Cloud logging driver
+          title: Google Cloud 日志驱动
         - path: /config/containers/logging/journald/
-          title: Journald logging driver
+          title: Journald 日志驱动
         - path: /config/containers/logging/splunk/
-          title: Splunk logging driver
-    - sectiontitle: Scale your app
+          title: Splunk 日志驱动
+    - sectiontitle: 应用规模
       section:
       - path: /engine/swarm/
-        title: Swarm mode overview
+        title: Swarm 模式概述
       - path: /engine/swarm/key-concepts/
-        title: Swarm mode key concepts
-      - sectiontitle: Get started with swarm mode
+        title: Swarm mode 关键概念
+      - sectiontitle: 开始使用 swarm 集群
         section:
         - path: /engine/swarm/swarm-tutorial/
-          title: Set up for the tutorial
+          title: 入门
         - path: /engine/swarm/swarm-tutorial/create-swarm/
-          title: Create a swarm
+          title: 创建 swarm
         - path: /engine/swarm/swarm-tutorial/add-nodes/
-          title: Add nodes to the swarm
+          title: 将节点添加到 swarm
         - path: /engine/swarm/swarm-tutorial/deploy-service/
-          title: Deploy a service
+          title: Deploy 一个服务
         - path: /engine/swarm/swarm-tutorial/inspect-service/
-          title: Inspect the service
+          title: 检查服务
         - path: /engine/swarm/swarm-tutorial/scale-service/
-          title: Scale the service
+          title: 服务伸缩
         - path: /engine/swarm/swarm-tutorial/delete-service/
-          title: Delete the service
+          title: 删除服务
         - path: /engine/swarm/swarm-tutorial/rolling-update/
-          title: Apply rolling updates
+          title: 应用滚动更新
         - path: /engine/swarm/swarm-tutorial/drain-node/
-          title: Drain a node
+          title: 排空一个节点
         - path: /engine/swarm/ingress/
-          title: Use swarm mode routing mesh
-      - sectiontitle: How swarm mode works
+          title: 路由网格
+      - sectiontitle: 集群模式的工作原理
         section:
         - path: /engine/swarm/how-swarm-mode-works/nodes/
-          title: How nodes work
+          title: 节点是如何工作
         - path: /engine/swarm/how-swarm-mode-works/services/
-          title: How services work
+          title: 服务是如何工作
         - path: /engine/swarm/how-swarm-mode-works/pki/
-          title: Manage swarm security with PKI
+          title: 使用 PKI 管理集群安全
         - path: /engine/swarm/how-swarm-mode-works/swarm-task-states/
-          title: Swarm task states
+          title: Swarm 任务状态
       - path: /engine/swarm/swarm-mode/
-        title: Run Docker in swarm mode
+        title: 以 swarm 模式运行 Docker
       - path: /engine/swarm/join-nodes/
-        title: Join nodes to a swarm
+        title: 将节点加入到 swarm
       - path: /engine/swarm/manage-nodes/
-        title: Manage nodes in a swarm
+        title: 在 swarm 中管理节点
       - path: /engine/swarm/services/
-        title: Deploy services to a swarm
+        title: 将服务部署到 swarm
       - path: /engine/swarm/configs/
-        title: Store service configuration data
+        title: 存储服务配置数据
       - path: /engine/swarm/secrets/
-        title: Manage sensitive data with Docker secrets
+        title: 使用 Docker secrets 管理机密数据
       - path: /engine/swarm/swarm_manager_locking/
-        title: Lock your swarm
+        title: 锁定 swarm
       - path: /engine/swarm/admin_guide/
-        title: Swarm administration guide
+        title: Swarm 管理指南
       - path: /engine/swarm/raft/
-        title: Raft consensus in swarm mode
-    - sectiontitle: Extend Docker
+        title: swarm 集群模式下的 Raft 共识
+    - sectiontitle: 扩展 Docker
       section:
       - path: /engine/extend/
-        title: Managed plugin system
+        title: 管理插件系统
       - path: /engine/extend/plugins_authorization/
-        title: Access authorization plugin
+        title: 访问授权插件
       - path: /engine/extend/legacy_plugins/
-        title: Extending Docker with plugins
+        title: 使用插件扩展 Docker
       - path: /engine/extend/plugins_network/
-        title: Docker network driver plugins
+        title: Docker 网络驱动插件
       - path: /engine/extend/plugins_volume/
-        title: Volume plugins
-      - title: Plugin configuration
+        title: 存储插件
+      - title: 插件配置
         path: /engine/extend/config/
       - path: /engine/extend/plugin_api/
-        title: Plugins
-  - sectiontitle: Configure networking
+        title: 插件
+  - sectiontitle: 配置网络
     section:
     - path: /network/
-      title: Networking overview
+      title: 网络概述
     - path: /network/bridge/
-      title: Use bridge networks
+      title: 使用 bridge 网络
     - path: /network/overlay/
-      title: Use overlay networks
+      title: 使用 overlay 网络
     - path: /network/host/
-      title: Use host networking
+      title: 使用 host 网络
     - path: /network/ipvlan/
-      title: Use IPvlan networks
+      title: 使用 IPvlan 网络
     - path: /network/macvlan/
-      title: Use Macvlan networks
+      title: 使用 Macvlan 网络
     - path: /network/none/
-      title: Disable networking for a container
-    - sectiontitle: Networking tutorials
+      title: 禁用容器的网络
+    - sectiontitle: 网络教程
       section:
       - path: /network/network-tutorial-standalone/
-        title: Bridge network tutorial
+        title: Bridge 网络教程
       - path: /network/network-tutorial-host/
-        title: Host networking tutorial
+        title: Host 网络教程
       - path: /network/network-tutorial-overlay/
-        title: Overlay networking tutorial
+        title: Overlay 网络教程
       - path: /network/network-tutorial-macvlan/
-        title: Macvlan network tutorial
-    - sectiontitle: Configure the daemon and containers
+        title: Macvlan 网络教程
+    - sectiontitle: 配置守护进程和容器
       section:
       - path: /config/daemon/ipv6/
-        title: Configure the daemon for IPv6
+        title: 为 IPv6 配置守护进程
       - path: /network/iptables/
-        title: Docker and iptables
+        title: Docker 和 iptables
       - path: /config/containers/container-networking/
-        title: Container networking
+        title: 容器网络
       - path: /network/proxy/
-        title: Configure Docker to use a proxy server
-    - sectiontitle: Legacy networking content
+        title: 配置 Docker 以使用代理服务器
+    - sectiontitle: 遗留网络内容
       section:
       - path: /network/links/
-        title: (Legacy) Container links
-  - sectiontitle: Manage application data
+        title: （旧版）容器 links
+  - sectiontitle: 管理应用数据
     section:
     - path: /storage/
-      title: Storage overview
+      title: 存储概览
     - path: /storage/volumes/
-      title: Volumes
+      title: 存储
     - path: /storage/bind-mounts/
       title: Bind mounts
     - path: /storage/tmpfs/
-      title: tmpfs mounts
+      title: tmpfs 挂载
     - path: /storage/troubleshooting_volume_errors/
-      title: Troubleshoot volume problems
-    - sectiontitle: Store data within containers
+      title: 存储问题异常排查
+    - sectiontitle: 在容器中存储数据
       section:
       - path: /storage/storagedriver/
-        title: About storage drivers
+        title: 关于存储驱动
       - path: /storage/storagedriver/select-storage-driver/
-        title: Select a storage driver
+        title: 选择一个存储驱动
       - path: /storage/storagedriver/aufs-driver/
-        title: Use the AUFS storage driver
+        title: 使用 AUFS 存储驱动
       - path: /storage/storagedriver/btrfs-driver/
-        title: Use the Btrfs storage driver
+        title: 使用 Btrfs 存储驱动
       - path: /storage/storagedriver/device-mapper-driver/
-        title: Use the Device mapper storage driver
+        title: 使用 Device mapper 存储驱动
       - path: /storage/storagedriver/overlayfs-driver/
-        title: Use the OverlayFS storage driver
+        title: 使用 OverlayFS 存储驱动
       - path: /storage/storagedriver/zfs-driver/
-        title: Use the ZFS storage driver
+        title: 使用 ZFS 存储驱动
       - path: /storage/storagedriver/vfs-driver/
-        title: Use the VFS storage driver
+        title: 使用 VFS 存储驱动
 - path: /get-started/resources/
-  title: "Educational resources"
-- sectiontitle: Open source at Docker
+  title: "教育资源"
+- sectiontitle: 开源
   section:
   - path: /opensource/
-    title: Contribute to documentation
+    title: 为文档做出贡献
   - path: /opensource/ways/
-    title: Other ways to contribute
+    title: 其他贡献方式
 - path: /docsarchive/
-  title: Documentation archive
+  title: 归档文档
 reference:
 - path: /reference/
-  title: Reference documentation
-- sectiontitle: Command-line reference
+  title: 参考文档
+- sectiontitle: 命令行参考
   section:
   - sectiontitle: Docker CLI (docker)
     section:
     - path: /engine/reference/run/
       title: Docker run reference
     - path: /engine/reference/commandline/cli/
-      title: Use the Docker command line
+      title: 使用 Docker 命令行
     - path: /engine/reference/commandline/docker/
       title: docker (base command)
     - sectiontitle: docker app
@@ -914,7 +914,7 @@ reference:
         title: docker volume rm
     - path: /engine/reference/commandline/wait/
       title: docker wait
-  - sectiontitle: Docker Compose CLI reference
+  - sectiontitle: Docker Compose 命令参考
     section:
     - path: /compose/reference/
       title: Overview of docker-compose CLI
@@ -972,7 +972,7 @@ reference:
       title: docker-compose up
   - title: Daemon CLI (dockerd)
     path: /engine/reference/commandline/dockerd/
-- sectiontitle: API reference
+- sectiontitle: API 参考
   section:
   - sectiontitle: Docker Engine API
     section:
@@ -1040,21 +1040,21 @@ reference:
     path: /docker-hub/api/latest/
   - title: Registry API
     path: /registry/spec/api/
-- title: Dockerfile reference
+- title: Dockerfile 参考
   path: /engine/reference/builder/
-- sectiontitle: Compose file reference
+- sectiontitle: Compose 文件参考
   section:
     - path: /compose/compose-file/
-      title: Compose Specification
+      title: Compose 规范
     - path: /compose/compose-file/compose-file-v3/
       title: Version 3
     - path: /compose/compose-file/compose-file-v2/
       title: Version 2
     - path: /compose/compose-file/compose-versioning/
-      title: About versions and upgrading
+      title: 关于版本和升级
     - path: /compose/faq/
-      title: Frequently asked questions
-- sectiontitle: Drivers and specifications
+      title: 常见问题
+- sectiontitle: 驱动和规格
   section:
   - sectiontitle: Registry image manifests
     section:
@@ -1095,7 +1095,7 @@ reference:
     - path: /registry/storage-drivers/swift/
       title: Swift storage driver
 - path: /glossary/
-  title: Glossary
+  title: 词汇表
 
 
 
@@ -1128,27 +1128,27 @@ samples:
   title: Library references
 
 manuals:
-- sectiontitle: Docker Desktop
+- sectiontitle: Docker Desktop 手册
   section:
     - path: /desktop/
-      title: Overview
+      title: 概述
     - sectiontitle: Mac
       section:
         - path: /desktop/mac/install/
-          title: Install Docker Desktop for Mac
+          title: 在 Mac 上安装 Docker Desktop
         - path: /desktop/mac/
-          title: User manual
+          title: 用户手册
         - path: /desktop/mac/networking/
-          title: Networking
+          title: 网络
         - path: /desktop/mac/space/
-          title: Disk utilization
+          title: 磁盘利用率
         - path: /desktop/mac/troubleshoot/
-          title: Logs and troubleshooting
+          title: 日志和故障排除
         - path: /desktop/mac/apple-silicon/
           title: Apple silicon
         - path: /desktop/mac/release-notes/
-          title: Release notes
-        - sectiontitle: Previous versions
+          title: 发布日志
+        - sectiontitle: 历史版本
           section:
           - path: /desktop/mac/release-notes/3.x/
             title: Desktop for Mac 3.x
@@ -1161,18 +1161,18 @@ manuals:
     - sectiontitle: Windows
       section:
         - path: /desktop/windows/install/
-          title: Install Docker Desktop for Windows
+          title: 在 Windows 上安装 Docker
         - path: /desktop/windows/
-          title: User manual
+          title: 使用手册
         - path: /desktop/windows/networking/
-          title: Networking
+          title: 网络
         - path: /desktop/windows/troubleshoot/
-          title: Logs and troubleshooting
+          title: 日志和故障排除
         - path: /desktop/windows/wsl/
-          title: Docker Desktop WSL 2 backend
+          title: WSL 2 后端
         - path: /desktop/windows/release-notes/
-          title: Release notes
-        - sectiontitle: Previous versions
+          title: 发布日志
+        - sectiontitle: 历史版本
           section:
             - path: /desktop/windows/release-notes/3.x/
               title: Desktop for Windows 3.x
@@ -1185,23 +1185,23 @@ manuals:
     - path: /desktop/dashboard/
       title: Dashboard
     - path: /desktop/dev-environments/
-      title: Dev Environments (Preview)
+      title: 开发环境（预览）
     - path: /desktop/multi-arch/
       title: Multi-arch support
     - path: /desktop/kubernetes/
-      title: Deploy on Kubernetes
+      title: 部署到 Kubernetes
     - path: /desktop/faqs/
-      title: FAQs
+      title: 常见问题
     - path: /desktop/backup-and-restore/
-      title: Back up and restore data
+      title: 备份和恢复数据
 
-- sectiontitle: Docker Engine
+- sectiontitle: Docker Engine 手册
   section:
   - path: /engine/
-    title: Overview
+    title: 概述
   - path: /engine/install/
-    title: Install
-  - sectiontitle: Installation per distro
+    title: 安装
+  - sectiontitle: 不同发行版的安装
     section:
     - path: /engine/install/centos/
       title: Install on CentOS
@@ -1218,10 +1218,10 @@ manuals:
     - path: /engine/install/binaries/
       title: Install binaries
   - path: /engine/install/linux-postinstall/
-    title: Optional post-installation steps
+    title: 可选的安装步骤
   - path: /engine/release-notes/
-    title: Release notes
-  - sectiontitle: Previous versions
+    title: 发布日志
+  - sectiontitle: 历史版本
     section:
     - path: /engine/release-notes/19.03/
       title: Engine 19.03 release notes
@@ -1260,7 +1260,7 @@ manuals:
     - path: /engine/release-notes/prior-releases/
       title: Engine 1.13 and earlier
   - path: /engine/deprecated/
-    title: Deprecated features
+    title: 已废弃功能
 
   - path: /buildx/working-with-buildx/
     title: Docker Buildx
@@ -1269,131 +1269,131 @@ manuals:
   - path: /engine/scan/
     title: Docker Scan
 
-- sectiontitle: Docker Compose
+- sectiontitle: Docker Compose 手册
   section:
   - path: /compose/
-    title: Overview of Docker Compose
+    title: 概述
   - sectiontitle: Compose V2
     section:
     - path: /compose/cli-command/
-      title: Overview
+      title: 概述
     - path: /compose/cli-command-compatibility/
-      title: Compose v2 compatibility
+      title: Compose v2 compat 兼容性
   - path: /compose/install/
-    title: Install Compose
+    title: 安装 Compose
   - path: /compose/gettingstarted/
-    title: Getting started
+    title: 入门
   - path: /compose/environment-variables/
-    title: Environment variables in Compose
+    title: Compose 中的环境变量
   - path: /compose/env-file/
-    title: Environment file
+    title: 环境文件
   - path: /compose/profiles/
-    title: Using service profiles
+    title: 使用服务 profiles
   - path: /compose/gpu-support/
-    title: GPU support in Compose
+    title: GPU 支持
   - path: /compose/extends/
-    title: Extend services in Compose
+    title: 在 Compose 中扩展服务
   - path: /compose/networking/
-    title: Networking in Compose
+    title: Compose 中的网络
   - path: /compose/production/
-    title: Using Compose in production
+    title: 在生产环境使用Compose
   - path: /compose/startup-order/
-    title: Control startup order
+    title: 控制启动顺序
   - path: /compose/samples-for-compose/
-    title: Sample apps with Compose
+    title: 使用 Compose 的示例程序
   - path: /compose/release-notes/
-    title: Release notes
+    title: 发行日志
 
-- sectiontitle: Docker Hub
+- sectiontitle: Docker Hub 手册
   section:
   - path: /docker-hub/
-    title: Quickstart
+    title: 入门
   - path: /docker-id/
-    title: Docker ID accounts
+    title: Docker ID 账户
   - path: /docker-hub/repos/
     title: Repositories
   - path: /docker-hub/service-accounts/
     title: Service accounts
   - path: /docker-hub/official_images/
-    title: Docker Official images
-  - sectiontitle: Automated builds
+    title: 官网镜像
+  - sectiontitle: 自动化构建
     section:
       - path: /docker-hub/builds/
-        title: Set up automated builds
+        title: 设置自动构建
       - path: /docker-hub/builds/automated-testing/
-        title: Testing in automated builds
+        title: 在自动化构建中测试
       - path: /docker-hub/builds/advanced/
-        title: Advanced automated builds
+        title: 高级自动化构建
       - path: /docker-hub/builds/link-source/
-        title: Link to GitHub and BitBucket
+        title: 链接 GitHub 到 BitBucket
   - path: /docker-hub/webhooks/
     title: Webhooks
   - path: /docker-hub/slack_integration/
-    title: Slack integration
+    title: 集成 Slack
   - path: /docker-hub/orgs/
-    title: Teams and organizations
+    title: 团队和组织
   - path: /docker-hub/image-access-management/
-    title: Image Access Management
+    title: 镜像访问管理
   - path: /docker-hub/vulnerability-scanning/
-    title: Vulnerability scanning
+    title: 漏洞扫描
   - path: /docker-hub/audit-log/
-    title: Audit log
-  - sectiontitle: Security and authentication
+    title: 审计日志
+  - sectiontitle: 安全和认证
     section:
       - path: /docker-hub/access-tokens/
-        title: Manage access tokens
-      - sectiontitle: Two-factor authentication
+        title: 管理 access tokens
+      - sectiontitle: Two-factor 身份验证
         section:
           - path: /docker-hub/2fa/
-            title: Enable two-factor authentication
+            title: 启用 two-factor 身份验证
           - path: /docker-hub/2fa/disable-2fa/
-            title: Disable two-factor authentication
+            title: 禁用 two-factor 身份验证
           - path: /docker-hub/2fa/recover-hub-account/
-            title: Recover your Docker Hub account
+            title: 恢复你的 Docker Hub 账户
           - path: /docker-hub/2fa/new-recovery-code/
             title: Generate a new recovery code
-      - sectiontitle: Single-Sign-on
+      - sectiontitle: 单点登录
         section:
           -  path: /single-sign-on/
-             title: Configure Single Sign-on
+             title: 配置单点登录
           -  path: /single-sign-on/faqs/
-             title: Single Sign-on Faqs
+             title: 单点登录常见问题
   - path: /docker-hub/download-rate-limit/
-    title: Download rate limit
-  - sectiontitle: Administration
+    title: 下载速率限制
+  - sectiontitle: 管理
     section:
      - path: /docker-hub/image-management/
-       title: Advanced Image Management dashboard
+       title: 高级镜像管理面板
      - path: /docker-hub/convert-account/
-       title: Convert an account into an organization
+       title: 将账户转换为组织
      - path: /docker-hub/deactivate-account/
-       title: Deactivate an account or an organization
+       title: 停用账户或组织
   - path: /docker-hub/publish/
-    title: Docker Verified Publisher Program
+    title: Docker 验证发布者计划
   - path: /docker-hub/release-notes/
-    title: Release notes
+    title: 发型日志
 
-- sectiontitle: Docker subscription
+- sectiontitle: Docker subscription 手册
   section:
   - path: /subscription/
-    title: Overview
+    title: 概述
   - path: /subscription/upgrade/
-    title: Upgrade
+    title: 升级
   - path: /subscription/downgrade/
-    title: Downgrade
+    title: 降级
   - path: /subscription/add-seats/
-    title: Add seats
+    title: 添加成员
   - path: /subscription/remove-seats/
-    title: Remove seats
+    title: 移除成员
 
-- sectiontitle: Security
+- sectiontitle: 安全手册
   section:
   - path: /security/
-    title: Announcements
-  - sectiontitle: Docker Engine security
+    title: 公告
+  - sectiontitle: Docker Engine 安全
     section:
       - path: /engine/security/
-        title: Overview
+        title: 概述
       - path: /engine/security/non-events/
         title: Docker security non-events
       - path: /engine/security/protect-access/
@@ -1425,24 +1425,24 @@ manuals:
       - path: /engine/security/rootless/
         title: Rootless mode
 
-- sectiontitle: Open-source projects
+- sectiontitle: 开源项目
   section:
   - sectiontitle: Docker Registry
     section:
     - path: /registry/
-      title: Registry overview
+      title: 概述
     - path: /registry/introduction/
-      title: Understand the Registry
+      title: 了解注册表
     - path: /registry/deploying/
-      title: Deploy a registry server
+      title: 部署注册服务器
     - path: /registry/configuration/
-      title: Configure a registry
+      title: 配置注册表
     - path: /registry/notifications/
-      title: Work with notifications
+      title: 处理通知
     - sectiontitle: Recipes
       section:
       - path: /registry/recipes/
-        title: Recipes overview
+        title: Recipes 概述
       - path: /registry/recipes/apache/
         title: Authenticating proxy with apache
       - path: /registry/recipes/nginx/
@@ -1450,24 +1450,24 @@ manuals:
       - path: /registry/recipes/mirror/
         title: Mirroring Docker Hub
       - path: /registry/recipes/osx-setup-guide/
-        title: Running on macOS
+        title: 在 macOS 上运行
       - path: /registry/garbage-collection/
-        title: Garbage collection
+        title: 垃圾收集
       - path: /registry/insecure/
-        title: Testing an insecure registry
+        title: 测试不安全的注册表
     - path: /registry/deprecated/
-      title: Deprecated features
+      title: 已废弃特性
     - path: /registry/compatibility/
-      title: Compatibility
+      title: 兼容性
     - path: /registry/help/
-      title: Getting help
+      title: 获得帮助
 - path: /release-notes/
-  title: Release notes
-- sectiontitle: Superseded products and tools
+  title: 发行日志
+- sectiontitle: 废弃的产品和工具
   section:
   - path: /machine/
-    title: Docker Machine (deprecated)
+    title: Docker Machine (废弃)
   - path: /toolbox/
-    title: Docker Toolbox (deprecated)
+    title: Docker Toolbox (废弃)
   - path: /kitematic/
-    title: Kitematic (deprecated)
+    title: Kitematic (废弃)

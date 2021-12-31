@@ -1,23 +1,18 @@
 ---
 description: CLI and log output formatting reference
 keywords: format, formatting, output, templates, log
-title: Format command and log output
+title: 格式化命令和日志输出
 redirect_from:
 - /engine/admin/formatting/
 ---
 
-Docker uses [Go templates](https://golang.org/pkg/text/template/) which you can
-use to manipulate the output format of certain commands and log drivers.
+Docker 使用Go 模板，您可以使用它来操作某些命令和日志驱动程序的输出格式。
 
-Docker provides a set of basic functions to manipulate template elements.
-All of these examples use the `docker inspect` command, but many other CLI
-commands have a `--format` flag, and many of the CLI command references
-include examples of customizing the output format.
+Docker 提供了一组基本函数来操作模板元素。所有这些示例都使用该docker inspect命令，但许多其他 CLI 命令都有一个--format标志，并且许多 CLI 命令参考包括自定义输出格式的示例。
 
 >**Note**
 >
-> When using the `--format` flag, you need observe your shell environment. 
-> In a Posix shell, you can run the following with a single quote:
+> 使用该--format标志时，您需要观察您的 shell 环境。在 Posix shell 中，您可以使用单引号运行以下命令：
 >
 > {% raw %}
 > ```console
@@ -25,8 +20,7 @@ include examples of customizing the output format.
 > ```
 > {% endraw %}
 >
-> Otherwise, in a Windows shell (for example, PowerShell), you need to use single quotes, but
-> escape the double quotes inside the params as follows:
+> 否则，在 Windows shell（例如 PowerShell）中，您需要使用单引号，但在 params 中转义双引号，如下所示：
 >
 > {% raw %}
 > ```console
@@ -38,8 +32,7 @@ include examples of customizing the output format.
 
 ## join
 
-`join` concatenates a list of strings to create a single string.
-It puts a separator between each element in the list.
+join连接字符串列表以创建单个字符串。它在列表中的每个元素之间放置一个分隔符。
 
 {% raw %}
 ```console
@@ -49,7 +42,7 @@ $ docker inspect --format '{{join .Args " , "}}' container
 
 ## table
 
-`table` specifies which fields you want to see its output.
+table 指定要查看其输出的字段。
 
 {% raw %}
 ```console
@@ -59,8 +52,7 @@ $ docker image list --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.Size}
 
 ## json
 
-`json` encodes an element as a json string.
-
+json 将元素编码为 json 字符串。
 
 {% raw %}
 ```console
@@ -70,7 +62,7 @@ $ docker inspect --format '{{json .Mounts}}' container
 
 ## lower
 
-`lower` transforms a string into its lowercase representation.
+lower 将字符串转换为其小写表示。
 
 {% raw %}
 ```console
@@ -80,7 +72,7 @@ $ docker inspect --format "{{lower .Name}}" container
 
 ## split
 
-`split` slices a string into a list of strings separated by a separator.
+split 将字符串切片为由分隔符分隔的字符串列表。
 
 {% raw %}
 ```console
@@ -90,7 +82,7 @@ $ docker inspect --format '{{split .Image ":"}}'
 
 ## title
 
-`title` capitalizes the first character of a string.
+title 将字符串的第一个字符大写。
 
 {% raw %}
 ```console
@@ -100,7 +92,7 @@ $ docker inspect --format "{{title .Name}}" container
 
 ## upper
 
-`upper` transforms a string into its uppercase representation.
+upper 将字符串转换为其大写表示形式。
 
 {% raw %}
 ```console
@@ -111,7 +103,7 @@ $ docker inspect --format "{{upper .Name}}" container
 
 ## println
 
-`println` prints each value on a new line.
+println 在新行上打印每个值。
 
 {% raw %}
 ```console
@@ -121,7 +113,7 @@ $ docker inspect --format='{{range .NetworkSettings.Networks}}{{println .IPAddre
 
 # Hint
 
-To find out what data can be printed, show all content as json:
+要找出可以打印哪些数据，请将所有内容显示为 json：
 
 {% raw %} 
 ```console

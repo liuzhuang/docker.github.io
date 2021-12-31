@@ -8,31 +8,23 @@ redirect_from:
 - /config/thirdparty/prometheus/
 ---
 
-[Prometheus](https://prometheus.io/) is an open-source systems monitoring and
-alerting toolkit. You can configure Docker as a Prometheus target. This topic
-shows you how to configure Docker, set up Prometheus to run as a Docker
-container, and monitor your Docker instance using Prometheus.
+[Prometheus](https://prometheus.io/) 是一个开源系统监控和警报工具包。您可以将 Docker 配置为 Prometheus 目标。本主题向您展示如何配置 Docker、将 Prometheus 设置为作为 Docker 容器运行，以及如何使用 Prometheus 监控您的 Docker 实例。
 
-> **Warning**: The available metrics and the names of those metrics are in
-> active development and may change at any time.
+> **Warning**: 
+> 可用指标和这些指标的名称正在积极开发中，可能随时更改。
 
-Currently, you can only monitor Docker itself. You cannot currently monitor your
-application using the Docker target.
+目前，您只能监控 Docker 本身。您当前无法使用 Docker 目标监控您的应用程序。
 
+## 配置 Docker
 
-## Configure Docker
-
-To configure the Docker daemon as a Prometheus target, you need to specify the
-`metrics-address`. The best way to do this is via the `daemon.json`, which is
-located at one of the following locations by default. If the file does not
-exist, create it.
+要将 Docker 守护程序配置为 Prometheus 目标，您需要指定 metrics-address. 执行此操作的最佳方法是通过daemon.json，默认情况下它位于以下位置之一。如果该文件不存在，请创建它。
 
 - **Linux**: `/etc/docker/daemon.json`
 - **Windows Server**: `C:\ProgramData\docker\config\daemon.json`
 - **Docker Desktop for Mac / Docker Desktop for Windows**: Click the Docker icon in the toolbar,
   select **Preferences**, then select **Daemon**. Click **Advanced**.
 
-If the file is currently empty, paste the following:
+如果文件当前为空，请粘贴以下内容：
 
 ```json
 {
@@ -41,32 +33,24 @@ If the file is currently empty, paste the following:
 }
 ```
 
-If the file is not empty, add those two keys, making sure that the resulting
-file is valid JSON. Be careful that every line ends with a comma (`,`) except
-for the last line.
+如果文件不为空，请添加这两个键，确保生成的文件是有效的 JSON。请注意，,除最后一行外，每一行都以逗号 ( )结尾。
 
-Save the file, or in the case of Docker Desktop for Mac or Docker Desktop for Windows, save the
-configuration. Restart Docker.
+保存文件，或者对于 Mac 的 Docker 桌面或 Windows 的 Docker 桌面，保存配置。重启 Docker。
 
-Docker now exposes Prometheus-compatible metrics on port 9323.
+Docker 现在在端口 9323 上公开与 Prometheus 兼容的指标。
 
-## Configure and run Prometheus
 
-Prometheus runs as a Docker service on a Docker swarm.
+## 配置并运行 Prometheus
+
+Prometheus 在 Docker swarm 上作为 Docker 服务运行。
 
 > **Prerequisites**
 >
-> 1.  One or more Docker engines are joined into a Docker swarm, using `docker swarm init`
->     on one manager and `docker swarm join` on other managers and worker nodes.
->
-> 2.  You need an internet connection to pull the Prometheus image.
+> 1. 一个或多个 Docker 引擎加入一个 Docker 群，docker swarm init 在一个管理器和docker swarm join其他管理器和工作节点上使用。
+> 
+> 2. 您需要互联网连接才能拉取 Prometheus 映像。
 
-
-Copy one of the following configuration files and save it to
-`/tmp/prometheus.yml` (Linux or Mac) or `C:\tmp\prometheus.yml` (Windows). This
-is a stock Prometheus configuration file, except for the addition of the Docker
-job definition at the bottom of the file. Docker Desktop for Mac and Docker Desktop for Windows
-need a slightly different configuration.
+复制以下配置文件之一并将其保存到 /tmp/prometheus.yml（Linux 或 Mac）或C:\tmp\prometheus.yml（Windows）。这是一个库存 Prometheus 配置文件，除了在文件底部添加了 Docker 作业定义。Docker Desktop for Mac 和 Docker Desktop for Windows 需要稍微不同的配置。
 
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" data-target="#linux-config" data-group="linux">Docker for Linux</a></li>
@@ -198,7 +182,7 @@ scrape_configs:
 </div><!-- tabs -->
 
 
-Next, start a single-replica Prometheus service using this configuration.
+接下来，使用此配置启动单副本 Prometheus 服务。
 
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" data-target="#linux-run" data-group="linux">Docker for Linux</a></li>
@@ -240,28 +224,22 @@ PS C:\> docker service create --replicas 1 --name my-prometheus
 </div><!-- windows -->
 </div><!-- tabs -->
 
-Verify that the Docker target is listed at http://localhost:9090/targets/.
+验证 Docker 目标是否在 http://localhost:9090/targets/ 中列出。
 
 ![Prometheus targets page](images/prometheus-targets.png)
 
-You can't access the endpoint URLs directly if you use Docker Desktop 
-for Mac or Docker Desktop for Windows.
+如果您使用 Docker Desktop for Mac 或 Docker Desktop for Windows，则无法直接访问端点 URL。
 
-## Use Prometheus
+## 使用 Prometheus
 
-Create a graph. Click the **Graphs** link in the Prometheus UI. Choose a metric
-from the combo box to the right of the **Execute** button, and click
-**Execute**. The screenshot below shows the graph for
-`engine_daemon_network_actions_seconds_count`.
+创建图表。单击Prometheus UI 中的Graphs链接。从“执行”按钮右侧的组合框中选择一个指标，然后单击“ 执行”。下面的屏幕截图显示了 engine_daemon_network_actions_seconds_count.
+
 
 ![Prometheus engine_daemon_network_actions_seconds_count report](images/prometheus-graph_idle.png)
 
-The above graph shows a pretty idle Docker instance. Your graph might look
-different if you are running active workloads.
+上图显示了一个非常空闲的 Docker 实例。如果您正在运行活动工作负载，您的图表可能会有所不同。
 
-To make the graph more interesting, create some network actions by starting
-a service with 10 tasks that just ping Docker non-stop (you can change the
-ping target to anything you like):
+为了使图表更有趣，通过启动具有 10 个任务的服务来创建一些网络操作，这些任务只是不间断地 ping Docker（您可以将 ping 目标更改为您喜欢的任何内容）：
 
 ```console
 $ docker service create \
@@ -270,23 +248,19 @@ $ docker service create \
   alpine ping docker.com
 ```
 
-Wait a few minutes (the default scrape interval is 15 seconds) and reload
-your graph.
+等待几分钟（默认抓取间隔为 15 秒）并重新加载您的图表。
 
 ![Prometheus engine_daemon_network_actions_seconds_count report](images/prometheus-graph_load.png)
 
-When you are ready, stop and remove the `ping_service` service, so that you
-are not flooding a host with pings for no reason.
+当您准备好时，停止并删除该ping_service服务，这样您就不会无缘无故地用 ping 淹没主机。
 
 ```console
 $ docker service remove ping_service
 ```
-
-Wait a few minutes and you should see that the graph falls back to the idle
-level.
+等待几分钟，您应该会看到图形回落到空闲级别。
 
 
-## Next steps
+## 下一步
 
-- Read the [Prometheus documentation](https://prometheus.io/docs/introduction/overview/){: target="_blank" rel="noopener" class="_" }
-- Set up some [alerts](https://prometheus.io/docs/alerting/overview/){: target="_blank" rel="noopener" class="_" }
+- 阅读 [Prometheus 文档](https://prometheus.io/docs/introduction/overview/){: target="_blank" rel="noopener" class="_" }
+- 设置一些 [警报](https://prometheus.io/docs/alerting/overview/){: target="_blank" rel="noopener" class="_" }
