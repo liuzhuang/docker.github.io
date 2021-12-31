@@ -1,23 +1,21 @@
 ---
-title: "Orchestration"
+title: "编排"
 keywords: orchestration, deploy, kubernetes, swarm,
 description: Get oriented on some basics of Docker and install Docker Desktop.
 ---
 
-The portability and reproducibility of a containerized process provides an opportunity to move and scale our containerized applications across clouds and datacenters. Containers effectively guarantee that those applications run the same way anywhere, allowing us to quickly and easily take advantage of all these environments. Additionally, as we scale our applications up, we need some tooling to help automate the maintenance of those applications, enable the replacement of failed containers automatically, and manage the rollout of updates and reconfigurations of those containers during their lifecycle.
+容器化流程的可移植性和可再现性为跨云和数据中心移动和扩展我们的容器化应用程序提供了机会。容器有效地保证了这些应用程序在任何地方都以相同的方式运行，使我们能够快速轻松地利用所有这些环境。此外，随着我​​们扩大应用程序的规模，我们需要一些工具来帮助自动维护这些应用程序，启用自动更换故障容器，并管理这些容器在其生命周期中的更新和重新配置的推出。
 
-Tools to manage, scale, and maintain containerized applications are called _orchestrators_, and the most common examples of these are _Kubernetes_ and _Docker Swarm_. Development environment deployments of both of these
-orchestrators are provided by Docker Desktop, which we'll use throughout
-this guide to create our first orchestrated, containerized application.
+管理、扩展和维护容器化应用程序的工具称为编排器，其中最常见的示例是Kubernetes和Docker Swarm。这两个编排器的开发环境部署由 Docker Desktop 提供，我们将在本指南中使用它来创建我们的第一个编排的容器化应用程序。
 
-The advanced modules teach you how to:
+高级模块教您如何：
 
-1. [Set up and use a Kubernetes environment on your development machine](kube-deploy.md)
-2. [Set up and use a Swarm environment on your development machine](swarm-deploy.md)
+- [在您的开发机器上设置和使用 Kubernetes 环境](kube-deploy.md)
+- [在您的开发机器上设置和使用 Swarm 环境](swarm-deploy.md)
 
-## Enable Kubernetes
+## 开启 Kubernetes
 
-Docker Desktop will set up Kubernetes for you quickly and easily. Follow the setup and validation instructions appropriate for your operating system:
+Docker Desktop 将为您快速轻松地设置 Kubernetes。按照适用于您的操作系统的设置和验证说明进行操作：
 
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#kubeosx">Mac</a></li>
@@ -29,11 +27,11 @@ Docker Desktop will set up Kubernetes for you quickly and easily. Follow the set
 
 ### Mac
 
-1.  After installing Docker Desktop, you should see a Docker icon in your menu bar. Click on it, and navigate to **Preferences** > **Kubernetes**.
+1.  安装 Docker Desktop 后，您应该会在菜单栏中看到一个 Docker 图标。单击它，然后导航到 **Preferences** > **Kubernetes**。
 
-2.  Check the checkbox labeled **Enable Kubernetes**, and click **Apply & Restart**. Docker Desktop will automatically set up Kubernetes for you. You'll know that Kubernetes has been successfully enabled when you see a green light beside 'Kubernetes _running_' in the Preferences menu.
+2.  选中**Enable Kubernetes**复选框，然后单击**Apply & Restart**。Docker Desktop 会自动为你设置 Kubernetes。当您在“首选项”菜单中的“Kubernetes running ”旁边看到绿灯时，您就会知道 Kubernetes 已成功启用。
 
-3.  In order to confirm that Kubernetes is up and running, create a text file called `pod.yaml` with the following content:
+3.  为了确认 Kubernetes 已启动并正在运行，请创建一个名为的文本文件pod.yaml，内容如下：
 
     ```yaml
     apiVersion: v1
@@ -47,34 +45,34 @@ Docker Desktop will set up Kubernetes for you quickly and easily. Follow the set
         command: ["ping", "8.8.8.8"]
     ```
 
-    This describes a pod with a single container, isolating a simple ping to 8.8.8.8.
+    这描述了一个带有单个容器的 pod，将一个简单的 ping 隔离到 8.8.8.8。
 
-4.  In a terminal, navigate to where you created `pod.yaml` and create your pod:
+4.  在终端中，导航到您创建的位置pod.yaml并创建您的 pod：
 
     ```console
     $ kubectl apply -f pod.yaml
     ```
 
-5.  Check that your pod is up and running:
+5.  检查您的 Pod 是否已启动并正在运行：
 
     ```console
     $ kubectl get pods
     ```
 
-    You should see something like:
+    你应该看到类似的东西：
 
     ```shell
     NAME      READY     STATUS    RESTARTS   AGE
     demo      1/1       Running   0          4s
     ```
 
-6.  Check that you get the logs you'd expect for a ping process:
+6.  检查您是否获得了 ping 过程所需的日志：
 
     ```console
     $ kubectl logs demo
     ```
 
-    You should see the output of a healthy ping process:
+    您应该会看到正常 ping 过程的输出：
 
     ```shell
     PING 8.8.8.8 (8.8.8.8): 56 data bytes
@@ -84,7 +82,7 @@ Docker Desktop will set up Kubernetes for you quickly and easily. Follow the set
     ...
     ```
 
-7.  Finally, tear down your test pod:
+7.  最后，拆掉你的测试 pod：
 
     ```console
     $ kubectl delete -f pod.yaml
@@ -99,11 +97,11 @@ Docker Desktop will set up Kubernetes for you quickly and easily. Follow the set
 
 ### Windows
 
-1.  After installing Docker Desktop, you should see a Docker icon in your system tray. Right-click on it, and navigate **Settings** > **Kubernetes**.
+1.  安装 Docker Desktop 后，您应该会在系统托盘中看到一个 Docker 图标。右键单击它，然后导航Settings > Kubernetes。
 
-2.  Check the checkbox labeled **Enable Kubernetes**, and click **Apply & Restart**. Docker Desktop will automatically set up Kubernetes for you. You'll know that Kubernetes has been successfully enabled when you see a green light beside 'Kubernetes _running_' in the **Settings** menu.
+2.  选中标记为Enable Kubernetes的复选框，然后单击Apply & Restart。Docker Desktop 会自动为你设置 Kubernetes。当您在“设置”菜单中看到“Kubernetes running ”旁边的绿灯时，您就会知道 Kubernetes 已成功启用。
 
-3.  In order to confirm that Kubernetes is up and running, create a text file called `pod.yaml` with the following content:
+3.  为了确认 Kubernetes 已启动并正在运行，请创建一个名为的文本文件pod.yaml，内容如下：
 
     ```yaml
     apiVersion: v1
@@ -117,34 +115,34 @@ Docker Desktop will set up Kubernetes for you quickly and easily. Follow the set
         command: ["ping", "8.8.8.8"]
     ```
 
-    This describes a pod with a single container, isolating a simple ping to 8.8.8.8.
+    这描述了一个带有单个容器的 pod，将一个简单的 ping 隔离到 8.8.8.8。
 
-4.  In PowerShell, navigate to where you created `pod.yaml` and create your pod:
+4.  在 PowerShell 中，导航到您创建的位置pod.yaml并创建 pod：
 
     ```console
     $ kubectl apply -f pod.yaml
     ```
 
-5.  Check that your pod is up and running:
+5.  检查您的 Pod 是否已启动并正在运行：
 
     ```console
     $ kubectl get pods
     ```
 
-    You should see something like:
+    你应该看到类似的东西：
 
     ```shell
     NAME      READY     STATUS    RESTARTS   AGE
     demo      1/1       Running   0          4s
     ```
 
-6.  Check that you get the logs you'd expect for a ping process:
+6.  检查您是否获得了 ping 过程所需的日志：
 
     ```console
     $ kubectl logs demo
     ```
 
-    You should see the output of a healthy ping process:
+    您应该会看到正常 ping 过程的输出：
 
     ```shell
     PING 8.8.8.8 (8.8.8.8): 56 data bytes
@@ -154,7 +152,7 @@ Docker Desktop will set up Kubernetes for you quickly and easily. Follow the set
     ...
     ```
 
-7.  Finally, tear down your test pod:
+7.  最后，拆掉你的测试 pod：
 
     ```console
     $ kubectl delete -f pod.yaml
@@ -166,9 +164,9 @@ Docker Desktop will set up Kubernetes for you quickly and easily. Follow the set
 <hr>
 </div>
 
-## Enable Docker Swarm
+## 开启 Docker Swarm
 
-Docker Desktop runs primarily on Docker Engine, which has everything you need to run a Swarm built in. Follow the setup and validation instructions appropriate for your operating system:
+Docker Desktop 主要在 Docker Engine 上运行，它内置了运行 Swarm 所需的一切。 按照适用于您的操作系统的设置和验证说明进行操作：
 
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#swarmosx">Mac</a></li>
@@ -180,13 +178,13 @@ Docker Desktop runs primarily on Docker Engine, which has everything you need to
 
 ### Mac
 
-1.  Open a terminal, and initialize Docker Swarm mode:
+1.  打开终端，并初始化 Docker Swarm 模式：
 
     ```console
     $ docker swarm init
     ```
 
-    If all goes well, you should see a message similar to the following:
+    如果一切顺利，您应该会看到类似于以下内容的消息：
 
     ```shell
     Swarm initialized: current node (tjjggogqpnpj2phbfbz8jd5oq) is now a manager.
@@ -198,32 +196,32 @@ Docker Desktop runs primarily on Docker Engine, which has everything you need to
     To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
     ```
 
-2.  Run a simple Docker service that uses an alpine-based filesystem, and isolates a ping to 8.8.8.8:
+2.  运行一个简单的 Docker 服务，它使用基于 alpine 的文件系统，并将 ping 隔离到 8.8.8.8：
 
     ```console
     $ docker service create --name demo alpine:3.5 ping 8.8.8.8
     ```
 
-3.  Check that your service created one running container:
+3.  检查您的服务是否创建了一个正在运行的容器：
 
     ```console
     $ docker service ps demo
     ```
 
-    You should see something like:
+    你应该看到类似的东西：
 
     ```shell
     ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
     463j2s3y4b5o        demo.1              alpine:3.5          docker-desktop      Running             Running 8 seconds ago
     ```
 
-4.  Check that you get the logs you'd expect for a ping process:
+4.  检查您是否获得了 ping 过程所需的日志：
 
     ```console
     $ docker service logs demo
     ```
 
-    You should see the output of a healthy ping process:
+    您应该会看到正常 ping 过程的输出：
 
     ```shell
     demo.1.463j2s3y4b5o@docker-desktop    | PING 8.8.8.8 (8.8.8.8): 56 data bytes
@@ -233,7 +231,7 @@ Docker Desktop runs primarily on Docker Engine, which has everything you need to
     ...
     ```
 
-5.  Finally, tear down your test service:
+5.  最后，拆除您的测试服务：
 
     ```console
     $ docker service rm demo
@@ -313,13 +311,13 @@ Docker Desktop runs primarily on Docker Engine, which has everything you need to
 <hr>
 </div>
 
-## Conclusion
+## 结论
 
-At this point, you've confirmed that you can run simple containerized workloads in Kubernetes and Swarm. The next step will be to write the Kubernetes yaml that describes how to run and manage these containers on Kubernetes.
+此时，您已经确认可以在 Kubernetes 和 Swarm 中运行简单的容器化工作负载。下一步将是编写 Kubernetes yaml，描述如何在 Kubernetes 上运行和管理这些容器。
 
 [On to deploying to Kubernetes >>](kube-deploy.md){: class="button primary-btn" style="margin-bottom: 30px; margin-right: 200%"}
 
-To learn how to write the stack file to help you run and manage containers on Swarm, see [Deploying to Swarm](swarm-deploy.md).
+要了解如何编写堆栈文件以帮助您在 Swarm 上运行和管理容器，请参阅 [Deploying to Swarm](swarm-deploy.md)。
 
 ## CLI references
 
