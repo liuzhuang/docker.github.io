@@ -1,5 +1,5 @@
 ---
-description: Compose file reference
+description: Compose 文件参考
 keywords: fig, composition, compose, docker
 redirect_from:
 - /compose/yml
@@ -9,16 +9,14 @@ toc_max: 4
 toc_min: 1
 ---
 
-## Reference and guidelines
+##  参考和指南
 
-These topics describe the Docker Compose implementation of the Compose format.
-Docker Compose **1.27.0+** implements the format defined by the [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md). Previous Docker Compose versions have support for several Compose file formats – 2, 2.x, and 3.x. The Compose specification is a unified 2.x and 3.x file format, aggregating properties across these formats.
+这些主题描述了 Compose 格式的 Docker Compose 实现。Docker Compose  **1.27.0+** 实现了 [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md) 定义的格式。
+以前的 Docker Compose 版本支持多种 Compose 文件格式 – 2, 2.x, 和 3.x。Compose 规范是统一的 2.x 和 3.x 文件格式，聚合了这些格式的属性。
 
-## Compose and Docker compatibility matrix
+## Compose 和 Docker 兼容性表格
 
-There are several versions of the Compose file format – 2, 2.x, and 3.x. The
-table below provides a snapshot of various versions. For full details on what each version includes and
-how to upgrade, see **[About versions and upgrading](compose-versioning.md)**.
+Compose 文件格式有多个版本 - 2、2.x 和 3.x。下表提供了各种版本的快照。有关每个版本包含的内容以及如何升级的完整详细信息，请参阅 **[About versions and upgrading](compose-versioning.md)**。
 
 {% include content/compose-matrix.md %}
 

@@ -1056,44 +1056,44 @@ reference:
       title: 常见问题
 - sectiontitle: 驱动和规格
   section:
-  - sectiontitle: Registry image manifests
+  - sectiontitle: Registry 镜像 manifests
     section:
     - path: /registry/spec/manifest-v2-1/
-      title: Image manifest v 2, schema 1
+      title: 镜像 manifest v 2, schema 1
     - path: /registry/spec/manifest-v2-2/
-      title: Image manifest v 2, schema 2
+      title: 镜像 manifest v 2, schema 2
     - path: /registry/spec/deprecated-schema-v1/
-      title: Update deprecated schema v1 images
-  - sectiontitle: Registry token authorization
+      title: 更新废弃的 schema v1 镜像
+  - sectiontitle: Registry token 认证
     section:
     - path: /registry/spec/auth/
-      title: Docker Registry token authentication
+      title: Docker Registry 认证
     - path: /registry/spec/auth/jwt/
-      title: Token authentication implementation
+      title: 认证实现
     - path: /registry/spec/auth/oauth/
-      title: Oauth2 token authentication
+      title: Oauth2 token 认证
     - path: /registry/spec/auth/scope/
-      title: Token scope documentation
+      title: Token 作用范围
     - path: /registry/spec/auth/token/
-      title: Token authentication specification
-  - sectiontitle: Registry storage drivers
+      title: Token 认证 规范
+  - sectiontitle: Registry 存储驱动
     section:
     - path: /registry/storage-drivers/
-      title: Storage driver overview
+      title: 存储驱动概述
     - path: /registry/storage-drivers/oss/
-      title: Aliyun OSS storage driver
+      title: Aliyun OSS 存储驱动
     - path: /registry/storage-drivers/filesystem/
-      title: Filesystem storage driver
+      title: Filesystem 存储驱动
     - path: /registry/storage-drivers/gcs/
-      title: GCS storage driver
+      title: GCS 存储驱动
     - path: /registry/storage-drivers/inmemory/
-      title: In-memory storage driver
+      title: In-memory 存储驱动
     - path: /registry/storage-drivers/azure/
-      title: Microsoft Azure storage driver
+      title: Microsoft Azure 存储驱动
     - path: /registry/storage-drivers/s3/
-      title: S3 storage driver
+      title: S3 存储驱动
     - path: /registry/storage-drivers/swift/
-      title: Swift storage driver
+      title: Swift 存储驱动
 - path: /glossary/
   title: 词汇表
 

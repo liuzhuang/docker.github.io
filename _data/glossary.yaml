@@ -1,287 +1,172 @@
 ﻿amd64: |
-  AMD64 is AMD's 64-bit extension of Intel's x86 architecture, and is also
-  referred to as x86_64 (or x86-64).
+  AMD64 是 AMD 对 Intel x86 架构的 64 位扩展，也称为 x86_64（或 x86-64）。
 arm64: |
-  ARM64 is the 64-bit extension of the ARM CPU architecture. arm64 architecture
-  is used in Apple silicon machines.
+  ARM64 是 ARM CPU 架构的 64 位扩展。苹果机采用arm64架构。
 base image: |
-  A **base image** has no parent image specified in its Dockerfile. It is created
-  using a Dockerfile with the `FROM scratch` directive.
+  一个 **base image** 在 Dockerfile 中没有声明父镜像. 它是使用带有 `FROM scratch` 指令的 Dockerfile 创建。
 btrfs: |
-  btrfs (B-tree file system) is a Linux [filesystem](#filesystem) that Docker
-  supports as a storage backend. It is a [copy-on-write](https://en.wikipedia.org/wiki/Copy-on-write)
-  filesystem.
+  btrfs（B 树文件系统）是Docker 支持作为存储后端的 Linux [文件系统](#filesystem)。它是一个 [写时复制](https://en.wikipedia.org/wiki/Copy-on-write) 文件系统。
 build: |
-  build is the process of building Docker images using a [Dockerfile](#dockerfile).
-  The build uses a Dockerfile and a "context". The context is the set of files in the
-  directory in which the image is built.
+  build 是使用Dockerfile构建 Docker 镜像的过程。构建使用 [Dockerfile](#dockerfile). 和“上下文”。上下文是构建映像的目录中的一组文件。
 cgroups: |
-  cgroups is a Linux kernel feature that limits, accounts for, and isolates
-  the resource usage (CPU, memory, disk I/O, network, etc.) of a collection
-  of processes. Docker relies on cgroups to control and isolate resource limits.
+  cgroups 是一个 Linux 内核特性，它限制、考虑和隔离进程集合的资源使用（CPU、内存、磁盘 I/O、网络等）。Docker 依靠 cgroups 来控制和隔离资源限制。
 
-  *Also known as : control groups*
+  *又称 : control groups*
 cluster: |
-  A cluster is a group of machines that work together to run workloads and provide high availability.
+  集群是一组协同工作以运行工作负载并提供高可用性的机器。
 Compose: |
-  [Compose](https://github.com/docker/compose) is a tool for defining and
-  running complex applications with Docker. With Compose, you define a
-  multi-container application in a single file, then spin your
-  application up in a single command which does everything that needs to
-  be done to get it running.
+  [Compose](https://github.com/docker/compose) 是一个使用 Docker 定义和运行复杂应用程序的工具。
+  使用 Compose，您可以在单个文件中定义一个多容器应用程序，然后在单个命令中启动您的应用程序，该命令执行运行所需的所有操作。
 
-  *Also known as : docker-compose
+  *又称 : docker-compose
 copy-on-write: |
-  Docker uses a
-  [copy-on-write](/storage/storagedriver/#the-copy-on-write-cow-strategy)
-  technique and a [union file system](#union-file-system) for both images and
-  containers to optimize resources and speed performance. Multiple copies of an
-  entity share the same instance and each one makes only specific changes to its
-  unique layer.
+  Docker对镜像和容器使用 [写时复制](/storage/storagedriver/#the-copy-on-write-cow-strategy) 技术和联合文件系统来优化资源和提高性能。一个实体的多个副本共享同一个实例，每个副本仅对其唯一层进行特定更改。
 
-  Multiple containers can share access to the same image, and make
-  container-specific changes on a writable layer which is deleted when
-  the container is removed. This speeds up container start times and performance.
+  多个容器可以共享对同一个镜像的访问，并在可写层上进行特定于容器的更改，当容器被删除时，该可写层将被删除。这加快了容器启动时间和性能。
 
-  Images are essentially layers of filesystems typically predicated on a base
-  image under a writable layer, and built up with layers of differences from the
-  base image. This minimizes the footprint of the image and enables shared
-  development.
+  镜像本质上是文件系统层，通常基于可写层下的基本镜像，并由与基本镜像的不同层构成。这最大限度地减少了映像的占用空间并实现了共享开发。
 
-  For more about copy-on-write in the context of Docker, see [Understand images,
-  containers, and storage
-  drivers](/storage/storagedriver/).
+  有关 Docker 上下文中写入时复制的更多信息，请参阅[了解映像、容器和存储驱动程序](/storage/storagedriver/)。
 container: |
-  A container is a runtime instance of a [docker image](#image).
+  容器是 [docker image](#image) 的运行时实例。
 
-  A Docker container consists of
+  一个 Docker 容器包括
 
-  - A Docker image
-  - An execution environment
-  - A standard set of instructions
-
-  The concept is borrowed from shipping containers, which define a standard to ship
-  goods globally. Docker defines a standard to ship software.
+  - 一个 Docker 镜像
+  - 一个执行环境
+  - 一套标准的指令
+ 
+  这个概念是从运输集装箱借来的，集装箱定义了全球运输货物的标准。Docker 定义了发布软件的标准。
 Docker: |
-  The term Docker can refer to
+  术语 Docker 可以指
 
-  - The Docker project as a whole, which is a platform for developers and sysadmins to
-  develop, ship, and run applications
-  - The docker daemon process running on the host which manages images and containers
-  (also called Docker Engine)
+  - Docker 项目作为一个整体，它是一个供开发人员和系统管理员开发、发布和运行应用程序的平台
+  - 运行在管理镜像和容器的主机上的 docker 守护进程（也称为 Docker 引擎）
 Docker Desktop for Mac: |
-  [Docker Desktop for Mac](/desktop/mac/) is an easy-to-install, lightweight
-  Docker development environment designed specifically for the Mac. A native
-  Mac application, Docker Desktop for Mac uses the macOS Hypervisor
-  framework, networking, and filesystem. It's the best solution if you want
-  to build, debug, test, package, and ship Dockerized applications on a
-  Mac.
+  [Docker Desktop for Mac](/desktop/mac/) 是一个易于安装的轻量级 Docker 开发环境，专为 Mac 设计。
+  作为 Mac 原生应用程序，Docker Desktop for Mac 使用 macOS 管理程序框架、网络和文件系统。
+  如果您想在 Mac 上构建、调试、测试、打包和发布 Dockerized 应用程序，这是最好的解决方案。
 Docker Desktop for Windows: |
-  [Docker Desktop for Windows](/desktop/windows/) is an
-  easy-to-install, lightweight Docker development environment designed
-  specifically for Windows systems that support WSL 2 and Microsoft Hyper-V.
-  Docker Desktop for Windows uses WSL 2 or Hyper-V for
-  virtualization. Docker Desktop
-  for Windows is the best solution if you want to build, debug, test, package, and
-  ship Dockerized applications from Windows machines.
+  [Docker Desktop for Windows](/desktop/windows/) 是一个易于安装的轻量级 Docker 开发环境，专为支持 WSL 2 和 Microsoft Hyper-V 的 Windows 系统而设计。
+  Windows 版 Docker 桌面使用 WSL 2 或 Hyper-V 进行虚拟化。
+  如果您想从 Windows 机器构建、调试、测试、打包和交付 Docker 化的应用程序，Docker Desktop for Windows 是最好的解决方案。
 Docker Hub: |
-  The [Docker Hub](https://hub.docker.com/) is a centralized resource for working with
-  Docker and its components. It provides the following services:
-
-  - A registry to host Docker images
-  - User authentication
-  - Automated image builds and workflow tools such as build triggers and web hooks
-  - Integration with GitHub and Bitbucket
-  - Security vulnerability scanning
+  The [Docker Hub](https://hub.docker.com/) 是与泊坞窗及其组件的工作集中资源。它提供以下服务
+  - 用于托管 Docker 映像的注册表
+  - 用户认证
+  - 自动化图像构建和工作流工具，例如构建触发器和网络钩子
+  - 与 GitHub 和 Bitbucket 集成
+  - 安全漏洞扫描
 Dockerfile: |
-  A Dockerfile is a text document that contains all the commands you would
-  normally execute manually in order to build a Docker image. Docker can
-  build images automatically by reading the instructions from a Dockerfile.
+  Dockerfile 是一个文本文档，其中包含您通常手动执行以构建 Docker 映像的所有命令。Docker 可以通过读取 Dockerfile 中的指令自动构建镜像。
 ENTRYPOINT: |
+  在 Dockerfile 中，anENTRYPOINT是要运行的命令的第一部分的可选定义。
+  如果你希望你的Dockerfile是没有指定其他参数可运行的docker run命令，你必须指定ENTRYPOINT，CMD或两者兼而有之。
   In a Dockerfile, an `ENTRYPOINT` is an optional definition for the first part
   of the command to be run. If you want your Dockerfile to be runnable without
   specifying additional arguments to the `docker run` command, you must specify
   either `ENTRYPOINT`, `CMD`, or both.
 
-  - If `ENTRYPOINT` is specified, it is set to a single command. Most official
-    Docker images have an `ENTRYPOINT` of `/bin/sh` or `/bin/bash`. Even if you
-    do not specify `ENTRYPOINT`, you may inherit it from the base image that you
-    specify using the `FROM` keyword in your Dockerfile. To override the
-    `ENTRYPOINT` at runtime, you can use `--entrypoint`. The following example
-    overrides the entrypoint to be `/bin/ls` and sets the `CMD` to `-l /tmp`.
+  - 如果ENTRYPOINT指定，则将其设置为单个命令。大多数官方 Docker 镜像都有ENTRYPOINTof/bin/sh或/bin/bash。
+    即使您没有指定ENTRYPOINT，您也可以从您使用FROMDockerfile 中的关键字指定的基础镜像继承它。要ENTRYPOINT在运行时覆盖 ，
+    您可以使用--entrypoint. 以下示例将入口点覆盖为 be/bin/ls并将 设置CMD为-l /tmp。
 
     ```bash
     $ docker run --entrypoint=/bin/ls ubuntu -l /tmp
     ```
 
-  - `CMD` is appended to the `ENTRYPOINT`. The `CMD` can be any arbitrary string
-    that is valid in terms of the `ENTRYPOINT`, which allows you to pass
-    multiple commands or flags at once. To override the `CMD` at runtime, just
-    add it after the container name or ID. In the following example, the `CMD`
-    is overridden to be `/bin/ls -l /tmp`.
+  - CMD附加到ENTRYPOINT. 该CMD可以是有效的条款任意字符串ENTRYPOINT，它允许你一次通过多个命令或标志。
+    要覆盖CMD运行时，只需在容器名称或 ID 之后添加它。在以下示例中，CMD 被覆盖为/bin/ls -l /tmp。
 
     ```bash
     $ docker run ubuntu /bin/ls -l /tmp
     ```
 
-  In practice, `ENTRYPOINT` is not often overridden. However, specifying the
-  `ENTRYPOINT` can make your images more flexible and easier to reuse.
+  在实践中，ENTRYPOINT并不经常被覆盖。但是，指定 ENTRYPOINT可以使您的图像更灵活且更易于重用。
 filesystem: |
-  A file system is the method an operating system uses to name files
-  and assign them locations for efficient storage and retrieval.
+  文件系统是操作系统用来命名文件并为其分配位置以进行高效存储和检索的方法。
 
-  Examples :
+  例子 ：
 
   - Linux : overlay2, extfs, btrfs, zfs
   - Windows : NTFS
   - macOS : APFS
 image: |
-  Docker images are the basis of [containers](#container). An Image is an
-  ordered collection of root filesystem changes and the corresponding
-  execution parameters for use within a container runtime. An image typically
-  contains a union of layered filesystems stacked on top of each other. An image
-  does not have state and it never changes.
+  Docker 镜像是容器的基础。映像是根文件系统更改和在容器运行时中使用的相应执行参数的有序集合。
+  图像通常包含堆叠在彼此之上的分层文件系统的联合。图像没有状态，它永远不会改变。
 layer: |
-  In an image, a layer is modification to the image, represented by an instruction in the
-  Dockerfile. Layers are applied in sequence to the base image to create the final image.
-  When an image is updated or rebuilt, only layers that change need to be updated, and
-  unchanged layers are cached locally. This is part of why Docker images are so fast
-  and lightweight. The sizes of each layer add up to equal the size of the final image.
+  在镜像中，层是对镜像的修改，由 Dockerfile 中的指令表示。图层按顺序应用于基础图像以创建最终图像。更新或重建图像时，仅需要更新更改的图层，而未更改的图层将在本地缓存。
+  这就是 Docker 镜像如此快速和轻量级的部分原因。每层的大小加起来等于最终图像的大小。
 libcontainer: |
-  libcontainer provides a native Go implementation for creating containers with
-  namespaces, cgroups, capabilities, and filesystem access controls. It allows
-  you to manage the lifecycle of the container performing additional operations
-  after the container is created.
+  libcontainer 提供了一个本地 Go 实现，用于创建具有命名空间、cgroup、功能和文件系统访问控制的容器。
+  它允许您管理容器的生命周期，在容器创建后执行附加操作。
 libnetwork: |
-  libnetwork provides a native Go implementation for creating and managing container
-  network namespaces and other network resources. It manages the networking lifecycle
-  of the container performing additional operations after the container is created.
+  libnetwork 提供了一个本地 Go 实现，用于创建和管理容器网络命名空间和其他网络资源。
+  它管理容器的网络生命周期，在容器创建后执行额外的操作。
 namespace: |
-  A [Linux namespace](https://man7.org/linux/man-pages/man7/namespaces.7.html)
-  is a Linux kernel feature that isolates and virtualizes system resources. Processes which are restricted to
-  a namespace can only interact with resources or processes that are part of the same namespace. Namespaces
-  are an important part of Docker's isolation model. Namespaces exist for each type of
-  resource, including `net` (networking), `mnt` (storage), `pid` (processes), `uts` (hostname control),
-  and `user` (UID mapping). For more information about namespaces, see [Docker run reference](/engine/reference/run/) and [Isolate containers with a user namespace](/engine/security/userns-remap/).
+  一个[Linux namespace](https://man7.org/linux/man-pages/man7/namespaces.7.html) 是一个Linux内核的功能，分离和虚拟化系统资源。
+  受限于命名空间的进程只能与属于同一命名空间的资源或进程交互。命名空间是 Docker 隔离模型的重要组成部分。
+  每种类型的资源都存在命名空间，包括net（网络）、mnt（存储）、pid（进程）、uts（主机名控制）和user（UID 映射）。
+  有关命名空间的更多信息，请参阅Docker [Docker run reference](/engine/reference/run/) 和 [Isolate containers with a user namespace](/engine/security/userns-remap/)。
 node: |
-  A [node](/engine/swarm/how-swarm-mode-works/nodes/) is a physical or virtual
-  machine running an instance of the Docker Engine in [swarm mode](#swarm-mode).
-
-  **Manager nodes** perform swarm management and orchestration duties. By default
-  manager nodes are also worker nodes.
-
-  **Worker nodes** execute tasks.
+  一个[node](/engine/swarm/how-swarm-mode-works/nodes/)是运行在所述多克尔引擎的实例的物理或虚拟机群模式。
 overlay network driver: |
-  Overlay network driver provides out of the box multi-host network connectivity
-  for Docker containers in a cluster.
+  Overlay 网络驱动程序为集群中的 Docker 容器提供开箱即用的多主机网络连接。
 overlay storage driver: |
-  OverlayFS is a [filesystem](#filesystem) service for Linux which implements a
-  [union mount](https://en.wikipedia.org/wiki/Union_mount) for other file systems.
-  It is supported by the Docker daemon as a storage driver.
+  OverlayFS 是Linux的文件系统服务，它实现了其他文件系统的 联合挂载。Docker 守护进程支持它作为存储驱动程序。
 parent image: |
-  An image's **parent image** is the image designated in the `FROM` directive
-  in the image's Dockerfile. All subsequent commands are based on this parent
-  image. A Dockerfile with the `FROM scratch` directive uses no parent image, and creates
-  a **base image**.
+  镜像的父镜像是FROM在镜像的 Dockerfile中的指令中指定的镜像。所有后续命令均基于此父映像。带有该FROM scratch指令的 Dockerfile不使用父映像，而是创建一个基本映像。
 persistent storage: |
-  Persistent storage or volume storage provides a way for a user to add a
-  persistent layer to the running container's file system. This persistent layer
-  could live on the container host or an external device. The lifecycle of this
-  persistent layer is not connected to the lifecycle of the container, allowing
-  a user to retain state.
+  持久存储或卷存储为用户提供了一种向正在运行的容器的文件系统添加持久层的方法。这个持久层可以存在于容器主机或外部设备上。
+  这个持久层的生命周期与容器的生命周期无关，允许用户保留状态。
 registry: |
-  A Registry is a hosted service containing [repositories](#repository) of [images](#image)
-  which responds to the Registry API.
+  Registry 是一种托管服务，包含 响应 Registry API的图像存储库。
 
-  The default registry can be accessed using a browser at [Docker Hub](#docker-hub)
-  or using the `docker search` command.
+  可以使用Docker Hub 上的浏览器 或使用docker search命令访问默认注册表。
 repository: |
-  A repository is a set of Docker images. A repository can be shared by pushing it
-  to a [registry](#registry) server. The different images in the repository can be
-  labeled using [tags](#tag).
+  存储库是一组 Docker 映像。可以通过将存储库推送到注册服务器来共享存储库。存储库中的不同图像可以使用标签进行标记。
 
-  Here is an example of the shared [nginx repository](https://hub.docker.com/_/nginx/)
-  and its [tags](https://hub.docker.com/r/library/nginx/tags/).
+  这是共享nginx 存储库 及其标签的示例。
 SSH: |
-  SSH (secure shell) is a secure protocol for accessing remote machines and applications.
-  It provides authentication and encrypts data communication over insecure networks such
-  as the Internet. SSH uses public/private key pairs to authenticate logins.
+  SSH（安全外壳）是一种用于访问远程机器和应用程序的安全协议。它提供身份验证并加密通过不安全网络（例如 Internet）进行的数据通信。
+  SSH 使用公钥/私钥对来验证登录。
 service: |
-  A [service](/engine/swarm/how-swarm-mode-works/services/) is the definition of how
-  you want to run your application containers in a swarm. At the most basic level,
-  a service  defines which container image to run in the swarm and which commands
-  to run in the container. For orchestration purposes, the service defines the
-  "desired state", meaning how many containers to run as tasks and constraints for
-  deploying the containers.
+  一个[service](/engine/swarm/how-swarm-mode-works/services/)是你要如何在群运行你的应用程序容器的定义。在最基本的层面上，服务定义了要在 swarm 中运行的容器映像以及要在容器中运行的命令。出于编排目的，该服务定义了“期望状态”，即作为任务运行的容器数量和部署容器的约束。
 
-  Frequently a service is a microservice within the context of some larger
-  application. Examples of services might include an HTTP server, a database, or
-  any other type of executable program that you wish to run in a distributed
-  environment.
+  通常，服务是某个较大应用程序上下文中的微服务。服务的示例可能包括 HTTP 服务器、数据库或您希望在分布式环境中运行的任何其他类型的可执行程序。
 service discovery: |
-  Swarm mode [container discovery](/network/overlay/#container-discovery) is a DNS component
-  internal to the swarm that automatically assigns each service on an overlay
-  network in the swarm a VIP and DNS entry. Containers on the network share DNS
-  mappings for the service through gossip so any container on the network can access
-  the service through its service name.
+  Swarm 模式容器发现是 swarm 内部的一个 DNS 组件，它自动为 swarm 中覆盖网络上的每个服务分配一个 VIP 和 DNS 条目。网络上的容器通过 gossip 共享服务的 DNS 映射，因此网络上的任何容器都可以通过其服务名称访问该服务。
 
-  You don’t need to expose service-specific ports to make the service available to
-  other services on the same overlay network. The swarm’s internal load balancer
-  automatically distributes requests to the service VIP among the active tasks.
+  您不需要公开特定于服务的端口来使该服务可用于同一覆盖网络上的其他服务。swarm 的内部负载均衡器自动将请求分发到活动任务之间的服务 VIP。
 swarm: |
-  A [swarm](/engine/swarm/) is a cluster of one or more Docker Engines running in [swarm mode](#swarm-mode).
+  甲群是在运行的一个或多个发动机多克尔簇群模式。
 swarm mode: |
-  [Swarm mode](/engine/swarm/) refers to cluster management and orchestration
-  features embedded in Docker Engine. When you initialize a new swarm (cluster) or
-  join nodes to a swarm, the Docker Engine runs in swarm mode.
+  Swarm 模式是指嵌入在 Docker Engine 中的集群管理和编排功能。当您初始化一个新的 swarm（集群）或将节点加入一个 swarm 时，Docker Engine 以 swarm 模式运行。
 tag: |
-  A tag is a label applied to a Docker image in a [repository](#repository).
-  Tags are how various images in a repository are distinguished from each other.
+  标签是应用于存储库中的 Docker 映像的标签。标签是如何区分存储库中的各种图像。
 task: |
-  A [task](/engine/swarm/how-swarm-mode-works/services/#tasks-and-scheduling) is the
-  atomic unit of scheduling within a swarm. A task carries a Docker container and
-  the commands to run inside the container. Manager nodes assign tasks to worker
-  nodes according to the number of replicas set in the service scale.
+  甲任务是一个群内的调度的原子单元。一个任务携带一个 Docker 容器和在容器内运行的命令。管理节点根据服务规模中设置的副本数量将任务分配给工作节点。
 Union file system: |
-  Union file systems implement a [union
-  mount](https://en.wikipedia.org/wiki/Union_mount) and operate by creating
-  layers. Docker uses union file systems in conjunction with
-  [copy-on-write](#copy-on-write) techniques to provide the building blocks for
-  containers, making them very lightweight and fast.
+  联合文件系统通过创建层实现联合挂载和操作。Docker 结合使用联合文件系统和写时 复制技术为容器提供构建块，使它们非常轻量和快速。
 
-  For more on Docker and union file systems, see [Docker and OverlayFS in
-  practice](/engine/userguide/storagedriver/overlayfs-driver/).
+  有关 Docker 和联合文件系统的更多信息，请参阅实践中的 Docker 和 OverlayFS。
 
-  Example implementations of union file systems are
-  [UnionFS](https://en.wikipedia.org/wiki/UnionFS) and
-  [OverlayFS](https://en.wikipedia.org/wiki/OverlayFS).
+  联合文件系统的示例实现是 UnionFS和 OverlayFS。
 virtual machine: |
-  A virtual machine is a program that emulates a complete computer and imitates dedicated hardware.
-  It shares physical hardware resources with other users but isolates the operating system. The
-  end user has the same experience on a Virtual Machine as they would have on dedicated hardware.
+  虚拟机是一种模拟完整计算机并模仿专用硬件的程序。它与其他用户共享物理硬件资源，但隔离操作系统。最终用户在虚拟机上的体验与在专用硬件上的体验相同。
 
-  Compared to containers, a virtual machine is heavier to run, provides more isolation,
-  gets its own set of resources and does minimal sharing.
+  与容器相比，虚拟机运行起来更重，提供更多的隔离，获得自己的资源集并且共享最少。
 
-  *Also known as : VM*
+  *又称 : VM*
 volume: |
-  A volume is a specially-designated directory within one or more containers
-  that bypasses the Union File System. Volumes are designed to persist data,
-  independent of the container's life cycle. Docker therefore never automatically
-  deletes volumes when you remove a container, nor will it "garbage collect"
-  volumes that are no longer referenced by a container.
-  *Also known as: data volume*
+  卷是绕过联合文件系统的一个或多个容器中专门指定的目录。卷旨在保留数据，独立于容器的生命周期。因此，当您删除容器时，Docker 永远不会自动删除卷，也不会“垃圾收集”不再被容器引用的卷。 又名：数据量
 
-  There are three types of volumes: *host, anonymous, and named*:
+  有三种类型的卷，主机、匿名和命名
 
-  - A **host volume** lives on the Docker host's filesystem and can be accessed from within the container.
+  一个主机卷住在泊坞主机的文件系统，可以从容器中进行访问。
 
-  - A **named volume** is a volume which Docker manages where on disk the volume is created,
-    but it is given a name.
+  一个名为量是码头工人管理在磁盘上创建卷，其中一个卷，但它取了一个名字。
 
-  - An **anonymous volume** is similar to a named volume, however, it can be difficult to refer to
-    the same volume over time when it is an anonymous volume. Docker handles where the files are stored.
+  一个匿名的体积类似于一个名为量，但是，它可以是很难参照相同体积随着时间的推移，当它是一个匿名的体积。Docker 处理文件的存储位置。
 x86_64: |
-  x86_64 (or x86-64) refers to a 64-bit instruction set invented by AMD as an
-  extension of Intel's x86 architecture. AMD calls its x86_64 architecture,
-  AMD64, and Intel calls its implementation, Intel 64.
+  x86_64（或 x86-64）是指 AMD 发明的 64 位指令集，作为英特尔 x86 架构的扩展。AMD 将其 x86_64 架构称为 AMD64，而 Intel 将其实现称为 Intel 64。

@@ -1,23 +1,23 @@
 ---
 description: Compose file reference
 keywords: fig, composition, compose, versions, upgrading, docker
-title: Compose file versions and upgrading
+title: Compose file 版本号和升级
 ---
 
-The Compose file is a [YAML](https://yaml.org) file defining services,
-networks, and volumes for a Docker application.
+Compose 文件是一个 [YAML](https://yaml.org) 文件，用于定义 Docker 应用程序的 serivce、networks 和 volumes。
+
+现在在这些参考中描述了 Compose 文件格式，针对每个版本。
 
 The Compose file formats are now described in these references, specific to each version.
 
-| **Reference file**                                    | **What changed in this version** |
+| **Reference file**                                    | **变化** |
 |:------------------------------------------------------|:---------------------------------|
-| [Compose Specification](index.md) (most current, and recommended) | [Versioning](compose-versioning.md#versioning)  |
+| [Compose Specification](index.md) (最新的，推荐的) | [Versioning](compose-versioning.md#versioning)  |
 | [Version 3](compose-file-v3.md)                       | [Version 3 updates](#version-3)  |
 | [Version 2](compose-file-v2.md)                       | [Version 2 updates](#version-2)  |
 | Version 1 (Deprecated)                                | [Version 1 updates](#version-1-deprecated)  |
 
-The topics below explain the differences among the versions, Docker Engine
-compatibility, and [how to upgrade](#upgrading).
+下面的主题解释了版本之间的差异、Docker Engine 兼容性以及 [如何升级](#upgrading).
 
 ## Compatibility matrix
 
@@ -42,22 +42,20 @@ For details on versions and how to upgrade, see
 
 ## Versioning
 
-There are three legacy versions of the Compose file format:
+Compose 文件格式有三个旧版本：
 
-- Version 1. This is specified by omitting a `version` key at the root of the YAML.
+- Version 1. 省略了 `version`。
 
-- Version 2.x. This is specified with a `version: '2'` or `version: '2.1'`, etc., entry at the root of the YAML.
+- Version 2.x. 指定 `version: '2'` 或 `version: '2.1'`, 等等。
 
-- Version 3.x, designed to be cross-compatible between Compose and the Docker Engine's
-[swarm mode](../../engine/swarm/index.md). This is specified with a `version: '3'` or `version: '3.1'`, etc., entry at the root of the YAML.
+- Version 3.x, 旨在兼容 Compose 和 [swarm mode](../../engine/swarm/index.md)。 通过指定 `version: '3'` 或 `version: '3.1'`, 等等。
 
-The latest and recommended version of the Compose file format is defined by the [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md). This format merges the 2.x and 3.x versions and is implemented by **Compose 1.27.0+**.
+Compose 文件格式的最新和推荐版本由[Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md)定义。这种格式合并了 2.x 和 3.x 版本，由 Compose **Compose 1.27.0+** 实现。
+
 
 > ### v2 and v3 Declaration
 >
-> **Note**: When specifying the Compose file version to use, make sure to
-> specify both the _major_ and _minor_ numbers. If no minor version is given,
-> `0` is used by default and not the latest minor version.
+> **Note**: 指定要使用的 Compose 文件版本时，请确保同时指定主要编号和次要编号。如果没有给出次要版本， 0则默认使用，而不是最新的次要版本。
 
 
 The [Compatibility Matrix](#compatibility-matrix) shows Compose file versions mapped to Docker Engine releases.
@@ -79,7 +77,7 @@ Several things differ depending on which version you use:
 
 These differences are explained below.
 
-### Version 1 (Deprecated)
+### Version 1 (已废弃))
 
 Compose files that do not declare a version are considered "version 1". In those
 files, all the [services](compose-file-v3.md#service-configuration-reference) are
