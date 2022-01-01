@@ -394,7 +394,7 @@ reference:
       title: 使用 Docker 命令行
     - path: /engine/reference/commandline/docker/
       title: docker (base command)
-    - sectiontitle: docker app
+    - sectiontitle: docker app（已废弃）
       section:
         - path: /engine/reference/commandline/app/
           title: docker app
@@ -1201,7 +1201,7 @@ manuals:
     title: 概述
   - path: /engine/install/
     title: 安装
-  - sectiontitle: 不同发行版的安装
+  - sectiontitle: 在不同发行版上安装
     section:
     - path: /engine/install/centos/
       title: Install on CentOS
@@ -1218,7 +1218,7 @@ manuals:
     - path: /engine/install/binaries/
       title: Install binaries
   - path: /engine/install/linux-postinstall/
-    title: 可选的安装步骤
+    title: 安装完成之后的可选项
   - path: /engine/release-notes/
     title: 发布日志
   - sectiontitle: 历史版本

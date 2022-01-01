@@ -1,6 +1,6 @@
 <!-- This file is included in Docker Engine - Community or EE installation docs for Linux. -->
 
-### Install using the convenience script
+### 通过脚本安装
 
 Docker provides a convenience script at [get.docker.com](https://get.docker.com/)
 to install Docker into development environments quickly and non-interactively.
@@ -65,17 +65,12 @@ As the message indicates, non-root users cannot run Docker commands by default.
 > in rootless mode. For instructions on running Docker in rootless mode, refer to
 > [run the Docker daemon as a non-root user (rootless mode)](/engine/security/rootless/).
 
-#### Install pre-releases
+#### 安装预发布版本
 
-Docker also provides a convenience script at [test.docker.com](https://test.docker.com/)
-to install pre-releases of Docker on Linux. This script is equivalent to the
-script at `get.docker.com`, but configures your package manager to enable the
-"test" channel from our package repository, which includes both stable and
-pre-releases (beta versions, release-candidates) of Docker. Use this script to
-get early access to new releases, and to evaluate them in a testing environment
-before they are released as stable.
+Docker 还在 [test.docker.com](https://test.docker.com/) 上提供了一个方便的脚本来在 Linux 上安装 Docker 的预发布版本。
+此脚本与 中的脚本等效`get.docker.com`，但将您的包管理器配置为从我们的包存储库启用“测试”通道，其中包括 Docker 的稳定版和预发布版（测试版、发布候选版）。使用此脚本可以提前访问新版本，并在它们稳定发布之前在测试环境中对其进行评估。
 
-To install the latest version of Docker on Linux from the "test" channel, run:
+要从 "test" 频道在 Linux 上安装最新版本的 Docker，请运行：
 
 ```console
 $ curl -fsSL https://test.docker.com -o test-docker.sh
@@ -83,7 +78,9 @@ $ sudo sh test-docker.sh
 <...>
 ```
 
-#### Upgrade Docker after using the convenience script
+#### 使用脚本升级 Docker
+
+如果您使用便利脚本安装 Docker，则应直接使用您的包管理器升级 Docker。重新运行便利脚本没有任何好处，如果它尝试重新添加已经添加到主机的存储库，它可能会导致问题。
 
 If you installed Docker using the convenience script, you should upgrade Docker
 using your package manager directly. There is no advantage to re-running the

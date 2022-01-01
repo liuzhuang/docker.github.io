@@ -7,57 +7,39 @@ redirect_from:
 - /engine/misc/
 - /linux/
 - /manuals/ # TODO remove this redirect after we've created a landing page for the product manuals section
-title: Docker Engine overview
+title: Docker Engine 概述
 ---
 
-Docker Engine is an open source containerization technology for building and
-containerizing your applications. Docker Engine acts as a client-server
-application with:
+Docker Engine 是一种开源容器化技术，用于构建和容器化您的应用程序。Docker Engine 充当客户端 - 服务器应用程序，具有：
 
-* A server with a long-running daemon process [`dockerd`](/engine/reference/commandline/dockerd).
-* APIs which specify interfaces that programs can use to talk to and
-  instruct the Docker daemon.
-* A command line interface (CLI) client [`docker`](/engine/reference/commandline/cli/).
+* 具有长时间运行的守护进程的服务器 [`dockerd`](/engine/reference/commandline/dockerd)。
+* API 指定程序可以用来与 Docker 守护程序对话和指示的接口。
+* 命令行界面 (CLI) 客户端 [`docker`](/engine/reference/commandline/cli/)。
 
-The CLI uses [Docker APIs](api/index.md) to control or interact with the Docker
-daemon through scripting or direct CLI commands. Many other Docker applications
-use the underlying API and CLI. The daemon creates and manage Docker objects,
-such as images, containers, networks, and volumes.
+CLI 使用 [Docker APIs](api/index.md) I通过脚本或直接 CLI 命令来控制 Docker 守护程序或与 Docker 守护程序交互。许多其他 Docker 应用程序使用底层 API 和 CLI。守护进程创建和管理 Docker 对象，例如图像、容器、网络和卷。
 
-For more details, see [Docker Architecture](../get-started/overview.md#docker-architecture).
+有关更多详细信息，请参阅 [Docker Architecture](../get-started/overview.md#docker-architecture)。
 
-## Docker user guide
+## Docker 使用指南
 
-To learn about Docker in more detail and to answer questions about usage and
-implementation, check out the [overview page in "get started"](../get-started/overview.md).
+要更详细地了解 Docker 并回答有关使用和实现的问题，请查看 [overview page in "get started"](../get-started/overview.md)。
 
-## Installation guides
+## 安装指南
 
-The [installation section](install/index.md) shows you how to install Docker
-on a variety of platforms.
+[installation section](install/index.md) 您展示如何在各种平台上安装 Docker。
 
-## Release notes
+## 发布说明
 
-A summary of the changes in each release in the current series can now be found
-on the separate [Release Notes page](release-notes/index.md)
+现在可以在单独的 [Release Notes page](release-notes/index.md) 上找到当前系列中每个版本的更改摘要
 
-## Feature Deprecation Policy
+## 功能弃用政策
 
-As changes are made to Docker there may be times when existing features
-need to be removed or replaced with newer features. Before an existing
-feature is removed it is labeled as "deprecated" within the documentation
-and remains in Docker for at least 3 stable releases unless specified
-explicitly otherwise. After that time it may be removed.
+随着对 Docker 的更改，有时可能需要删除现有功能或用更新的功能替换。在删除现有功能之前，它在文档中被标记为“已弃用”，并在 Docker 中保留至少 3 个稳定版本，除非另有明确说明。在那之后，它可能会被移除。
 
-Users are expected to take note of the list of deprecated features each
-release and plan their migration away from those features, and (if applicable)
-towards the replacement features as soon as possible.
+用户应注意每个版本的弃用功能列表，并计划尽快从这些功能迁移到替换功能（如果适用）。
 
-The complete list of deprecated features can be found on the
-[Deprecated Features page](deprecated.md).
+弃用功能的完整列表可在 [Deprecated Features page](deprecated.md) 上找到 。
 
 ## Licensing
 
-Docker is licensed under the Apache License, Version 2.0. See
-[LICENSE](https://github.com/moby/moby/blob/master/LICENSE) for the full
-license text.
+Docker 在 Apache 许可下获得许可，版本 2.0。有关完整的许可证文本，请参阅 [LICENSE](https://github.com/moby/moby/blob/master/LICENSE)。

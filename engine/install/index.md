@@ -28,34 +28,36 @@ redirect_from:
 - /install/linux/docker-ee/oracle/
 ---
 
-> **Docker Desktop for Linux**
+> **适用于 Linux 的 Docker Desktop**
 >
-> Docker Desktop helps you build, share, and run containers easily on Mac and Windows as you do on Linux. Docker handles the complex setup and allows you to focus on writing the code. Thanks to the positive support we received on the [subscription updates](https://www.docker.com/blog/updating-product-subscriptions/){: target="_blank" rel="noopener" class="_" id="dkr_docs_cta"}, we've started working on [Docker Desktop for Linux](https://www.docker.com/blog/accelerating-new-features-in-docker-desktop/){: target="_blank" rel="noopener" class="_" id="dkr_docs_cta"} which is the second-most popular feature request in our public roadmap. If you are interested in early access, sign up for our [Developer Preview program](https://www.docker.com/community/get-involved/developer-preview){: target="_blank" rel="noopener" class="_" id="dkr_docs_cta"}.
+> Docker Desktop 可帮助您在 Mac 和 Windows 上轻松构建、共享和运行容器，就像在 Linux 上一样。
+> Docker 处理复杂的设置并允许您专注于编写代码。
+> 由于我们收到了 [subscription updates](https://www.docker.com/blog/updating-product-subscriptions/){: target="_blank" rel="noopener" class="_" id="dkr_docs_cta"} 的积极支持，我们已经开始开发 [Docker Desktop for Linux](https://www.docker.com/blog/accelerating-new-features-in-docker-desktop/){: target="_blank" rel="noopener" class="_" id="dkr_docs_cta"}，这是我们公共路线图中第二受欢迎的功能请求。
+> 如果您对抢先体验感兴趣，请注册我们的 [Developer Preview program](https://www.docker.com/community/get-involved/developer-preview){: target="_blank" rel="noopener" class="_" id="dkr_docs_cta"} 计划。
+>
 {: .important}
 
-## Supported platforms
+## 支持的平台
 
-Docker Engine is available on a variety of [Linux platforms](#server),
-[macOS](../../desktop/mac/install.md) and [Windows 10](../../desktop/windows/install.md)
-through Docker Desktop, and as a [static binary installation](binaries.md). Find
-your preferred operating system below.
+Docker Engine 可 通过 Docker Desktop 在各种 [Linux platforms](#server),
+[macOS](../../desktop/mac/install.md)、 [macOS](../../desktop/mac/install.md) 和 [Windows 10](../../desktop/windows/install.md) 上使用，并作为静态二进制安装。
+在下面找到您喜欢的操作系统。
 
-### Desktop
+### 桌面操作系统
 
 {% assign yes = '![yes](/images/green-check.svg){: .inline style="height: 14px; margin: 0 auto"}' %}
 
-| Platform                                                          | x86_64 / amd64                                   | arm64 (Apple Silicon)                            |
-|:------------------------------------------------------------------|:------------------------------------------------:|:------------------------------------------------:|
-| [Docker Desktop for Mac (macOS)](../../desktop/mac/install.md)    | [{{ yes }}](../../desktop/mac/install.md)        | [{{ yes }}](../../desktop/mac/install.md)     |
+| Platform  | x86_64 / amd64 | arm64 (Apple Silicon) |
+|:---------|:--------:|:---------:|
+| [Docker Desktop for Mac (macOS)](../../desktop/mac/install.md)  | [{{ yes }}](../../desktop/mac/install.md)        | [{{ yes }}](../../desktop/mac/install.md)     |
 | [Docker Desktop for Windows](../../desktop/windows/install.md) | [{{ yes }}](../../desktop/windows/install.md) |                                                  |
 
-### Server
+### 服务器
 
-Docker provides `.deb` and `.rpm` packages from the following Linux distributions
-and architectures:
+Docker 为下面的 Linux 发行版和硬件架构提供了 `.deb` 和 `.rpm` 包。
 
-| Platform                | x86_64 / amd64         | arm64 / aarch64        | arm (32-bit)           | s390x                  |
-|:------------------------|:-----------------------|:-----------------------|:-----------------------|:-----------------------|
+| Platform  | x86_64 / amd64 | arm64 / aarch64 | arm (32-bit) | s390x |
+|:--------|:------|:----------|:------------|:-----------|
 | [CentOS](centos.md)     | [{{ yes }}](centos.md) | [{{ yes }}](centos.md) |                        |                        |
 | [Debian](debian.md)     | [{{ yes }}](debian.md) | [{{ yes }}](debian.md) | [{{ yes }}](debian.md) |                        |
 | [Fedora](fedora.md)     | [{{ yes }}](fedora.md) | [{{ yes }}](fedora.md) |                        |                        |
@@ -65,12 +67,11 @@ and architectures:
 | [Ubuntu](ubuntu.md)     | [{{ yes }}](ubuntu.md) | [{{ yes }}](ubuntu.md) | [{{ yes }}](ubuntu.md) | [{{ yes }}](ubuntu.md) |
 | [Binaries](binaries.md) | [{{yes}}](binaries.md) | [{{yes}}](binaries.md) | [{{yes}}](binaries.md) |                        |
 
-### Other Linux distributions
+### 其他 Linux 发行版
 
 > **Note**
 >
-> While the instructions below may work, Docker does not test or verify
-> installation on derivatives.
+> 虽然以下说明可能有效，但 Docker 不会测试或验证衍生产品的安装。
 
 - Users of Debian derivatives such as "BunsenLabs Linux", "Kali Linux" or 
   "LMDE" (Debian-based Mint) should follow the installation instructions for
@@ -89,95 +90,69 @@ and architectures:
   packages and bugs or issues involving these packages should be reported in
   your Linux distribution's issue tracker.
 
-Docker provides [binaries](binaries.md) for manual installation of Docker Engine.
-These binaries are statically linked and can be used on any Linux distribution.
+Docker 提供了用于手动安装 Docker Engine 的[二进制文件](binaries.md)。这些二进制文件是静态链接的，可以在任何 Linux 发行版上使用。
 
 ## Release channels
 
-Docker Engine has three types of update channels, **stable**, **test**,
-and **nightly**:
+Docker Engine 有 3 种更新渠道 **stable**, **test**, 和 **nightly**：
 
-* The **Stable** channel gives you latest releases for general availability.
-* The **Test** channel gives pre-releases that are ready for testing before
-  general availability (GA).
-* The **Nightly** channel gives you latest builds of work in progress for the
-  next major release.
+* **Stable**：为您提供全面上市的最新版本。
+* **Test**：提供了预发布的，可用于一般的前可用性（GA）测试。
+* **Nightly**：为您提供最新的构建工作，为下一个主要版本进展。
 
 ### Stable
 
-Year-month releases are made from a release branch diverged from the master
-branch. The branch is created with format `<year>.<month>`, for example
-`20.10`. The year-month name indicates the earliest possible calendar
-month to expect the release to be generally available. All further patch
-releases are performed from that branch. For example, once `v20.10.0` is
-released, all subsequent patch releases are built from the `20.10` branch.
+Year-month 发布是从与主分支不同的发布分支发布的。
+分支是用 `<year>.<month>` 格式创建的，例如 `20.10`。
+year-month 名称表示预计该版本将普遍可用的最早可能日历月。
+所有未来的的补丁发布都是从该分支执行的。例如，一旦 `v20.10.0` 发布，所有后续补丁版本都是从 `20.10` 分支构建的。
 
 ### Test
 
-In preparation for a new year-month release, a branch is created from
-the master branch with format `YY.mm` when the milestones desired by
-Docker for the release have achieved feature-complete. Pre-releases
-such as betas and release candidates are conducted from their respective release
-branches. Patch releases and the corresponding pre-releases are performed
-from within the corresponding release branch.
+为了准备新的 year-month 发布，当 Docker 为发布所需的里程碑已实现功能完整时，会从 master 分支创建一个具有 `YY.mm` 格式的分支。
+Beta 版和候选发布版等预发布是从各自的发布分支进行的。补丁发布和相应的预发布在相应的发布分支内执行。
 
 ### Nightly
 
-Nightly builds give you the latest builds of work in progress for the next major
-release. They are created once per day from the master branch with the version
-format:
+Nightly 构建为您提供下一个主要版本正在进行的最新构建。它们每天从 master 分支创建一次，版本格式为：
 
     0.0.0-YYYYmmddHHMMSS-abcdefabcdef
 
-where the time is the commit time in UTC and the final suffix is the prefix
-of the commit hash, for example `0.0.0-20180720214833-f61e0f7`.
 
-These builds allow for testing from the latest code on the master branch. No
-qualifications or guarantees are made for the nightly builds.
+其中 time 是 UTC 中的提交时间，最后一个后缀是提交哈希的前缀，例如 `0.0.0-20180720214833-f61e0f7`.
 
-## Support
+这些构建允许从主分支上的最新代码进行测试。对于每晚构建没有任何资格或保证。
 
-Docker Engine releases of a year-month branch are supported with patches as
-needed for one month after the next year-month general availability release.
+## 支持
 
-This means bug reports and backports to release branches are assessed
-until the end-of-life date.
+year-month 分支的 Docker Engine 版本在下一年月的全面可用性版本发布后的一个月内根据需要提供补丁支持。
 
-After the year-month branch has reached end-of-life, the branch may be
-deleted from the repository.
+这意味着错误报告和向后移植到发布分支的评估直到生命周期结束。
 
-### Backporting
+在 year-month 分支达到生命周期结束后，可以从存储库中删除该分支。
 
-Backports to the Docker products are prioritized by the Docker company. A
-Docker employee or repository maintainer will endeavour to ensure sensible
-bugfixes make it into _active_ releases.
+### 向后移植
 
-If there are important fixes that ought to be considered for backport to
-active release branches, be sure to highlight this in the PR description
-or by adding a comment to the PR.
+Docker 公司优先考虑向后移植 Docker 产品。Docker 员工或存储库维护者将努力确保合理的错误修复使其成为有效版本。
 
-### Upgrade path
+如果有重要的修复应该考虑向后移植到活动发布分支，请务必在 PR 描述中突出显示这一点，或者通过向 PR 添加评论。
 
-Patch releases are always backward compatible with its year-month version.
+### 升级路径
+
+补丁版本始终向后兼容其 year-month  版本。
 
 ### Licensing
 
-Docker is licensed under the Apache License, Version 2.0. See
-[LICENSE](https://github.com/moby/moby/blob/master/LICENSE) for the full
-license text.
+Docker 在 Apache 许可下获得许可，版本 2.0。有关完整的许可证文本，请参阅 [LICENSE](https://github.com/moby/moby/blob/master/LICENSE)。
 
-## Reporting security issues
+## 报告安全问题
 
-The Docker maintainers take security seriously. If you discover a security
-issue, please bring it to their attention right away!
+Docker 维护者非常重视安全性。如果您发现安全问题，请立即通知他们！
 
-Please DO NOT file a public issue; instead send your report privately
-to security@docker.com.
+请不要提交公开问题；而是将您的报告私下发送至 security@docker.com。
 
-Security reports are greatly appreciated, and Docker will publicly thank you
-for it.
+非常感谢安全报告，Docker 将公开感谢您。
 
-## Get started
+## 开始
 
-After setting up Docker, you can learn the basics with
-[Getting started with Docker](../../get-started/index.md).
+设置完 Docker 后，您可以通过  [Docker 入门学习基础知识](../../get-started/index.md)。
