@@ -17,7 +17,7 @@ description: Sharing our image we built for our example application so we can ru
 
 要推送镜像，我们首先需要在 Docker Hub 上创建存储库。
 
-1. [注册或登录](https://www.docker.com/pricing?utm_source=docker&utm_medium=webreferral&utm_campaign=docs_driven_upgrade){:target="_blank" rel="noopener" class="_"} 到 [Docker Hub](https://hub.docker.com){:target="_blank" rel="noopener" class="_"}。
+1. 到 [Docker Hub](https://hub.docker.com){:target="_blank" rel="noopener" class="_"} [注册或登录](https://www.docker.com/pricing?utm_source=docker&utm_medium=webreferral&utm_campaign=docs_driven_upgrade){:target="_blank" rel="noopener" class="_"}。
 
 2. 点击 **Create Repository** 按钮。
 

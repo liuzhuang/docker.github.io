@@ -29,9 +29,9 @@ guides:
   section:
     - title: "Part 1: 入门"
       path: /get-started/
-    - title: "Part 2: 示例应用"
+    - title: "Part 2: 示例 TODO 应用"
       path: /get-started/02_our_app/
-    - title: "Part 3: 更新应用"
+    - title: "Part 3: 更新应用代码"
       path: /get-started/03_updating_app/
     - title: "Part 4: 分享应用"
       path: /get-started/04_sharing_app/
@@ -89,7 +89,7 @@ guides:
       path: /language/java/build-images/
     - title: "运行容器"
       path: /language/java/run-containers/
-    - title: "开发您的应用"
+    - title: "使用容器进行本地开发"
       path: /language/java/develop/
     - title: "运行您的测试"
       path: /language/java/run-tests/
