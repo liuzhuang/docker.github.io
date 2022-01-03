@@ -4,31 +4,20 @@ keywords: graylog, gelf, logging, driver
 redirect_from:
 - /engine/reference/logging/gelf/
 - /engine/admin/logging/gelf/
-title: Graylog Extended Format logging driver
+title: Graylog 日志驱动
 ---
 
-The `gelf` logging driver is a convenient format that is understood by a number of tools such as
-[Graylog](https://www.graylog.org/), [Logstash](https://www.elastic.co/products/logstash), and
-[Fluentd](https://www.fluentd.org). Many tools use this format.
+`gelf` 日志驱动是受一些工具如所理解的方便格式 [Graylog](https://www.graylog.org/)，[Logstash](https://www.elastic.co/products/logstash)，和 [Fluentd](https://www.fluentd.org)。许多工具使用这种格式。
 
-In GELF, every log message is a dict with the following fields:
+在 GELF 中，每条日志消息都是一个具有以下字段的字典：
 
-- version
-- host (who sent the message in the first place)
-- timestamp
-- short and long version of the message
-- any custom fields you configure yourself
+- 版本
+- 主机（首先发送消息的人）
+- 时间戳
+- 消息的短版本号和长版本号
+- 您自己配置的任何自定义字段
 
-## Usage
-
-To use the `gelf` driver as the default logging driver, set the `log-driver` and
-`log-opt` keys to appropriate values in the `daemon.json` file, which is located
-in `/etc/docker/` on Linux hosts or `C:\ProgramData\docker\config\daemon.json`
-on Windows Server. For more about configuring Docker using `daemon.json`, see
-[daemon.json](../../../engine/reference/commandline/dockerd.md#daemon-configuration-file).
-
-The following example sets the log driver to `gelf` and sets the `gelf-address`
-option.
+## 用法
 
 ```json
 {
@@ -39,29 +28,16 @@ option.
 }
 ```
 
-Restart Docker for the changes to take effect.
-
-> **Note**
->
-> `log-opts` configuration options in the `daemon.json` configuration file must
-> be provided as strings. Boolean and numeric values (such as the value for
-> `gelf-tcp-max-reconnect`) must therefore be enclosed in quotes (`"`).
-
-You can set the logging driver for a specific container by setting the
-`--log-driver` flag when using `docker container create` or `docker run`:
-
 ```console
 $ docker run \
       --log-driver gelf --log-opt gelf-address=udp://1.2.3.4:12201 \
       alpine echo hello world
 ```
 
-### GELF options
+### GELF 可选项
 
-The `gelf` logging driver supports the following options:
-
-| Option                     | Required  | Description                                                                                                                                                                                                                                                                         | Example value                                       |
-| :------------------------- | :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
+| Option | Required  | Description | Example value |
+| :----- | :-------- | :--------- | :------- |
 | `gelf-address`             | required  | The address of the GELF server. `tcp` and `udp` are the only supported URI specifier and you must specify the port.                                                                                                                                                                 | `--log-opt gelf-address=udp://192.168.0.42:12201`   |
 | `gelf-compression-type`    | optional  | `UDP Only` The type of compression the GELF driver uses to compress each log message. Allowed values are `gzip`, `zlib` and `none`. The default is `gzip`. **Note that enabled compression leads to excessive CPU usage, so it is highly recommended to set this to `none`**.       | `--log-opt gelf-compression-type=gzip`              |
 | `gelf-compression-level`   | optional  | `UDP Only` The level of compression when `gzip` or `zlib` is the `gelf-compression-type`. An integer in the range of `-1` to `9` (BestCompression). Default value is 1 (BestSpeed). Higher levels provide more compression at lower speed. Either `-1` or `0` disables compression. | `--log-opt gelf-compression-level=2`                |
@@ -77,7 +53,7 @@ The `gelf` logging driver supports the following options:
 > 
 > The `gelf` driver does not support TLS for TCP connections. Messages sent to TLS-protected inputs can silently fail.
 
-### Examples
+### 示例
 
 This example configures the container to use the GELF server running at
 `192.168.0.42` on port `12201`.

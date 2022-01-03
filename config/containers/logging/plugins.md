@@ -1,41 +1,29 @@
 ---
 description: How to use logging driver plugins
-title: Use a logging driver plugin
+title: 使用日志驱动插件
 keywords: logging, driver, plugins, monitoring
 redirect_from:
 - /engine/admin/logging/plugins/
 ---
 
-Docker logging plugins allow you to extend and customize Docker's logging
-capabilities beyond those of the [built-in logging drivers](configure.md).
-A logging service provider can
-[implement their own plugins](../../../engine/extend/plugins_logging.md) and make them
-available on Docker Hub, or a private registry. This topic shows
-how a user of that logging service can configure Docker to use the plugin.
+Docker 日志插件允许您扩展和自定义 Docker 的日志功能，除了[内置日志驱动](configure.md)的功能。
+日志服务提供者可以[实现他们自己的插件](../../../engine/extend/plugins_logging.md) ，并使它们在 Docker Hub 或私有仓库上可用。
+本主题展示了日志服务的用户如何配置 Docker 来使用这个插件。
 
-## Install the logging driver plugin
+## 安装日志驱动插件
 
-To install a logging driver plugin, use `docker plugin install <org/image>`,
-using the information provided by the plugin developer.
+要安装日志驱动插件，请使用 `docker plugin install <org/image>` 提供插件开发人员的信息。
 
-You can list all installed plugins using `docker plugin ls`, and you can inspect
-a specific plugin using `docker inspect`.
+您可以使用 `docker plugin ls` 列出所有已安装的插件，也可以使用 `docker inspect` 来检查特定插件。
 
-## Configure the plugin as the default logging driver
+## 将插件配置为默认日志驱动程序
 
-After the plugin is installed, you can configure the Docker daemon to use it as
-the default by setting the plugin's name as the value of the `log-driver`
-key in the `daemon.json`, as detailed in the
-[logging overview](configure.md#configure-the-default-logging-driver). If the
-logging driver supports additional options, you can set those as the values of
-the `log-opts` array in the same file.
+安装插件后，您可以将 Docker daemon 配置为默认使用它，通过将 `daemon.json` 文件中的 `log-driver` 选项设置为插件名，
+详细信息请参见[日志概览](configure.md#configure-the-default-logging-driver)。
+如果日志驱动程序支持其他选项，您可以将它们设置为 `log-opts` 同一文件中数组的值。
 
-## Configure a container to use the plugin as the logging driver
+## 配置一个容器来使用插件作为日志驱动
 
-After the plugin is installed, you can configure a container to use the plugin
-as its logging driver by specifying the `--log-driver` flag to `docker run`, as
-detailed in the
-[logging overview](configure.md#configure-the-logging-driver-for-a-container).
-If the logging driver supports additional options, you can specify them using
-one or more `--log-opt` flags with the option name as the key and the option
-value as the value.
+安装插件后，您可以通过将`--log-driver` 标志指定为`docker run`，将容器配置为使用插件作为其日志驱动程序，
+详细信息请参见[日志概述](configure.md#configure-the-logging-driver-for-a-container)。
+如果日志驱动程序支持其他选项，您可以使用一个或多个 `--log-opt` 标志来指定它们，以选项名称作为键，选项值作为值。

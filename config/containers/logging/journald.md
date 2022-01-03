@@ -4,7 +4,7 @@ keywords: Journald, docker, logging, driver
 redirect_from:
 - /engine/reference/logging/journald/
 - /engine/admin/logging/journald/
-title: Journald logging driver
+title: Journald 日志驱动
 ---
 
 The `journald` logging driver sends container logs to the
@@ -23,7 +23,7 @@ stores the following metadata in the journal with each message:
 | `CONTAINER_TAG`, `SYSLOG_IDENTIFIER` | The container tag ([log tag option documentation](log_tags.md)).                                                                                       |
 | `CONTAINER_PARTIAL_MESSAGE`          | A field that flags log integrity. Improve logging of long log lines.                                                                                   |
 
-## Usage
+## 用法
 
 To use the `journald` driver as the default logging driver, set the `log-driver`
 and `log-opt` keys to appropriate values in the `daemon.json` file, which is
@@ -49,7 +49,7 @@ flag on the `docker run` command.
 $ docker run --log-driver=journald ...
 ```
 
-## Options
+## 可选项
 
 Use the `--log-opt NAME=VALUE` flag to specify additional `journald` logging
 driver options.
@@ -83,14 +83,14 @@ location, and the environment variable TEST.  If the `--env "TEST=false"`
 or `--label location=west` arguments were omitted, the corresponding key would
 not be set in the journald log.
 
-## Note regarding container names
+## 关于容器名称的注意事项
 
 The value logged in the `CONTAINER_NAME` field is the name of the container that
 was set at startup. If you use `docker rename` to rename a container, the new
 name **is not reflected** in the journal entries. Journal entries continue
 to use the original name.
 
-## Retrieve log messages with `journalctl`
+## 使用 `journalctl` 检索日志消息
 
 Use the `journalctl` command to retrieve log messages. You can apply filter
 expressions to limit the retrieved messages to those associated with a specific
@@ -114,7 +114,7 @@ to return the log messages in JSON format.
 $ sudo journalctl -o json CONTAINER_NAME=webserver
 ```
 
-### View logs for a container with a TTY enabled
+### 查看启用了 TTY 的容器的日志
 
 If TTY is enabled on a container you may see `[10B blob data]` in the output
 when retrieving log messages.
@@ -125,7 +125,7 @@ The reason for that is that `\r` is appended to the end of the line and
 $ sudo journalctl -b CONTAINER_NAME=webserver --all
 ```
 
-## Retrieve log messages with the `journal` API
+## 使用 `journal` API检索日志消息
 
 This example uses the `systemd` Python module to retrieve container
 logs:
