@@ -6,34 +6,28 @@ redirect_from:
 - /engine/admin/multi-service_container/
 - /engine/admin/using_supervisord/
 - /engine/articles/using_supervisord/
-title: Run multiple services in a container
+title: 在一个容器中运行多个服务
 ---
 
-A container's main running process is the `ENTRYPOINT` and/or `CMD` at the
-end of the `Dockerfile`. It is generally recommended that you separate areas of
-concern by using one service per container. That service may fork into multiple
-processes (for example, Apache web server starts multiple worker processes).
-It's ok to have multiple processes, but to get the most benefit out of Docker,
-avoid one container being responsible for multiple aspects of your overall
-application. You can connect multiple containers using user-defined networks and
-shared volumes.
+容器的主进程是 `Dockerfile` 结尾的 `ENTRYPOINT` 或 `CMD`。
+通常建议您通过为每个容器使用一个服务来分隔不同的关注领域。
+该服务可能会分成多个进程（例如，Apache Web 服务器启动多个工作进程）。
+拥有多个进程是可以的，但是为了从 Docker 中获得最大收益，请避免一个容器负责整个应用程序的多个方面。
+您可以使用用户定义的网络和共享存储卷连接多个容器。
 
-The container's main process is responsible for managing all processes that it
-starts. In some cases, the main process isn't well-designed, and doesn't handle
-"reaping" (stopping) child processes gracefully when the container exits. If
-your process falls into this category, you can use the `--init` option when you
-run the container. The `--init` flag inserts a tiny init-process into the
-container as the main process, and handles reaping of all processes when the
-container exits. Handling such processes this way is superior to using a
-full-fledged init process such as `sysvinit`, `upstart`, or `systemd` to handle
-process lifecycle within your container.
 
-If you need to run more than one service within a container, you can accomplish
-this in a few different ways.
+容器的主进程负责管理它启动的所有进程。
+在某些情况下，主进程没有设计好，并且在容器退出时不能优雅地处理 “reaping”（stopping）子进程。
+如果您的进程属于此类别，则可以在运行容器时使用 `--init` 选项。
+`--init` 标志将一个微小的 `init-process` 作为主进程插入到容器中，并在容器退出时处理所有进程的收割。
+以这种方式处理此类进程优于使用成熟的 init 进程，例如 `sysvinit`, `upstart`, 或 `systemd` 处理容器内的进程生命周期。
 
-- Put all of your commands in a wrapper script, complete with testing and
-  debugging information. Run the wrapper script as your `CMD`. This is a very
-  naive example. First, the wrapper script:
+
+如果您需要在一个容器中运行多个服务，您可以通过几种不同的方式来实现。
+
+- 将所有命令放在一个包装脚本中，并附上测试和调试信息。
+  将包装脚本作为您的 `CMD`. 这是一个非常幼稚的例子。
+  首先，包装脚本：
 
   ```bash
   #!/bin/bash
@@ -51,7 +45,7 @@ this in a few different ways.
   exit $?
   ```
 
-  Next, the Dockerfile:
+  接下来，Dockerfile：
 
   ```dockerfile
   # syntax=docker/dockerfile:1
@@ -62,10 +56,9 @@ this in a few different ways.
   CMD ./my_wrapper_script.sh
   ```
 
-- If you have one main process that needs to start first and stay running but
-  you temporarily need to run some other processes (perhaps to interact with
-  the main process) then you can use bash's job control to facilitate that.
-  First, the wrapper script:
+- 如果您有一个需要首先启动并保持运行的主进程，但您暂时需要运行一些其他进程（可能与主进程交互），
+  那么您可以使用 bash 的作业控制来促进这一点。
+  首先，包装脚本：
 
   ```bash
   #!/bin/bash
@@ -97,14 +90,9 @@ this in a few different ways.
   CMD ./my_wrapper_script.sh
   ```
 
-- Use a process manager like `supervisord`. This is a moderately heavy-weight
-  approach that requires you to package `supervisord` and its configuration in
-  your image (or base your image on one that includes `supervisord`), along with
-  the different applications it manages. Then you start `supervisord`, which
-  manages your processes for you. Here is an example Dockerfile using this
-  approach, that assumes the pre-written `supervisord.conf`, `my_first_process`,
-  and `my_second_process` files all exist in the same directory as your
-  Dockerfile.
+- 使用像 supervisord. 这是一种中等重量级的方法，需要您在镜像中打包 `supervisord` 及其配置（或基于包含 `supervisord` 的镜像）及其管理的不同应用程序。
+  接下来启动  `supervisord`，它会为您管理您的流程。
+  下面是使用这种方法，它假定预先编写的一个例子 Dockerfile `supervisord.conf`, `my_first_process` 和 `my_second_process`
 
   ```dockerfile
   # syntax=docker/dockerfile:1

@@ -5,97 +5,77 @@ redirect_from:
 - /engine/articles/host_integration/
 - /engine/admin/host_integration/
 - /engine/admin/start-containers-automatically/
-title: Start containers automatically
+title: 自动启动容器
 ---
 
-Docker provides [restart policies](../../engine/reference/run.md#restart-policies---restart)
-to control whether your containers start automatically when they exit, or when
-Docker restarts. Restart policies ensure that linked containers are started in
-the correct order. Docker recommends that you use restart policies, and avoid
-using process managers to start containers.
+Docker 提供[重启策略](../../engine/reference/run.md#restart-policies---restart) 来控制您的容器是在退出时自动启动，还是在 Docker 重启时自动启动。
+重启策略确保被 linked 的容器以正确的顺序启动。
+Docker 建议您使用重启策略，并避免使用进程管理器来启动容器。
 
-Restart policies are different from the `--live-restore` flag of the `dockerd`
-command. Using `--live-restore` allows you to keep your containers running
-during a Docker upgrade, though networking and user input are interrupted.
+重启策略和 `dockerd` 命令的 `--live-restore` 标志不同。`--live-restore` 允许您在 Docker 升级期间保持容器运行，尽管网络和用户输入会被中断。
 
-## Use a restart policy
+## 重启策略
 
-To configure the restart policy for a container, use the `--restart` flag
-when using the `docker run` command. The value of the `--restart` flag can be
-any of the following:
+要为容器配置重启策略，请在使用 `docker run` 命令时使用 `--restart` 标志。 `--restart` 标志的值可以是以下任何一项：
 
-| Flag             | Description                                                                                     |
-|:-----------------|:------------------------------------------------------------------------------------------------|
-| `no`             | Do not automatically restart the container. (the default)                                       |
-| `on-failure[:max-retries]`     | Restart the container if it exits due to an error, which manifests as a non-zero exit code.  Optionally, limit the number of times the Docker daemon attempts to restart the container using the `:max-retries` option.   |
-| `always`         | Always restart the container if it stops. If it is manually stopped, it is restarted only when Docker daemon restarts or the container itself is manually restarted. (See the second bullet listed in [restart policy details](#restart-policy-details)) |
-| `unless-stopped` | Similar to `always`, except that when the container is stopped (manually or otherwise), it is not restarted even after Docker daemon restarts. |
+| Flag | Description |
+|:------|:-----------|
+| `no` | 不自动重启容器。（默认） |
+| `on-failure[:max-retries]` | 如果容器因错误退出，则重新启动容器，这表现为非零退出代码。或者，使用该`:max-retries`选项限制 Docker 守护程序尝试重新启动容器的次数。|
+| `always` | 如果容器停止，请始终重新启动容器。如果是手动停止，则只有在Docker daemon重启或容器本身手动重启时才会重启。（请参阅重启策略详细信息中列出的第二个项目符号） |
+| `unless-stopped` | 与 `always` 类似，除了当容器停止（手动或其他方式）时，即使在 Docker 守护程序重新启动后也不会重新启动。 |
 
-The following example starts a Redis container and configures it to always
-restart unless it is explicitly stopped or Docker is restarted.
+以下示例启动一个 Redis 容器并将其配置为始终重新启动，除非它被明确停止或重新启动 Docker。
 
 ```console
 $ docker run -d --restart unless-stopped redis
 ```
 
-This command changes the restart policy for an already running container named `redis`.
+此命令为正在运行的，名为 `redis` 容器的更改重启策略。
 
 ```console
 $ docker update --restart unless-stopped redis
 ```
 
-And this command will ensure all currently running containers will be restarted unless stopped.
+此命令将确保所有当前运行的容器将重新启动，除非停止。
 
 ```console
 $ docker update --restart unless-stopped $(docker ps -q)
 ```
 
-### Restart policy details
+### 重启策略详情
 
-Keep the following in mind when using restart policies:
+使用重启策略时请记住以下几点：
 
-- A restart policy only takes effect after a container starts successfully. In
-  this case, starting successfully means that the container is up for at least
-  10 seconds and Docker has started monitoring it. This prevents a container
-  which does not start at all from going into a restart loop.
+- 重启策略只有在容器启动成功后才会生效。
+  在这种情况下，启动成功意味着容器至少启动了 10 秒，并且 Docker 已经开始监控它。这可以防止根本没有启动的容器进入重启循环。
 
-- If you manually stop a container, its restart policy is ignored until the
-  Docker daemon restarts or the container is manually restarted. This is another
-  attempt to prevent a restart loop.
+- 如果您手动停止一个容器，它的重启策略将被忽略，直到 Docker 守护进程重启或容器被手动重启。这是防止重新启动循环的另一种尝试。
 
-- Restart policies only apply to _containers_. Restart policies for swarm
-  services are configured differently. See the
-  [flags related to service restart](../../engine/reference/commandline/service_create.md).
+- 重启策略仅适用于 _容器_。swarm services 的重启策略配置不同。请参阅 [flags related to service restart](../../engine/reference/commandline/service_create.md)。
 
 
-## Use a process manager
+## 使用进程管理器
 
-If restart policies don't suit your needs, such as when processes outside
-Docker depend on Docker containers, you can use a process manager such as
+如果重启策略不适合您的需求，例如当 Docker 外部的进程依赖于 Docker 容器时，您可以使用进程管理器，例如 
 [upstart](http://upstart.ubuntu.com/),
-[systemd](https://freedesktop.org/wiki/Software/systemd/), or
+[systemd](https://freedesktop.org/wiki/Software/systemd/), 或者
 [supervisor](http://supervisord.org/) instead.
 
 > **Warning**
 >
-> Do not try to combine Docker restart policies with host-level process managers,
-> because this creates conflicts.
+> 不要尝试将 Docker 重启策略与主机级进程管理器结合使用，因为这会产生冲突。
 {:.warning}
 
-To use a process manager, configure it to start your container or service using
-the same `docker start` or `docker service` command you would normally use to
-start the container manually. Consult the documentation for the specific
-process manager for more details.
+要使用进程管理器，请将其配置为使用您通常用于手动启动容器的相同 `docker start` 或 `docker service` 命令来启动您的容器或服务。
+有关更多详细信息，请参阅特定进程管理器的文档。
 
-### Using a process manager inside containers
+### 在容器内使用进程管理器
 
-Process managers can also run within the container to check whether a process is
-running and starts/restart it if not.
+进程管理器还可以在容器内运行以检查进程是否正在运行，如果没有，则启动/重新启动它。
 
 > **Warning**
 >
-> These are not Docker-aware and just monitor operating system processes within
-> the container. Docker does not recommend this approach, because it is
-> platform-dependent and even differs within different versions of a given Linux
-> distribution.
+> 这些不是 Docker 感知的，只是监视容器内的操作系统进程。
+> Docker 不推荐这种方法，因为它依赖于平台，甚至在给定 Linux 发行版的不同版本中也不同。
 {:.warning}
