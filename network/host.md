@@ -1,17 +1,17 @@
 ---
-title: Use host networking
+title: 使用 host 网络
 description: All about exposing containers on the Docker host's network
 keywords: network, host, standalone
 ---
 
-If you use the `host` network mode for a container, that container's network
-stack is not isolated from the Docker host (the container shares the host's
-networking namespace), and the container does not get its own IP-address allocated.
-For instance, if you run a container which binds to port 80 and you use `host`
-networking, the container's application is available on port 80 on the host's IP
-address.
+如果您对容器使用 `host` 网络模式，则该容器的网络堆栈不会与 Docker 主机隔离（容器共享主机的网络命名空间），并且容器不会分配自己的 IP 地址。
+例如，如果您运行绑定到端口 80 的容器并使用 `host` 网络，则容器的应用程序可在主机 IP 地址的端口 80 上使用。
 
-> **Note**: Given that the container does not have its own IP-address when using
+> **Note**: 
+>
+> 由于使用时容器不拥有自己的IP地址 host模式的网络，端口映射不生效，并且-p，--publish，-P，和--publish-all选项都将被忽略，产生一个警告而不是：
+> 
+> Given that the container does not have its own IP-address when using
 > `host` mode networking, [port-mapping](overlay.md#publish-ports) does not
 > take effect, and the `-p`, `--publish`, `-P`, and `--publish-all` option are
 > ignored, producing a warning instead:
@@ -20,25 +20,18 @@ address.
 > WARNING: Published ports are discarded when using host network mode
 > ```
 
-Host mode networking can be useful to optimize performance, and in situations where
-a container needs to handle a large range of ports, as it does not require network
-address translation (NAT), and no "userland-proxy" is created for each port.
+主机模式网络可用于优化性能，并且在容器需要处理大量端口的情况下，因为它不需要网络地址转换 (NAT)，并且没有为每个端口创建“用户空间代理”。
 
-The host networking driver only works on Linux hosts, and is not supported on
-Docker Desktop for Mac, Docker Desktop for Windows, or Docker EE for Windows Server.
+主机网络驱动程序仅适用于 Linux 主机，在 Docker Desktop for Mac、Docker Desktop for Windows 或 Docker EE for Windows Server 上不受支持。
 
-You can also use a `host` network for a swarm service, by passing `--network host`
-to the `docker service create` command. In this case, control traffic (traffic
-related to managing the swarm and the service) is still sent across an overlay
-network, but the individual swarm service containers send data using the Docker
-daemon's host network and ports. This creates some extra limitations. For instance,
-if a service container binds to port 80, only one service container can run on a
-given swarm node.
+您还可以通过传递 `--network host` 给 `docker service create` 命令，将 `host` 网络用于 swarm 服务。
+在这种情况下，控制流量（与管理 swarm 和服务相关的流量）仍然通过覆盖网络发送，但各个 swarm 服务容器使用 Docker 守护程序的主机网络和端口发送数据。这会产生一些额外的限制。
+例如，如果服务容器绑定到端口 80，则在给定的 swarm 节点上只能运行一个服务容器。
 
-## Next steps
+## 下一步
 
-- Go through the [host networking tutorial](network-tutorial-host.md)
-- Learn about [networking from the container's point of view](../config/containers/container-networking.md)
-- Learn about [bridge networks](bridge.md)
-- Learn about [overlay networks](overlay.md)
-- Learn about [Macvlan networks](macvlan.md)
+- [浏览主机网络教程](network-tutorial-host.md)
+- [从容器的角度了解网络](../config/containers/container-networking.md)
+- 了解[桥接网络](bridge.md)
+- 了解[覆盖网络](overlay.md)
+- 了解[Macvlan 网络](macvlan.md)

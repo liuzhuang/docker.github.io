@@ -1,14 +1,14 @@
 ---
-title: Disable networking for a container
+title: 禁用容器的网络
 description: How to disable networking by using the none driver
 keywords: network, none, standalone
 ---
 
-If you want to completely disable the networking stack on a container, you can
-use the `--network none` flag when starting the container. Within the container,
-only the loopback device is created. The following example illustrates this.
+如果要完全禁用容器上的网络堆栈，可以在启动容器时使用 `--network none` 标志。
+在容器内，仅创建环回设备。
+以下示例说明了这一点。
 
-1.  Create the container.
+1.  创建容器。
 
     ```console
     $ docker run --rm -dit \
@@ -18,8 +18,7 @@ only the loopback device is created. The following example illustrates this.
       ash
     ```
 
-2.  Check the container's network stack, by executing some common networking
-    commands within the container. Notice that no `eth0` was created.
+2.  通过在容器内执行一些常见的网络命令来检查容器的网络堆栈。请注意，没有 `eth0` 被创建。
 
     ```console
     $ docker exec no-net-alpine ip link show
@@ -36,19 +35,18 @@ only the loopback device is created. The following example illustrates this.
     $ docker exec no-net-alpine ip route
     ```
 
-    The second command returns empty because there is no routing table.
+    第二个命令返回空，因为没有路由表。
 
-3.  Stop the container. It is removed automatically because it was created with
-    the `--rm` flag.
+3.  停止容器。它会自动删除，因为它是使用 `--rm` 标志创建的。
 
     ```console
     $ docker stop no-net-alpine
     ```
 
-## Next steps
+## 下一步
 
--  Go through the [host networking tutorial](network-tutorial-host.md)
-- Learn about [networking from the container's point of view](../config/containers/container-networking.md)
-- Learn about [bridge networks](bridge.md)
-- Learn about [overlay networks](overlay.md)
-- Learn about [Macvlan networks](macvlan.md)
+- 浏览 [host networking tutorial](network-tutorial-host.md)
+- 了解 [networking from the container's point of view](../config/containers/container-networking.md)
+- 了解 [bridge networks](bridge.md)
+- 了解 [overlay networks](overlay.md)
+- 了解 [Macvlan networks](macvlan.md)

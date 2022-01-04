@@ -7,44 +7,26 @@ redirect_from:
 - /config/containers/macvlan/
 ---
 
-Some applications, especially legacy applications or applications which monitor
-network traffic, expect to be directly connected to the physical network. In
-this type of situation, you can use the `macvlan` network driver to assign a MAC
-address to each container's virtual network interface, making it appear to be
-a physical network interface directly connected to the physical network. In this
-case, you need to designate a physical interface on your Docker host to use for
-the `macvlan`, as well as the subnet and gateway of the `macvlan`. You can even
-isolate your `macvlan` networks using different physical network interfaces.
-Keep the following things in mind:
+一些应用程序，尤其是遗留应用程序或监控网络流量的应用程序，希望直接连接到物理网络。在这种情况下，你可以使用`macvlan`网络驱动程序为每个容器的虚拟网络接口分配一个MAC地址，使其看起来是一个直接连接到物理网络的物理网络接口。在这种情况下，你需要指定你的多克尔主机使用的一个物理接口`macvlan`，还有的子网和网关`macvlan`。您甚至可以`macvlan`使用不同的物理网络接口来隔离您的网络。请记住以下几点：
 
-- It is very easy to unintentionally damage your network due to IP address
-  exhaustion or to "VLAN spread", which is a situation in which you have an
-  inappropriately large number of unique MAC addresses in your network.
+- 由于 IP 地址耗尽或“VLAN 传播”，很容易无意中损坏您的网络，这种情况是您的网络中有大量不适当的唯一 MAC 地址。
 
-- Your networking equipment needs to be able to handle "promiscuous mode",
-  where one physical interface can be assigned multiple MAC addresses.
+- 您的网络设备需要能够处理“混杂模式”，即一个物理接口可以分配多个 MAC 地址。
 
-- If your application can work using a bridge (on a single Docker host) or
-  overlay (to communicate across multiple Docker hosts), these solutions may be
-  better in the long term.
+- 如果您的应用程序可以使用网桥（在单个 Docker 主机上）或覆盖（跨多个 Docker 主机进行通信），这些解决方案从长远来看可能会更好。
 
-## Create a macvlan network
+## 创建一个 macvlan 网络
 
-When you create a `macvlan` network, it can either be in bridge mode or 802.1q
-trunk bridge mode.
+创建 `macvlan` 网络时，它可以处于桥接模式或 802.1q 中继桥接模式。
 
-- In bridge mode, `macvlan` traffic goes through a physical device on the host.
+- 在桥接模式下，`macvlan` 流量通过主机上的物理设备。
 
-- In 802.1q trunk bridge mode, traffic goes through an 802.1q sub-interface
-  which Docker creates on the fly. This allows you to control routing and
-  filtering at a more granular level.
+- 在 802.1q 中继桥接模式下，流量通过 Docker 动态创建的 802.1q 子接口。这允许您在更细粒度的级别控制路由和过滤。
 
-### Bridge mode
+### 桥接模式
 
-To create a `macvlan` network which bridges with a given physical network
-interface, use `--driver macvlan` with the `docker network create` command. You
-also need to specify the `parent`, which is the interface the traffic will
-physically go through on the Docker host.
+要创建与给定物理网络接口桥接的 `macvlan` 网络，请使用 `docker network create` `--driver macvlan`命令。
+您还需要指定 `parent`，这是流量将在 Docker 主机上物理通过的接口。
 
 ```console
 $ docker network create -d macvlan \
@@ -53,8 +35,7 @@ $ docker network create -d macvlan \
   -o parent=eth0 pub_net
 ```
 
-If you need to exclude IP addresses from being used in the `macvlan` network, such
-as when a given IP address is already in use, use `--aux-addresses`:
+如果您需要排除 `macvlan` 网络中使用的 IP 地址，例如当给定的 IP 地址已被使用时，请使用`--aux-addresses`：
 
 ```console
 $ docker network create -d macvlan \
@@ -65,11 +46,9 @@ $ docker network create -d macvlan \
   -o parent=eth0 macnet32
 ```
 
-### 802.1q trunk bridge mode
+### 802.1q 中继桥接模式
 
-If you specify a `parent` interface name with a dot included, such as `eth0.50`,
-Docker interprets that as a sub-interface of `eth0` and creates the sub-interface
-automatically.
+如果您指定一个包含点的 `parent` 接口名称，例如 `eth0.50`，Docker 会将其解释为 `eth0` 的子接口并自动创建子接口。
 
 ```console
 $ docker network create -d macvlan \
@@ -78,10 +57,10 @@ $ docker network create -d macvlan \
     -o parent=eth0.50 macvlan50
 ```
 
-### Use an ipvlan instead of macvlan
+### 使用 ipvlan 代替 macvlan
 
-In the above example, you are still using a L3 bridge. You can use `ipvlan`
-instead, and get an L2 bridge. Specify `-o ipvlan_mode=l2`.
+在上面的示例中，您仍在使用 L3 网桥。
+您可以使用 `ipvlan` 替代，并获得 L2 桥接器。指定 `-o ipvlan_mode=l2`。
 
 ```console
 $ docker network create -d ipvlan \
@@ -92,10 +71,9 @@ $ docker network create -d ipvlan \
      -o ipvlan_mode=l2 -o parent=eth0 ipvlan210
 ```
 
-## Use IPv6
+## 使用 IPv6
 
-If you have [configured the Docker daemon to allow IPv6](../config/daemon/ipv6.md),
-you can use dual-stack IPv4/IPv6 `macvlan` networks.
+如果您已将[Docker 守护程序配置为允许 IPv6](../config/daemon/ipv6.md)，则可以使用双栈 IPv4/IPv6 `macvlan`网络。
 
 ```console
 $ docker network create -d macvlan \
